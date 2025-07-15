@@ -208,3 +208,47 @@ h1 {
         align-self: flex-end; /* Alinea el botón a la derecha */
     }
 }
+/* -------------------------------------- */
+/* 6. Estilos de los Filtros              */
+/* -------------------------------------- */
+.filter-tasks {
+    display: flex;
+    justify-content: center; /* Centra los botones */
+    gap: 10px; /* Espacio entre los botones */
+    margin-bottom: 25px; /* Espacio debajo de los botones */
+}
+
+.filter-btn {
+    background-color: var(--secondary-color); /* Fondo del botón normal */
+    color: var(--text-color-light); /* Color de texto normal */
+    border: 1px solid var(--border-color);
+    padding: 10px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e0e0e0; /* Un poco más oscuro al pasar el mouse */
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color); /* Fondo del botón activo */
+    color: white; /* Texto blanco para el botón activo */
+    border-color: var(--primary-color); /* Borde del mismo color */
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2); /* Sombra para resaltar */
+}
+
+/* Ajuste para móviles */
+@media (max-width: 600px) {
+    .filter-tasks {
+        flex-wrap: wrap; /* Permite que los botones salten de línea */
+        justify-content: center;
+    }
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+}

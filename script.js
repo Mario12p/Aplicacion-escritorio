@@ -3,33 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const addTaskBtn = document.getElementById('add-task-btn');
     const taskList = document.getElementById('task-list');
 
-    // --- Funciones para manejar LocalStorage ---
+    // --- NUEVAS REFERENCIAS A LOS BOTONES DE FILTRO ---
+    const filterAllBtn = document.getElementById('filter-all');
+    const filterPendingBtn = document.getElementById('filter-pending');
+    const filterCompletedBtn = document.getElementById('filter-completed');
 
-    // Guarda las tareas en LocalStorage
-    // Las tareas se guardarán como un array de objetos:
-    // [{ text: "Mi tarea 1", completed: false }, { text: "Mi tarea 2", completed: true }]
+    let currentFilter = 'all'; // Estado inicial del filtro
+
+    // --- Funciones para manejar LocalStorage ---
     function saveTasksToLocalStorage() {
         const tasks = [];
-        // Itera sobre cada elemento <li> en la lista de tareas
         taskList.querySelectorAll('li').forEach(listItem => {
             tasks.push({
-                text: listItem.firstChild.textContent, // El texto de la tarea
-                completed: listItem.classList.contains('completed') // Si tiene la clase 'completed'
+                text: listItem.firstChild.textContent,
+                completed: listItem.classList.contains('completed')
             });
         });
-        // Convierte el array de objetos a una cadena JSON y lo guarda
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
-    // Carga las tareas desde LocalStorage al iniciar la aplicación
     function loadTasksFromLocalStorage() {
-        const tasks = JSON.parse(localStorage.getItem('tasks') || '[]'); // Obtiene las tareas o un array vacío si no hay
+        const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        taskList.innerHTML = ''; // Limpiar la lista antes de cargar
         tasks.forEach(task => {
-            createTaskElement(task.text, task.completed); // Crea el elemento HTML para cada tarea cargada
+            createTaskElement(task.text, task.completed);
         });
+        applyFilter(currentFilter); // Aplicar el filtro después de cargar las tareas
     }
 
-    // --- Función para crear un elemento de tarea (refactorizada) ---
+    // --- Función para crear un elemento de tarea ---
     function createTaskElement(taskText, isCompleted = false) {
         const listItem = document.createElement('li');
         listItem.textContent = taskText;
@@ -38,40 +40,85 @@ document.addEventListener('DOMContentLoaded', () => {
             listItem.classList.add('completed');
         }
 
-        // Botón para eliminar tarea
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Eliminar';
         deleteBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Evita que el clic se propague al listItem y lo marque/desmarque
+            event.stopPropagation();
             taskList.removeChild(listItem);
-            saveTasksToLocalStorage(); // Guarda los cambios después de eliminar
+            saveTasksToLocalStorage();
+            applyFilter(currentFilter); // Reaplicar el filtro después de eliminar
         });
 
         listItem.appendChild(deleteBtn);
 
-        // Marcar tarea como completada (clic en la tarea)
         listItem.addEventListener('click', () => {
-            listItem.classList.toggle('completed'); // Alterna la clase 'completed'
-            saveTasksToLocalStorage(); // Guarda los cambios después de marcar/desmarcar
+            listItem.classList.toggle('completed');
+            saveTasksToLocalStorage();
+            applyFilter(currentFilter); // Reaplicar el filtro después de marcar/desmarcar
         });
 
         taskList.appendChild(listItem);
     }
+
+    // --- NUEVA FUNCIÓN PARA APLICAR EL FILTRO ---
+    function applyFilter(filter) {
+        currentFilter = filter; // Actualiza el filtro activo
+
+        // Actualiza la clase 'active' en los botones de filtro
+        filterAllBtn.classList.remove('active');
+        filterPendingBtn.classList.remove('active');
+        filterCompletedBtn.classList.remove('active');
+
+        if (filter === 'all') {
+            filterAllBtn.classList.add('active');
+        } else if (filter === 'pending') {
+            filterPendingBtn.classList.add('active');
+        } else if (filter === 'completed') {
+            filterCompletedBtn.classList.add('active');
+        }
+
+        // Itera sobre cada tarea y decide si mostrarla u ocultarla
+        taskList.querySelectorAll('li').forEach(listItem => {
+            const isCompleted = listItem.classList.contains('completed');
+
+            if (filter === 'all') {
+                listItem.style.display = 'flex'; // Muestra todas las tareas
+            } else if (filter === 'pending') {
+                if (!isCompleted) {
+                    listItem.style.display = 'flex'; // Muestra solo las pendientes
+                } else {
+                    listItem.style.display = 'none'; // Oculta las completadas
+                }
+            } else if (filter === 'completed') {
+                if (isCompleted) {
+                    listItem.style.display = 'flex'; // Muestra solo las completadas
+                } else {
+                    listItem.style.display = 'none'; // Oculta las pendientes
+                }
+            }
+        });
+    }
+
+    // --- Event Listeners para los botones de filtro ---
+    filterAllBtn.addEventListener('click', () => applyFilter('all'));
+    filterPendingBtn.addEventListener('click', () => applyFilter('pending'));
+    filterCompletedBtn.addEventListener('click', () => applyFilter('completed'));
+
 
     // --- Lógica para añadir una nueva tarea ---
     function addTask() {
         const taskText = newTaskInput.value.trim();
 
         if (taskText !== '') {
-            createTaskElement(taskText); // Crea el elemento de la tarea
-            saveTasksToLocalStorage(); // Guarda la nueva tarea
-            newTaskInput.value = ''; // Limpia el input
+            createTaskElement(taskText);
+            saveTasksToLocalStorage();
+            applyFilter(currentFilter); // Reaplicar el filtro para que la nueva tarea aparezca si cumple el criterio
+            newTaskInput.value = '';
         }
     }
 
-    // --- Event Listeners ---
+    // --- Event Listeners existentes ---
     addTaskBtn.addEventListener('click', addTask);
-
     newTaskInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             addTask();
@@ -89,6 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Cargar tareas al iniciar la aplicación ---
+    // --- Cargar tareas al iniciar la aplicación (ahora llama a applyFilter al final) ---
     loadTasksFromLocalStorage();
 });

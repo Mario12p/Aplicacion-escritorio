@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
+    <title>Mi Mini Lista de Tareas</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,12 @@
         <div class="add-task">
             <input type="text" id="new-task-input" placeholder="Añadir nueva tarea...">
             <button id="add-task-btn">Añadir</button>
+        </div>
+
+        <div class="filter-tasks">
+            <button id="filter-all" class="filter-btn active">Todas</button>
+            <button id="filter-pending" class="filter-btn">Pendientes</button>
+            <button id="filter-completed" class="filter-btn">Completadas</button>
         </div>
         <ul id="task-list">
             </ul>

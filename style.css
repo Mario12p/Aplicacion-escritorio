@@ -2,7 +2,7 @@
 /* 1. Variables CSS (Colores y Sombras)   */
 /* -------------------------------------- */
 :root {
-    --primary-color: #007bff; /* Azul cielo para acciones principales (similar al original) */
+    --primary-color: #007bff; /* Azul cielo para acciones principales */
     --secondary-color: #f0f2f5; /* Gris claro para fondos y elementos sutiles */
     --text-color-dark: #333; /* Texto oscuro para títulos */
     --text-color-light: #666; /* Texto más claro para descripciones */
@@ -71,7 +71,7 @@ h1 {
 
 #new-task-input:focus {
     border-color: var(--primary-color); /* Borde de color al enfocar */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra sutil al enfocar, ajustada al nuevo primary-color */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra sutil al enfocar, ajustada al primary-color */
 }
 
 #add-task-btn {
@@ -87,7 +87,7 @@ h1 {
 }
 
 #add-task-btn:hover {
-    background-color: #0056b3; /* Un poco más oscuro al pasar el mouse (ajustado al nuevo primary-color) */
+    background-color: #0056b3; /* Un poco más oscuro al pasar el mouse */
     transform: translateY(-2px); /* Pequeño levantamiento */
 }
 
@@ -208,6 +208,7 @@ h1 {
         align-self: flex-end; /* Alinea el botón a la derecha */
     }
 }
+
 /* -------------------------------------- */
 /* 6. Estilos de los Filtros              */
 /* -------------------------------------- */
@@ -251,4 +252,84 @@ h1 {
         padding: 8px 15px;
         font-size: 0.9em;
     }
+}
+
+/* -------------------------------------- */
+/* 7. Estilos del Contador y Limpiar      */
+/* -------------------------------------- */
+.task-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    color: var(--text-color-light);
+    font-size: 0.95em;
+    border-bottom: 1px solid var(--border-color); /* Separador sutil */
+}
+
+#pending-tasks-count {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+.clear-btn {
+    background-color: transparent;
+    color: var(--accent-color-red);
+    border: 1px solid var(--accent-color-red);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.clear-btn:hover {
+    background-color: var(--accent-color-red);
+    color: white;
+}
+
+/* -------------------------------------- */
+/* 8. Animaciones y Feedback Visual       */
+/* -------------------------------------- */
+
+/* Animación para cuando se añade una tarea */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animación para cuando se elimina una tarea */
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(50px); }
+}
+
+/* Aplica la animación al añadir */
+#task-list li {
+    animation: fadeIn 0.3s ease-out; /* Velocidad y tipo de easing */
+}
+
+/* Clase para eliminar con animación (se añade con JS) */
+#task-list li.removing {
+    animation: fadeOut 0.3s ease-in forwards; /* forwards mantiene el estado final */
+}
+
+/* Mensaje de error/feedback para input vacío */
+.error-message {
+    color: var(--accent-color-red);
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: -20px; /* Sube un poco para que no haya tanto espacio */
+    margin-bottom: 20px;
+    opacity: 0; /* Por defecto invisible */
+    max-height: 0; /* No ocupa espacio */
+    overflow: hidden; /* Oculta el contenido */
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+    max-height: 50px; /* Suficiente altura para mostrar el mensaje */
 }

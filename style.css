@@ -1,93 +1,210 @@
+/* -------------------------------------- */
+/* 1. Variables CSS (Colores y Sombras)   */
+/* -------------------------------------- */
+:root {
+    --primary-color: #007bff; /* Azul cielo para acciones principales (similar al original) */
+    --secondary-color: #f0f2f5; /* Gris claro para fondos y elementos sutiles */
+    --text-color-dark: #333; /* Texto oscuro para títulos */
+    --text-color-light: #666; /* Texto más claro para descripciones */
+    --accent-color-green: #28a745; /* Verde para completado */
+    --accent-color-red: #dc3545; /* Rojo para eliminar */
+    --card-bg-color: #ffffff; /* Fondo de tarjetas/elementos (se mantiene blanco) */
+    --border-color: #e0e0e0; /* Color de bordes sutiles */
+
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.08); /* Sombra suave para elevación */
+    --shadow-medium: 0 6px 15px rgba(0, 0, 0, 0.12); /* Sombra un poco más marcada */
+}
+
+/* -------------------------------------- */
+/* 2. Resets y Estilos Generales          */
+/* -------------------------------------- */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif; /* Usa la fuente importada */
     margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+    padding: 0;
+    background-color: var(--secondary-color); /* Fondo global */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; /* Alinea el contenido arriba, como en un móvil */
     min-height: 100vh;
+    color: var(--text-color-dark);
+    line-height: 1.6; /* Mejor legibilidad */
 }
 
 .container {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--card-bg-color);
+    padding: 30px; /* Más padding para aire */
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: var(--shadow-medium); /* Sombra más pronunciada */
     width: 100%;
-    max-width: 400px; /* Simula el tamaño de un móvil */
+    max-width: 450px; /* Ancho similar a un móvil grande/tablet pequeña */
+    margin: 30px auto; /* Margen superior e inferior, centrado horizontalmente */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho/alto */
 }
 
 h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: 25px;
+    color: var(--primary-color); /* Color principal para el título */
+    margin-bottom: 30px;
+    font-weight: 700; /* Negrita */
+    font-size: 2.2em; /* Tamaño un poco más grande */
 }
 
+/* -------------------------------------- */
+/* 3. Estilos del Campo de Añadir Tarea   */
+/* -------------------------------------- */
 .add-task {
     display: flex;
-    margin-bottom: 20px;
+    gap: 10px; /* Espacio entre input y botón */
+    margin-bottom: 30px;
 }
 
 #new-task-input {
     flex-grow: 1;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    outline: none;
+    padding: 12px 20px; /* Más padding */
+    border: 1px solid var(--border-color);
+    border-radius: 25px; /* Bordes más redondeados (pill-shape) */
+    font-size: 1.05em;
+    outline: none; /* Quita el contorno azul al enfocar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+#new-task-input:focus {
+    border-color: var(--primary-color); /* Borde de color al enfocar */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra sutil al enfocar, ajustada al nuevo primary-color */
 }
 
 #add-task-btn {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-left: 10px;
+    padding: 12px 25px; /* Más padding */
+    border-radius: 25px; /* Bordes redondeados */
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+    font-size: 1.05em;
+    font-weight: 600; /* Negrita */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones */
 }
 
 #add-task-btn:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Un poco más oscuro al pasar el mouse (ajustado al nuevo primary-color) */
+    transform: translateY(-2px); /* Pequeño levantamiento */
 }
 
+#add-task-btn:active {
+    transform: translateY(0); /* Vuelve a su lugar al hacer clic */
+}
+
+/* -------------------------------------- */
+/* 4. Estilos de la Lista de Tareas       */
+/* -------------------------------------- */
 #task-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 #task-list li {
-    background-color: #f9f9f9;
-    border: 1px solid #eee;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border-radius: 5px;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    margin-bottom: 12px; /* Más espacio entre ítems */
+    border-radius: 10px; /* Bordes redondeados para cada tarea */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.1em;
+    font-size: 1.05em;
+    color: var(--text-color-dark);
+    box-shadow: var(--shadow-light); /* Sombra sutil */
+    transition: all 0.3s ease; /* Transición para cambios de estado */
+    cursor: pointer; /* Indica que se puede hacer clic */
 }
+
+#task-list li:last-child {
+    margin-bottom: 0; /* Elimina margen en el último elemento */
+}
+
+#task-list li:hover {
+    transform: translateY(-3px); /* Pequeño levantamiento al pasar el mouse */
+    box-shadow: var(--shadow-medium); /* Sombra más marcada */
+}
+
 
 #task-list li.completed {
     text-decoration: line-through;
-    color: #888;
-    background-color: #e0ffe0;
+    color: var(--text-color-light); /* Texto más claro */
+    background-color: #e6ffe6; /* Fondo verde muy claro */
+    border-color: var(--accent-color-green); /* Borde verde */
+    box-shadow: none; /* Sin sombra cuando completado */
+    opacity: 0.8; /* Ligeramente transparente */
 }
 
 #task-list li button {
-    background-color: #dc3545;
+    background-color: var(--accent-color-red);
     color: white;
     border: none;
-    padding: 6px 10px;
-    border-radius: 4px;
+    padding: 8px 12px; /* Más padding */
+    border-radius: 20px; /* Bordes más redondeados */
     cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    font-size: 0.85em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
+    margin-left: 15px; /* Espacio entre el texto de la tarea y el botón */
 }
 
 #task-list li button:hover {
     background-color: #c82333;
+    transform: scale(1.05); /* Ligeramente más grande */
+}
+
+#task-list li button:active {
+    transform: scale(1);
+}
+
+/* -------------------------------------- */
+/* 5. Responsividad Básica                */
+/* -------------------------------------- */
+@media (max-width: 600px) {
+    .container {
+        margin: 0; /* Sin margen superior/inferior en móviles pequeños */
+        border-radius: 0; /* Sin bordes redondeados en los extremos */
+        box-shadow: none; /* Sin sombra en el contenedor principal */
+        min-height: 100vh; /* Ocupa toda la altura */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .add-task {
+        flex-direction: column; /* Apila input y botón en pantallas pequeñas */
+        gap: 15px;
+    }
+
+    #add-task-btn {
+        width: 100%; /* Botón ocupa todo el ancho */
+        margin-left: 0;
+    }
+
+    #new-task-input {
+        width: 100%; /* Input ocupa todo el ancho */
+    }
+
+    #task-list li {
+        flex-direction: column; /* Apila texto y botón en tareas */
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    #task-list li button {
+        margin-top: 10px; /* Espacio entre texto y botón */
+        margin-left: 0;
+        align-self: flex-end; /* Alinea el botón a la derecha */
+    }
 }

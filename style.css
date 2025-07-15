@@ -1,261 +1,362 @@
 /* -------------------------------------- */
-/* 1. Variables CSS (Colores y Sombras)   */
+/* 1. Variables CSS (Colores y Sombras)   */
 /* -------------------------------------- */
 :root {
-    --primary-color: #007bff; /* Azul cielo para acciones principales */
-    --secondary-color: #f0f2f5; /* Gris claro para fondos y elementos sutiles */
-    --text-color-dark: #333; /* Texto oscuro para títulos */
-    --text-color-light: #666; /* Texto más claro para descripciones */
-    --accent-color-green: #28a745; /* Verde para completado */
-    --accent-color-red: #dc3545; /* Rojo para eliminar */
-    --card-bg-color: #ffffff; /* Fondo de tarjetas/elementos (se mantiene blanco) */
-    --border-color: #e0e0e0; /* Color de bordes sutiles */
+    --primary-color: #5f6368; 
+    --accent-color: #ffb300; 
+    --secondary-color: #f1f1f1; 
+    --text-color-dark: #202124; 
+    --text-color-light: #5f6368; 
+    --card-bg-color: #ffffff; 
+    --input-border-color: #dadce0; 
+    --border-color: #e0e0e0; /* <-- Añadido de nuevo, lo tenías antes y es útil */
+    --accent-color-red: #ea4335; /* <-- Añadido un color para mensajes de error */
 
-    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.08); /* Sombra suave para elevación */
-    --shadow-medium: 0 6px 15px rgba(0, 0, 0, 0.12); /* Sombra un poco más marcada */
+
+    /* Colores de las notas de Keep (usaremos esto en JS para data-color) */
+    --note-default: #ffffff; /* Para la nota blanca por defecto */
+    --note-red: #f28b82;
+    --note-orange: #fbbc04;
+    --note-yellow: #fff475;
+    --note-green: #ccff90;
+    --note-teal: #a7ffeb;
+    --note-blue: #cbf0f8;
+    --note-darkblue: #aecbfa;
+    --note-purple: #d7aefb;
+    --note-pink: #fdcfe8;
+    --note-brown: #e6c9a8;
+    --note-gray: #e8eaed;
+
+    --shadow-light: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); /* Sombra estándar de Keep */
+    --shadow-hover: 0 4px 8px 0 rgba(60,64,67,0.302), 0 6px 12px 2px rgba(60,64,67,0.149); /* Sombra al pasar el mouse */
 }
 
 /* -------------------------------------- */
-/* 2. Resets y Estilos Generales          */
+/* 2. Resets y Estilos Generales          */
 /* -------------------------------------- */
 body {
-    font-family: 'Poppins', sans-serif; /* Usa la fuente importada */
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--secondary-color); /* Fondo global */
+    background-color: var(--secondary-color); /* Fondo global de Keep */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Alinea el contenido arriba, como en un móvil */
+    align-items: flex-start;
     min-height: 100vh;
     color: var(--text-color-dark);
-    line-height: 1.6; /* Mejor legibilidad */
+    line-height: 1.6;
 }
 
 .container {
-    background-color: var(--card-bg-color);
-    padding: 30px; /* Más padding para aire */
-    border-radius: 15px; /* Bordes más redondeados */
-    box-shadow: var(--shadow-medium); /* Sombra más pronunciada */
+    background-color: transparent; /* El contenedor principal ya no es una "caja" blanca como Keep */
+    padding: 20px; /* Menos padding general */
+    border-radius: 0;
+    box-shadow: none;
     width: 100%;
-    max-width: 450px; /* Ancho similar a un móvil grande/tablet pequeña */
-    margin: 30px auto; /* Margen superior e inferior, centrado horizontalmente */
-    box-sizing: border-box; /* Incluye padding y borde en el ancho/alto */
+    max-width: 800px; /* Más ancho para que quepan más columnas de notas */
+    margin: 20px auto; /* Margen superior e inferior, centrado horizontalmente */
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
-    color: var(--primary-color); /* Color principal para el título */
+    color: var(--primary-color);
     margin-bottom: 30px;
-    font-weight: 700; /* Negrita */
-    font-size: 2.2em; /* Tamaño un poco más grande */
+    font-weight: 700;
+    font-size: 2.5em; /* Un poco más grande para el título */
 }
 
 /* -------------------------------------- */
-/* 3. Estilos del Campo de Añadir Tarea   */
+/* 3. Estilos del Área de Añadir Nota (Keep Style) */
 /* -------------------------------------- */
-.add-task {
-    display: flex;
-    gap: 10px; /* Espacio entre input y botón */
+.add-note-area {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
     margin-bottom: 30px;
+    padding: 10px 15px;
+    transition: all 0.2s ease-in-out;
 }
 
-#new-task-input {
-    flex-grow: 1;
-    padding: 12px 20px; /* Más padding */
-    border: 1px solid var(--border-color);
-    border-radius: 25px; /* Bordes más redondeados (pill-shape) */
-    font-size: 1.05em;
-    outline: none; /* Quita el contorno azul al enfocar */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+/* Estado de foco para la caja de añadir nota */
+.add-note-area:focus-within {
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(0, 0, 0, 0.1); /* Borde un poco más oscuro al enfocar */
 }
 
-#new-task-input:focus {
-    border-color: var(--primary-color); /* Borde de color al enfocar */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra sutil al enfocar, ajustada al primary-color */
-}
-
-#add-task-btn {
-    background-color: var(--primary-color);
-    color: white;
+#new-task-input { /* Ahora es un textarea */
+    width: 100%;
     border: none;
-    padding: 12px 25px; /* Más padding */
-    border-radius: 25px; /* Bordes redondeados */
+    outline: none;
+    padding: 8px 0; /* Padding vertical, no horizontal aquí */
+    font-size: 1.1em;
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 30px; /* Altura mínima */
+    color: var(--text-color-dark);
+    background-color: transparent; /* Importante para que el color de fondo de la nota se vea */
+}
+
+.note-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px; /* Espacio entre el texto y las opciones */
+    border-top: 1px solid var(--border-color); /* Separador sutil */
+    margin-top: 10px;
+}
+
+/* Ocultar opciones al inicio, se mostrarán con JS al enfocar */
+.add-note-area:not(.expanded) .note-options {
+    display: none;
+}
+
+.color-palette {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los colores se envuelvan si hay muchos o poco espacio */
+    gap: 5px; /* Espacio entre los círculos de color */
+}
+
+.color-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%; /* Círculo */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil */
     cursor: pointer;
-    font-size: 1.05em;
-    font-weight: 600; /* Negrita */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones */
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 0 0 2px transparent; /* Sombra para el estado activo */
+}
+
+.color-box:hover {
+    transform: scale(1.1); /* Aumenta un poco al pasar el mouse */
+}
+
+.color-box.active {
+    border-color: var(--primary-color); /* Borde más visible para el color activo */
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Estilos específicos para el colorbox default, por si lo necesitamos */
+.color-box[data-color="default"] {
+    background-color: var(--card-bg-color); /* Asegura que el blanco por defecto sea blanco */
+}
+
+#add-task-btn { /* Este es ahora el botón "Cerrar" */
+    background-color: transparent;
+    color: var(--primary-color); /* Color de texto Keep */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
 }
 
 #add-task-btn:hover {
-    background-color: #0056b3; /* Un poco más oscuro al pasar el mouse */
-    transform: translateY(-2px); /* Pequeño levantamiento */
+    background-color: rgba(0, 0, 0, 0.05); /* Ligero fondo al pasar el mouse */
 }
 
-#add-task-btn:active {
-    transform: translateY(0); /* Vuelve a su lugar al hacer clic */
+/* Mensaje de error/feedback para input vacío (mantenemos los estilos generales) */
+.error-message {
+    color: var(--accent-color-red);
+    font-size: 0.85em;
+    text-align: center;
+    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+    max-height: 50px;
 }
 
 /* -------------------------------------- */
-/* 4. Estilos de la Lista de Tareas       */
+/* 4. Estilos de la Lista de Tareas (Ahora como Notas de Keep) */
 /* -------------------------------------- */
 #task-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid; /* Usaremos CSS Grid para la cuadrícula */
+    gap: 15px; /* Espacio entre las notas */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    align-items: start; /* Asegura que los elementos se alineen a la parte superior de sus celdas */
 }
 
 #task-list li {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--border-color);
-    padding: 15px 20px;
-    margin-bottom: 12px; /* Más espacio entre ítems */
-    border-radius: 10px; /* Bordes redondeados para cada tarea */
+    background-color: var(--card-bg-color); /* Color de fondo por defecto */
+    border: 1px solid var(--input-border-color); /* Borde más sutil como Keep */
+    padding: 15px;
+    border-radius: 8px; /* Bordes redondeados de las notas */
+    box-shadow: var(--shadow-light); /* Sombra de Keep */
     display: flex;
+    flex-direction: column; /* Contenido vertical */
     justify-content: space-between;
-    align-items: center;
-    font-size: 1.05em;
+    font-size: 1em; /* Un poco más pequeño que el original de la lista */
     color: var(--text-color-dark);
-    box-shadow: var(--shadow-light); /* Sombra sutil */
-    transition: all 0.3s ease; /* Transición para cambios de estado */
-    cursor: pointer; /* Indica que se puede hacer clic */
+    transition: all 0.2s ease-in-out;
+    cursor: pointer; /* Indica que se puede hacer clic para marcar */
+    word-wrap: break-word; /* Para que el texto largo se ajuste */
+    overflow: hidden; /* Evita desbordamiento si hay algo extra */
+    box-sizing: border-box; /* Importante para padding/border */
 }
 
 #task-list li:last-child {
-    margin-bottom: 0; /* Elimina margen en el último elemento */
+    margin-bottom: 0;
 }
 
 #task-list li:hover {
-    transform: translateY(-3px); /* Pequeño levantamiento al pasar el mouse */
-    box-shadow: var(--shadow-medium); /* Sombra más marcada */
+    box-shadow: var(--shadow-hover); /* Sombra más marcada al pasar el mouse */
+    transform: none; /* Eliminar el levantamiento, Keep no lo hace en las notas */
 }
-
 
 #task-list li.completed {
     text-decoration: line-through;
-    color: var(--text-color-light); /* Texto más claro */
-    background-color: #e6ffe6; /* Fondo verde muy claro */
-    border-color: var(--accent-color-green); /* Borde verde */
-    box-shadow: none; /* Sin sombra cuando completado */
-    opacity: 0.8; /* Ligeramente transparente */
+    color: var(--text-color-light);
+    opacity: 0.7; /* Más sutil el completado */
+    background-color: var(--card-bg-color); /* Mantener el color de la nota original, solo tachar */
+    border-color: var(--input-border-color); /* No cambiar el color del borde al completar */
+    box-shadow: var(--shadow-light); /* Mantener la sombra */
 }
 
 #task-list li button {
-    background-color: var(--accent-color-red);
-    color: white;
+    background-color: transparent; /* Botón transparente */
+    color: var(--primary-color); /* Color de texto como Keep */
     border: none;
-    padding: 8px 12px; /* Más padding */
-    border-radius: 20px; /* Bordes más redondeados */
+    padding: 5px 8px; /* Más pequeño */
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 0.85em;
+    font-size: 0.8em;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    flex-shrink: 0; /* Evita que el botón se encoja */
-    margin-left: 15px; /* Espacio entre el texto de la tarea y el botón */
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    align-self: flex-end; /* Alinea el botón a la derecha en la nota */
+    opacity: 0; /* Ocultar el botón por defecto */
+    margin-left: 0; /* Eliminar el margen izquierdo que tenías */
+    margin-top: 10px; /* Añadir margen superior para separar del texto de la tarea */
+}
+
+#task-list li:hover button {
+    opacity: 1; /* Mostrar el botón al pasar el mouse por la nota */
 }
 
 #task-list li button:hover {
-    background-color: #c82333;
-    transform: scale(1.05); /* Ligeramente más grande */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo suave al pasar el mouse */
+    transform: none; /* Eliminar transformaciones */
 }
 
 #task-list li button:active {
-    transform: scale(1);
+    transform: none;
 }
 
 /* -------------------------------------- */
-/* 5. Responsividad Básica                */
+/* 5. Responsividad Básica (adaptada a Keep) */
 /* -------------------------------------- */
+@media (max-width: 768px) {
+    .notes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 2 columnas en tablets */
+    }
+}
+
 @media (max-width: 600px) {
     .container {
-        margin: 0; /* Sin margen superior/inferior en móviles pequeños */
-        border-radius: 0; /* Sin bordes redondeados en los extremos */
-        box-shadow: none; /* Sin sombra en el contenedor principal */
-        min-height: 100vh; /* Ocupa toda la altura */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 20px;
+        margin: 0;
+        padding: 15px;
+        min-height: 100vh;
     }
 
     h1 {
-        font-size: 1.8em;
+        font-size: 2em;
+        margin-bottom: 25px;
+    }
+
+    .add-note-area { /* Usamos la nueva clase */
         margin-bottom: 20px;
+        padding: 8px 12px; /* Reducir padding en móvil */
     }
 
-    .add-task {
-        flex-direction: column; /* Apila input y botón en pantallas pequeñas */
-        gap: 15px;
+    #new-task-input { /* El textarea en móvil */
+        font-size: 1em;
+        padding: 5px 0;
     }
 
-    #add-task-btn {
-        width: 100%; /* Botón ocupa todo el ancho */
-        margin-left: 0;
+    .notes-grid {
+        grid-template-columns: 1fr; /* Una sola columna en móviles */
     }
 
-    #new-task-input {
-        width: 100%; /* Input ocupa todo el ancho */
-    }
-
-    #task-list li {
+    #task-list li { /* Estilos de lista de tarea en móvil */
         flex-direction: column; /* Apila texto y botón en tareas */
         align-items: flex-start;
         padding: 15px;
     }
 
-    #task-list li button {
+    #task-list li button { /* Botón eliminar en móvil */
         margin-top: 10px; /* Espacio entre texto y botón */
         margin-left: 0;
         align-self: flex-end; /* Alinea el botón a la derecha */
+        opacity: 1; /* Siempre visible en móvil para mayor usabilidad */
+    }
+
+    .filter-tasks, .task-summary {
+        margin-bottom: 15px;
+    }
+
+    .filter-btn, .clear-btn {
+        font-size: 0.8em;
+        padding: 6px 12px;
     }
 }
 
 /* -------------------------------------- */
-/* 6. Estilos de los Filtros              */
+/* 6. Estilos de los Filtros              */
 /* -------------------------------------- */
 .filter-tasks {
     display: flex;
-    justify-content: center; /* Centra los botones */
-    gap: 10px; /* Espacio entre los botones */
-    margin-bottom: 25px; /* Espacio debajo de los botones */
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px; /* Menos margen inferior para el diseño compacto */
 }
 
 .filter-btn {
-    background-color: var(--secondary-color); /* Fondo del botón normal */
-    color: var(--text-color-light); /* Color de texto normal */
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
     border: 1px solid var(--border-color);
-    padding: 10px 18px;
+    padding: 8px 15px; /* Más compacto */
     border-radius: 20px;
     cursor: pointer;
-    font-size: 0.95em;
+    font-size: 0.9em;
     font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .filter-btn:hover {
-    background-color: #e0e0e0; /* Un poco más oscuro al pasar el mouse */
+    background-color: #e0e0e0;
 }
 
 .filter-btn.active {
-    background-color: var(--primary-color); /* Fondo del botón activo */
-    color: white; /* Texto blanco para el botón activo */
-    border-color: var(--primary-color); /* Borde del mismo color */
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2); /* Sombra para resaltar */
+    background-color: var(--primary-color);
+    color: white; /* Mantener blanco para contraste */
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
 }
 
 /* Ajuste para móviles */
 @media (max-width: 600px) {
     .filter-tasks {
-        flex-wrap: wrap; /* Permite que los botones salten de línea */
+        flex-wrap: wrap;
         justify-content: center;
     }
     .filter-btn {
-        padding: 8px 15px;
-        font-size: 0.9em;
+        padding: 6px 12px; /* Aún más compacto en móvil */
+        font-size: 0.8em;
     }
 }
 
 /* -------------------------------------- */
-/* 7. Estilos del Contador y Limpiar      */
+/* 7. Estilos del Contador y Limpiar      */
 /* -------------------------------------- */
 .task-summary {
     display: flex;
@@ -264,34 +365,33 @@ h1 {
     margin-bottom: 20px;
     padding: 10px 0;
     color: var(--text-color-light);
-    font-size: 0.95em;
-    border-bottom: 1px solid var(--border-color); /* Separador sutil */
+    font-size: 0.9em; /* Un poco más pequeño */
+    border-bottom: 1px solid var(--border-color);
 }
 
 #pending-tasks-count {
     font-weight: 600;
     color: var(--primary-color);
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 .clear-btn {
     background-color: transparent;
-    color: var(--accent-color-red);
-    border: 1px solid var(--accent-color-red);
-    padding: 8px 15px;
-    border-radius: 20px;
+    color: var(--primary-color); /* Usar primary-color de Keep */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.85em;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .clear-btn:hover {
-    background-color: var(--accent-color-red);
-    color: white;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* -------------------------------------- */
-/* 8. Animaciones y Feedback Visual       */
+/* 8. Animaciones y Feedback Visual       */
 /* -------------------------------------- */
 
 /* Animación para cuando se añade una tarea */
@@ -302,8 +402,8 @@ h1 {
 
 /* Animación para cuando se elimina una tarea */
 @keyframes fadeOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(50px); }
+    from { opacity: 1; transform: translateX(0) scale(1); } /* Restaurar a escala 1 */
+    to { opacity: 0; transform: translateX(50px) scale(0.8); } /* Sale y se encoge un poco */
 }
 
 /* Aplica la animación al añadir */
@@ -319,17 +419,300 @@ h1 {
 /* Mensaje de error/feedback para input vacío */
 .error-message {
     color: var(--accent-color-red);
-    font-size: 0.9em;
+    font-size: 0.85em;
     text-align: center;
-    margin-top: -20px; /* Sube un poco para que no haya tanto espacio */
-    margin-bottom: 20px;
-    opacity: 0; /* Por defecto invisible */
-    max-height: 0; /* No ocupa espacio */
-    overflow: hidden; /* Oculta el contenido */
+    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
     transition: opacity 0.3s ease, max-height 0.3s ease;
 }
 
 .error-message.show {
     opacity: 1;
-    max-height: 50px; /* Suficiente altura para mostrar el mensaje */
+    max-height: 50px;
+}
+
+/* -------------------------------------- */
+/* 9. Estilos Adicionales (Edición de Notas) */
+/* -------------------------------------- */
+/* Estilos para el modo de edición de notas */
+#task-list li .task-content.editing {
+    outline: none; /* Quitar el contorno por defecto del navegador */
+    border: 1px solid var(--primary-color); /* Borde para indicar que se está editando */
+    border-radius: 4px;
+    padding: 5px; /* Un poco de padding para que el texto no se pegue al borde */
+    margin: -5px; /* Para compensar el padding y el borde, manteniendo el tamaño visual */
+    box-shadow: 0 0 0 2px rgba(95, 99, 104, 0.2); /* Sombra para resaltar */
+    background-color: var(--card-bg-color); /* Asegura que el fondo siga siendo el de la nota */
+}
+
+/* Evitar que el botón de eliminar sea visible al editar */
+#task-list li.editing button {
+    opacity: 0 !important;
+}
+/* -------------------------------------- */
+/* 10. Estilos del Campo de Búsqueda      */
+/* -------------------------------------- */
+.search-notes {
+    margin-bottom: 25px; /* Espacio debajo del campo de búsqueda */
+    padding: 0 15px; /* Pequeño padding horizontal para centrado visual */
+    display: flex;
+    justify-content: center; /* Centrar el campo de búsqueda */
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px; /* Limitar el ancho para que no sea demasiado grande */
+    padding: 10px 15px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px; /* Bordes suaves */
+    font-size: 1em;
+    color: var(--text-color-dark);
+    outline: none;
+    box-shadow: var(--shadow-light); /* Sombra sutil como otros elementos de Keep */
+    transition: all 0.2s ease-in-out;
+}
+
+#search-input::placeholder {
+    color: var(--text-color-light); /* Color del placeholder */
+}
+
+#search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al enfocar */
+}
+
+/* Ajuste de responsividad para el campo de búsqueda */
+@media (max-width: 600px) {
+    .search-notes {
+        padding: 0; /* Quitar padding horizontal en móviles pequeños */
+        margin-bottom: 20px;
+    }
+    #search-input {
+        font-size: 0.95em;
+        padding: 8px 12px;
+    }
+}
+
+/* -------------------------------------- */
+/* 11. Estilos del Botón de Pin           */
+/* -------------------------------------- */
+#task-list li .pin-btn {
+    position: absolute; /* Posición absoluta dentro del li */
+    top: 10px; /* Alineado a la parte superior */
+    right: 10px; /* Alineado a la derecha */
+    background: none;
+    border: none;
+    color: var(--text-color-light); /* Color del icono de pin */
+    font-size: 1.1em;
+    cursor: pointer;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    padding: 5px; /* Aumentar el área de clic */
+    border-radius: 50%; /* Hacerlo circular */
+    z-index: 10; /* Asegurarse de que esté por encima del contenido */
+}
+
+#task-list li:hover .pin-btn {
+    opacity: 0.8; /* Visible al pasar el mouse por la nota */
+}
+
+#task-list li .pin-btn:hover {
+    color: var(--primary-color); /* Cambia de color al pasar el mouse */
+    background-color: rgba(0, 0, 0, 0.05); /* Pequeño fondo para feedback */
+    transform: scale(1.1); /* Ligeramente más grande al pasar el mouse */
+}
+
+/* Estilo para el pin cuando la nota está fijada */
+#task-list li.pinned .pin-btn {
+    opacity: 1; /* Siempre visible si está fijado */
+    color: var(--primary-color); /* Color más oscuro para indicar fijado */
+}
+
+/* Ajustar posición de los botones en móvil */
+@media (max-width: 600px) {
+    #task-list li .pin-btn {
+        opacity: 1; /* Siempre visible en móvil */
+        position: relative; /* Volver a posición relativa para fluir */
+        top: auto;
+        right: auto;
+        margin-left: auto; /* Alinear a la derecha */
+        margin-bottom: 5px; /* Espacio antes de otros botones */
+    }
+}
+
+
+/* -------------------------------------- */
+/* 12. Estilos del Botón de Alarma        */
+/* -------------------------------------- */
+#task-list li .alarm-btn {
+    position: absolute;
+    top: 10px; /* Misma altura que el pin */
+    right: 40px; /* A la izquierda del pin (40px aprox para dejar espacio) */
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.1em;
+    cursor: pointer;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    padding: 5px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+#task-list li:hover .alarm-btn {
+    opacity: 0.8; /* Visible al pasar el mouse por la nota */
+}
+
+#task-list li .alarm-btn:hover {
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+/* Estilo para el icono de alarma cuando está activa (alarma programada) */
+#task-list li.has-alarm .alarm-btn {
+    opacity: 1; /* Siempre visible */
+    color: var(--accent-color); /* Color de acento para indicar alarma activa */
+}
+
+/* Para ajustar en móviles, donde los botones están siempre visibles */
+@media (max-width: 600px) {
+    #task-list li .alarm-btn {
+        opacity: 1; /* Siempre visible en móvil */
+        position: relative; /* Cambiar a relative para fluir mejor */
+        top: auto;
+        right: auto;
+        margin-left: auto; /* Alinear a la derecha junto al eliminar */
+        margin-top: 5px; /* Espacio entre el pin y la alarma */
+    }
+}
+
+/* -------------------------------------- */
+/* 13. Estilos del Modal de Alarma        */
+/* -------------------------------------- */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija para cubrir toda la pantalla */
+    z-index: 100; /* Por encima de todo lo demás */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Habilitar scroll si el contenido es demasiado grande */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+    justify-content: center; /* Centrar contenido horizontalmente */
+    align-items: center; /* Centrar contenido verticalmente */
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    margin: auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-hover);
+    width: 90%;
+    max-width: 400px;
+    animation: fadeInModal 0.3s ease-out; /* Animación de entrada */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre elementos */
+    box-sizing: border-box;
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+#alarm-note-text {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+.modal-content label {
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+}
+
+.modal-content input[type="date"],
+.modal-content input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--text-color-dark);
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* Alinear botones a la derecha */
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 10px;
+}
+
+.action-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.action-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background-color: #4a4d51; /* Un poco más oscuro */
+    transform: translateY(-1px);
+}
+
+.action-btn.secondary {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--input-border-color);
+}
+
+.action-btn.secondary:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.action-btn.danger {
+    background-color: #f44336; /* Rojo para eliminar */
+    color: white;
+}
+
+.action-btn.danger:hover {
+    background-color: #d32f2f;
+    transform: translateY(-1px);
+}
+
+/* Animación para el modal */
+@keyframes fadeInModal {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutModal {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
 }

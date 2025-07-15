@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tareas</title> <link rel="stylesheet" href="style.css">
+    <title>Tareas</title> 
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalDLrAzZjxsoTR/eE7uH+Xm7V4w5x3u7o8v+o+A1FjM0iP5zQ5x300x0Q+A2Y3x9e5x9f4+Q2z9uR7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
         <h1>Lista de Tareas</h1>
-        <div class="add-task">
-            <input type="text" id="new-task-input" placeholder="Añadir nueva tarea...">
-            <button id="add-task-btn">Añadir</button>
+        
+        <div class="search-notes">
+            <input type="text" id="search-input" placeholder="Buscar notas...">
+        </div>
+        
+        <div class="add-note-area">
+            <textarea id="new-task-input" placeholder="Añadir una nota..."></textarea>
+            <div class="note-options">
+                <div class="color-palette" id="color-palette">
+                    <div class="color-box active" data-color="default" style="background-color: var(--card-bg-color);"></div>
+                    <div class="color-box" data-color="red" style="background-color: var(--note-red);"></div>
+                    <div class="color-box" data-color="orange" style="background-color: var(--note-orange);"></div>
+                    <div class="color-box" data-color="yellow" style="background-color: var(--note-yellow);"></div>
+                    <div class="color-box" data-color="green" style="background-color: var(--note-green);"></div>
+                    <div class="color-box" data-color="teal" style="background-color: var(--note-teal);"></div>
+                    <div class="color-box" data-color="blue" style="background-color: var(--note-blue);"></div>
+                    <div class="color-box" data-color="darkblue" style="background-color: var(--note-darkblue);"></div>
+                    <div class="color-box" data-color="purple" style="background-color: var(--note-purple);"></div>
+                    <div class="color-box" data-color="pink" style="background-color: var(--note-pink);"></div>
+                    <div class="color-box" data-color="brown" style="background-color: var(--note-brown);"></div>
+                    <div class="color-box" data-color="gray" style="background-color: var(--note-gray);"></div>
+                </div>
+                <button id="add-task-btn">Cerrar</button>
+            </div>
         </div>
 
         <div class="filter-tasks">
@@ -27,10 +52,27 @@
             Tienes <span id="pending-tasks-count">0</span> tareas pendientes.
             <button id="clear-completed-btn" class="clear-btn">Limpiar completadas</button>
         </div>
-        <ul id="task-list">
+        
+        <ul id="task-list" class="notes-grid">
             </ul>
     </div>
 
+    <div id="alarm-modal" class="modal">
+        <div class="modal-content">
+            <h2>Configurar Alarma</h2>
+            <p id="alarm-note-text"></p> <label for="alarm-date">Fecha:</label>
+            <input type="date" id="alarm-date">
+            <label for="alarm-time">Hora:</label>
+            <input type="time" id="alarm-time">
+            <div class="modal-actions">
+                <button id="set-alarm-btn" class="action-btn primary">Establecer</button>
+                <button id="cancel-alarm-btn" class="action-btn secondary">Cancelar</button>
+                <button id="remove-alarm-btn" class="action-btn danger">Eliminar Alarma</button> </div>
+        </div>
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

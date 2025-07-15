@@ -1,51 +1,45 @@
-const CACHE_NAME = 'mini-task-app-cache-v1'; // Nombre de la caché
-const urlsToCache = [ // Lista de archivos que quieres cachear
-    './', // Esto cachea el index.html principal
-    './index.html',
-    './style.css',
-    './script.js',
-    './manifest.json',
-    // Asegúrate de que las rutas a tus iconos sean correctas
-    './icons/icon-192x192.png',
-    './icons/icon-512x512.png'
-];
+// service-worker.js (¡Este es el NUEVO archivo en la carpeta APP/)
 
-// Evento 'install': se dispara cuando el Service Worker se instala
-self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME) // Abre la caché con el nombre definido
-            .then(cache => {
-                console.log('Service Worker: Cacheando archivos estáticos');
-                return cache.addAll(urlsToCache); // Añade todos los archivos a la caché
-            })
-    );
+// Importa los scripts del SDK de Firebase (debe ser la misma versión que en index.html)
+importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js');
+
+// PEGA AQUÍ DE NUEVO EL MISMO OBJETO firebaseConfig QUE COPIASTE
+const firebaseConfig = {
+    apiKey: "AIzaSyCBcKsnbwOiioFGRv1PnWr78fbuBm2S7z0", // <--- TU VALOR REAL
+    authDomain: "tareasnotas-96957.firebaseapp.com", // <--- TU VALOR REAL
+    projectId: "tareasnotas-96957", // <--- TU VALOR REAL
+    storageBucket: "tareasnotas-96957.firebasestorage.app", // <--- TU VALOR REAL
+    messagingSenderId: "793614445244", // <--- TU VALOR REAL
+    appId: "1:793614445244:web:ae840ac5205cc326b83eb9" // <--- TU VALOR REAL
+};
+
+// Inicializa Firebase en el Service Worker
+firebase.initializeApp(firebaseConfig);
+
+// Obtiene la instancia de Firebase Cloud Messaging en el Service Worker
+const messaging = firebase.messaging();
+
+// Configura el manejador de mensajes en segundo plano (cuando la app no está en primer plano)
+messaging.onBackgroundMessage((payload) => {
+    console.log('[firebase-messaging-sw.js] Mensaje de fondo recibido:', payload);
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon || './ICONOS/icon-192x192.png', // Asegúrate de que esta ruta sea correcta
+        badge: payload.badge || './ICONOS/icon-192x192.png', // Un icono más pequeño para la barra de estado
+        vibrate: [200, 100, 200], // Patrón de vibración
+        data: payload.data // Datos adicionales que puedes enviar
+    };
+
+    self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// Evento 'fetch': se dispara cada vez que la app intenta hacer una petición de red
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request) // Intenta encontrar la petición en la caché
-            .then(response => {
-                // Si la encuentra, devuelve la respuesta cacheada
-                // Si no, hace la petición a la red (fetch)
-                return response || fetch(event.request);
-            })
-    );
-});
+// Importa tu Service Worker de caché personalizado
+// Asegúrate de que la ruta sea correcta. Si lo renombraste a custom-service-worker.js y está en la misma carpeta:
+importScripts('./custom-service-worker.js');
 
-// Evento 'activate': se dispara cuando el Service Worker se activa (después de la instalación)
-// Útil para limpiar cachés antiguas
-self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log('Service Worker: Eliminando caché antigua:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
+// IMPORTANTE:
+// También asegúrate de que las rutas de los iconos en custom-service-worker.js sean correctas:
+// Cambia './icons/icon-192x192.png' a './ICONOS/icon-192x192.png' dentro de custom-service-worker.js
+// Si aún no lo has hecho.

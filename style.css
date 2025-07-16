@@ -1,15 +1,16 @@
 /* ==== VARIABLES CSS ==== */
 :root {
-    --primary-color: #5f6368;
-    --accent-color: #ffb300;
-    --secondary-color: #f1f1f1;
-    --text-color-dark: #202124;
-    --text-color-light: #5f6368;
-    --card-bg-color: #ffffff;
-    --input-border-color: #dadce0;
-    --border-color: #e0e0e0;
-    --accent-color-red: #ea4335;
+    --primary-color: #5f6368;        /* Gris oscuro principal */
+    --accent-color: #ffb300;         /* Naranja/Amarillo de acento */
+    --secondary-color: #f1f1f1;      /* Gris claro de fondo */
+    --text-color-dark: #202124;      /* Texto oscuro */
+    --text-color-light: #5f6368;     /* Texto claro/secundario */
+    --card-bg-color: #ffffff;       /* Fondo de tarjetas/elementos blancos */
+    --input-border-color: #dadce0;   /* Color de borde para inputs */
+    --border-color: #e0e0e0;         /* Color de bordes generales */
+    --accent-color-red: #ea4335;     /* Rojo para acciones de peligro */
 
+    /* Colores de notas */
     --note-default: #ffffff;
     --note-red: #f28b82;
     --note-orange: #fbbc04;
@@ -23,11 +24,12 @@
     --note-brown: #e6c9a8;
     --note-gray: #e8eaed;
 
+    /* Sombras para elementos */
     --shadow-light: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
     --shadow-hover: 0 4px 8px rgba(60,64,67,0.3), 0 6px 12px 2px rgba(60,64,67,0.15);
 }
 
-/* ==== RESET Y GENERALES ==== */
+/* ==== RESET Y ESTILOS GENERALES ==== */
 * {
     margin: 0;
     padding: 0;
@@ -38,25 +40,29 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--secondary-color);
     color: var(--text-color-dark);
-    padding: 0 0 80px 0;
-    min-height: 100vh;
+    padding-bottom: 80px; /* Espacio para el pie de página fijo */
+    min-height: 100vh; /* Asegura que el body ocupe al menos la altura de la ventana */
+    display: flex; /* Para un layout de "sticky footer" si el contenido es corto */
+    flex-direction: column;
 }
 
 .container {
+    flex-grow: 1; /* Permite que el contenido principal ocupe el espacio disponible */
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* ==== TÍTULO ==== */
+/* ==== TÍTULO DE LA APLICACIÓN ==== */
 h1 {
     text-align: center;
     font-size: 2.5em;
     color: var(--primary-color);
     margin-bottom: 30px;
+    font-weight: 700;
 }
 
-/* ==== BUSCADOR ==== */
+/* ==== SECCIÓN DEL BUSCADOR ==== */
 .search-notes {
     display: flex;
     justify-content: center;
@@ -67,13 +73,14 @@ h1 {
 #search-input {
     width: 100%;
     max-width: 500px;
-    padding: 10px 15px;
-    font-size: 1em;
+    padding: 12px 18px; /* Más padding para un mejor tacto */
+    font-size: 1.1em;
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
     color: var(--text-color-dark);
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
+    outline: none; /* Elimina el borde de enfoque por defecto del navegador */
 }
 
 #search-input::placeholder {
@@ -82,21 +89,23 @@ h1 {
 
 #search-input:focus {
     border-color: var(--primary-color);
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover); /* Sombra de enfoque y sombra de hover */
 }
 
-/* ==== ÁREA NUEVA NOTA ==== */
+/* ==== ÁREA PARA AÑADIR NUEVA NOTA ==== */
 .add-note-area {
     background-color: var(--card-bg-color);
     border: 1px solid var(--input-border-color);
-    border-radius: 8px;
-    padding: 10px 15px;
+    border-radius: 12px; /* Bordes más redondeados */
+    padding: 15px 20px; /* Más padding */
     box-shadow: var(--shadow-light);
     margin-bottom: 30px;
+    transition: all 0.3s ease; /* Transición para la expansión y focus */
 }
 
 .add-note-area:focus-within {
     box-shadow: var(--shadow-hover);
+    border-color: var(--primary-color); /* Resalta el borde al enfocar */
 }
 
 #new-task-input {
@@ -109,15 +118,16 @@ h1 {
     min-height: 30px;
     color: var(--text-color-dark);
     background: transparent;
+    line-height: 1.5; /* Mejora la legibilidad del texto */
 }
 
 .note-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
+    padding-top: 15px; /* Más padding */
     border-top: 1px solid var(--border-color);
-    margin-top: 10px;
+    margin-top: 15px; /* Más margen */
 }
 
 .add-note-area:not(.expanded) .note-options {
@@ -127,206 +137,356 @@ h1 {
 .color-palette {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 8px; /* Espaciado entre las cajas de color */
 }
 
 .color-box {
-    width: 28px;
-    height: 28px;
+    width: 32px; /* Tamaño ligeramente más grande */
+    height: 32px;
     border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent; /* Borde transparente por defecto */
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .color-box:hover {
     transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); /* Sombra sutil al pasar el ratón */
 }
 
 .color-box.active {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-color); /* Borde y sombra más pronunciados al estar activo */
 }
 
 #save-note-btn {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 8px; /* Bordes más redondeados */
     cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-size: 1em;
+    font-weight: 600; /* Texto más fuerte */
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-light); /* Sombra inicial */
 }
 
 #save-note-btn:hover {
-    background-color: #4a4d51;
+    background-color: #4a4d51; /* Color un poco más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño levantamiento */
+    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al pasar el ratón */
 }
 
-/* ==== LISTADO DE NOTAS ==== */
+/* ==== LISTADO DE NOTAS / GRID ==== */
 #task-list {
     display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px; /* Aumentar el espaciado entre notas */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Notas un poco más grandes y flexibles */
     list-style: none;
+    padding: 0; /* Elimina padding por defecto de la lista */
+    margin: 0; /* Elimina margen por defecto de la lista */
 }
 
 #task-list li {
     background-color: var(--card-bg-color);
     border: 1px solid var(--input-border-color);
-    padding: 15px;
-    border-radius: 8px;
+    padding: 20px; /* Más padding interno */
+    border-radius: 12px; /* Bordes más redondeados */
     box-shadow: var(--shadow-light);
     position: relative;
     animation: fadeIn 0.3s ease-out;
     word-wrap: break-word;
     overflow: hidden;
+    display: flex; /* Usar flexbox para organizar el contenido interno */
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease; /* Transiciones para un hover suave */
+}
+
+#task-list li:hover {
+    transform: translateY(-5px); /* Efecto de levantamiento más pronunciado */
+    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al pasar el ratón */
+    border-color: var(--primary-color); /* Resalta el borde al pasar el ratón */
 }
 
 #task-list li.completed {
     text-decoration: line-through;
     color: var(--text-color-light);
-    opacity: 0.7;
+    opacity: 0.8; /* Ligeramente menos opaco para que se vea claro */
+    background-color: var(--note-gray); /* Fondo gris claro para tareas completadas */
 }
 
-#task-list li .pin-btn,
-#task-list li .alarm-btn {
-    position: absolute;
-    top: 10px;
+/* Contenido de la nota (checkbox y texto) */
+#task-list li .note-content {
+    display: flex;
+    align-items: flex-start; /* Alinea el checkbox con la parte superior del texto */
+    gap: 12px; /* Espacio entre checkbox y texto */
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
+    margin-bottom: 15px; /* Espacio antes de las acciones */
+}
+
+#task-list li input[type="checkbox"] {
+    margin-top: 2px; /* Ajuste fino para la alineación */
+    transform: scale(1.3); /* Hace el checkbox un poco más grande */
+    cursor: pointer;
+    accent-color: var(--primary-color); /* Color del checkbox al marcarlo */
+}
+
+#task-list li p {
+    margin: 0; /* Reinicia el margen del párrafo */
+    line-height: 1.6;
+}
+
+/* Contenedor para acciones de la nota (pin, alarma, eliminar) */
+#task-list li .note-actions {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    align-items: center;
+    gap: 10px; /* Espacio entre los iconos */
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+}
+
+#task-list li .action-icon {
     background: none;
     border: none;
-    color: var(--text-color-light);
-    font-size: 1.1em;
+    color: var(--text-color-light); /* Color por defecto */
+    font-size: 1.3em; /* Tamaño de icono ligeramente más grande */
     cursor: pointer;
     opacity: 0;
-    transition: all 0.2s ease;
-    padding: 5px;
+    transition: all 0.3s ease; /* Transición suave */
+    padding: 8px; /* Área de clic más grande */
     border-radius: 50%;
 }
 
-#task-list li:hover .pin-btn,
-#task-list li:hover .alarm-btn {
-    opacity: 0.8;
-}
-
-#task-list li .pin-btn {
-    right: 10px;
-}
-
-#task-list li .alarm-btn {
-    right: 40px;
-}
-
-#task-list li.has-alarm .alarm-btn {
-    color: var(--accent-color);
-    opacity: 1;
+#task-list li:hover .action-icon {
+    opacity: 1; /* Se muestran completamente al pasar el ratón */
+    transform: scale(1.1); /* Efecto de crecimiento */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo sutil al pasar el ratón */
 }
 
 #task-list li.pinned .pin-btn {
-    color: var(--primary-color);
+    color: var(--primary-color); /* Chincheta marcada */
     opacity: 1;
+    background-color: rgba(var(--primary-color), 0.1); /* Fondo para chincheta marcada */
 }
 
-#task-list li button {
+#task-list li.has-alarm .alarm-btn {
+    color: var(--accent-color); /* Alarma establecida */
+    opacity: 1;
+    background-color: rgba(var(--accent-color), 0.1); /* Fondo para alarma establecida */
+}
+
+/* Estilo para el botón de eliminar (que es el "button" genérico en el HTML) */
+#task-list li button { /* Si este es el botón de eliminar */
     background: transparent;
     border: none;
-    color: var(--primary-color);
-    font-size: 0.85em;
+    color: var(--accent-color-red); /* Color de peligro */
+    font-size: 1.3em; /* Tamaño consistente con iconos */
     cursor: pointer;
-    margin-top: 10px;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+    padding: 8px;
+    border-radius: 50%;
 }
 
 #task-list li:hover button {
     opacity: 1;
+    transform: scale(1.1);
+    background-color: rgba(var(--accent-color-red), 0.1); /* Fondo sutil al pasar el ratón */
 }
 
-/* ==== MODAL ==== */
+
+/* ==== MODAL PARA ALARMAS ==== */
 .modal {
-    display: none;
+    display: none; /* Controlado por JS, se oculta/muestra con JS */
     position: fixed;
-    z-index: 100;
+    z-index: 100; /* Asegura que esté por encima de todo */
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.6); /* Fondo más oscuro y semitransparente */
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
 }
 
 .modal-content {
     background-color: var(--card-bg-color);
-    padding: 25px;
-    border-radius: 10px;
+    padding: 30px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 400px;
+    max-width: 450px; /* Un poco más ancho */
     box-shadow: var(--shadow-hover);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* Más espacio entre elementos */
+    position: relative;
+    animation: fadeIn 0.3s ease-out; /* Animación de entrada para el modal */
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.modal-content p#alarm-note-text {
+    font-style: italic;
+    color: var(--text-color-light);
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+    display: block; /* Para que cada label ocupe su propia línea */
 }
 
 .modal-content input {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--input-border-color);
-    border-radius: 5px;
-    font-size: 1em;
+    border-radius: 8px;
+    font-size: 1.1em;
+    width: 100%;
+    box-shadow: var(--shadow-light);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
+
+.modal-content input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2); /* Usa el color primario para la sombra de enfoque */
 }
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 15px;
+    margin-top: 20px;
 }
 
+/* ==== ESTILOS PARA BOTONES DE ACCIÓN (GENERALES) ==== */
 .action-btn {
-    padding: 10px 15px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px); /* Efecto de levantamiento */
+    box-shadow: var(--shadow-hover); /* Sombra más pronunciada */
 }
 
 .action-btn.primary {
     background-color: var(--primary-color);
     color: white;
 }
+.action-btn.primary:hover {
+    background-color: #4a4d51; /* Un poco más oscuro */
+}
+
+.action-btn.secondary {
+    background-color: var(--input-border-color);
+    color: var(--text-color-dark);
+}
+.action-btn.secondary:hover {
+    background-color: #c9c9c9; /* Un poco más oscuro */
+}
 
 .action-btn.danger {
     background-color: var(--accent-color-red);
     color: white;
 }
+.action-btn.danger:hover {
+    background-color: #c43229; /* Un poco más oscuro */
+}
 
-/* ==== FILTROS ==== */
+/* ==== SECCIÓN DE FILTROS ==== */
 .filter-tasks {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
 }
 
 .filter-btn {
     background-color: var(--secondary-color);
     color: var(--text-color-light);
     border: 1px solid var(--border-color);
-    padding: 8px 15px;
-    border-radius: 20px;
+    padding: 10px 20px;
+    border-radius: 25px; /* Estilo de "pastilla" */
     cursor: pointer;
-    font-size: 0.9em;
+    font-size: 0.95em;
     font-weight: 500;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: var(--input-border-color); /* Fondo ligeramente más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 .filter-btn.active {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+    box-shadow: var(--shadow-light);
+}
+
+.filter-btn.active:hover {
+    background-color: #4a4d51;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==== RESUMEN DE TAREAS ==== */
+.task-summary {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+    color: var(--text-color-dark);
+    display: flex;
+    flex-wrap: wrap; /* Para pantallas pequeñas */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-summary #pending-tasks-count {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.task-summary .clear-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.95em;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.task-summary .clear-btn:hover {
+    color: var(--accent-color-red);
+    transform: translateY(-1px);
 }
 
 /* ==== PIE DE PÁGINA ==== */
 .app-footer {
-    position: fixed;
+    position: fixed; /* Mantiene el pie de página fijo en la parte inferior */
     bottom: 0;
     left: 0;
     width: 100%;
@@ -337,33 +497,46 @@ h1 {
     border-top: 1px solid var(--border-color);
     text-align: center;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    z-index: 40; /* Por debajo del botón flotante */
+    margin-top: auto; /* Empuja el footer hacia abajo si el body es flex column */
 }
 
-/* ==== BOTÓN FLOTANTE ==== */
+/* ==== BOTÓN FLOTANTE (EXTENDIDO) ==== */
 .fab {
     position: fixed;
     bottom: 25px;
     right: 25px;
-    width: 56px;
+    width: auto; /* Ancho automático para el contenido */
+    min-width: 56px; /* Ancho mínimo para mantener el tamaño original si el texto es corto */
     height: 56px;
+    padding: 0 20px; /* Padding horizontal para el texto */
+    border-radius: 28px; /* Hace que el botón sea ovalado */
     background-color: var(--accent-color);
     color: white;
-    border-radius: 50%;
-    font-size: 1.8em;
+    font-size: 1.1em; /* Ajustar tamaño de fuente para el texto */
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px; /* Espacio entre el texto y el icono */
     border: none;
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    transition: 0.3s ease;
-    z-index: 50;
+    transition: all 0.3s ease; /* Transición más general para todos los cambios */
+    z-index: 50; /* Asegura que esté por encima de la mayoría de los elementos */
+    font-weight: 600; /* Hace el texto un poco más fuerte */
+    text-decoration: none; /* Asegura que no haya subrayado si fuera un enlace */
+}
+
+.fab .fas { /* Estilo específico para el icono dentro del FAB */
+    font-size: 1.5em; /* Tamaño del icono */
 }
 
 .fab:hover {
-    background-color: #e6a200;
-    transform: translateY(-2px);
+    background-color: #e6a200; /* Color al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño levantamiento */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al pasar el ratón */
 }
+
 
 /* ==== ANIMACIONES ==== */
 @keyframes fadeIn {
@@ -380,25 +553,57 @@ h1 {
     animation: fadeOut 0.3s ease-in forwards;
 }
 
-/* ==== RESPONSIVE ==== */
-@media (max-width: 600px) {
-    #task-list {
-        grid-template-columns: 1fr;
-    }
+/* ==== RESPONSIVE (MEDIA QUERIES) ==== */
 
-    .fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.6em;
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .app-footer {
+/* Para tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .container {
         padding: 15px;
     }
+    h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    .modal-content {
+        max-width: 95%;
+        padding: 25px;
+    }
+    .fab {
+        bottom: 20px;
+        right: 20px;
+        height: 50px; /* Ajustar altura para móvil */
+        font-size: 1em;
+        padding: 0 18px; /* Menos padding en móvil */
+        min-width: 50px;
+    }
+    .fab .fas {
+        font-size: 1.3em; /* Tamaño del icono menor */
+    }
+}
 
+/* Para móviles y pantallas pequeñas */
+@media (max-width: 480px) {
+    #task-list {
+        grid-template-columns: 1fr; /* Una sola columna en móviles */
+    }
+    .filter-tasks {
+        flex-direction: column; /* Apilar botones de filtro */
+        align-items: center;
+        gap: 8px;
+    }
+    .filter-btn {
+        width: 100%;
+        max-width: 200px; /* Asegura un ancho máximo para los botones apilados */
+    }
+    .task-summary {
+        font-size: 1em;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .app-footer {
+        padding: 15px 10px;
+    }
     body {
-        padding-bottom: 60px;
+        padding-bottom: 70px; /* Asegurar espacio suficiente para el FAB y footer en móviles */
     }
 }

@@ -2,13 +2,13 @@
 /* 1. Variables CSS (Colores y Sombras)   */
 /* -------------------------------------- */
 :root {
-    --primary-color: #5f6368; 
-    --accent-color: #ffb300; 
-    --secondary-color: #f1f1f1; 
-    --text-color-dark: #202124; 
-    --text-color-light: #5f6368; 
-    --card-bg-color: #ffffff; 
-    --input-border-color: #dadce0; 
+    --primary-color: #5f6368;
+    --accent-color: #ffb300;
+    --secondary-color: #f1f1f1;
+    --text-color-dark: #202124;
+    --text-color-light: #5f6368;
+    --card-bg-color: #ffffff;
+    --input-border-color: #dadce0;
     --border-color: #e0e0e0; /* <-- Añadido de nuevo, lo tenías antes y es útil */
     --accent-color-red: #ea4335; /* <-- Añadido un color para mensajes de error */
 
@@ -723,3 +723,28 @@ h1 {
     from { opacity: 1; transform: translateY(0); }
     to { opacity: 0; transform: translateY(-20px); }
 }
+
+/* -------------------------------------- */
+/* 14. Estilos del Pie de Página (Footer) */
+/* -------------------------------------- */
+.app-footer {
+    text-align: center;
+    margin-top: 40px; /* Espacio superior */
+    padding: 20px;
+    color: var(--text-color-light); /* Color de texto gris suave */
+    font-size: 0.9em;
+    background-color: transparent; /* O un color si quieres un fondo */
+}
+
+/* Opcional: Ajuste para móvil si el footer se ve mal */
+@media (max-width: 600px) {
+    .app-footer {
+        margin-top: 20px;
+        padding: 15px;
+    }
+}
+```De acuerdo, el CSS que me proporcionaste ya incluye la sección del pie de página (`.app-footer`) con los estilos que te había recomendado.
+
+No necesitas hacer ningún cambio adicional en este archivo CSS, ya está listo.
+
+Recuerda que, para que el pie de página aparezca correctamente en tu aplicación, debes asegurarte de haber guardado el `index.html` que te envié con la etiqueta `<footer class="app-footer">...</footer>` y también este `style.css` actualizado. Luego, despliega los cambios en GitHub Pages y limpia la caché de tu navegador.

@@ -1,14 +1,14 @@
 /* ==== VARIABLES CSS ==== */
 :root {
-    --primary-color: #5f6368;
-    --accent-color: #ffb300;
-    --secondary-color: #f1f1f1;
-    --text-color-dark: #202124;
-    --text-color-light: #5f6368;
-    --card-bg-color: #ffffff;
-    --input-border-color: #dadce0;
-    --border-color: #e0e0e0;
-    --accent-color-red: #ea4335;
+    --primary-color: #5f6368; 
+    --accent-color: #ffb300; 
+    --secondary-color: #f1f1f1; 
+    --text-color-dark: #202124; 
+    --text-color-light: #5f6368; 
+    --card-bg-color: #ffffff; 
+    --input-border-color: #dadce0; 
+    --border-color: #e0e0e0; /* <-- Añadido de nuevo, lo tenías antes y es útil */
+    --accent-color-red: #ea4335; /* <-- Añadido un color para mensajes de error */
 
     --note-default: #ffffff;
     --note-red: #f28b82;
@@ -275,24 +275,42 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     box-shadow: 0 0 0 3px var(--primary-color);
 }
 
-/* Botón Guardar Nota */
-#save-note-btn {
-    background-color: var(--primary-color);
-    color: white;
+/* Estilos específicos para el colorbox default, por si lo necesitamos */
+.color-box[data-color="default"] {
+    background-color: var(--card-bg-color); /* Asegura que el blanco por defecto sea blanco */
+}
+
+#add-task-btn { /* Este es ahora el botón "Cerrar" */
+    background-color: transparent;
+    color: var(--primary-color); /* Color de texto Keep */
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: var(--shadow-light);
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
 }
 
-#save-note-btn:hover {
-    background-color: #4a4d51;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+#add-task-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* Ligero fondo al pasar el mouse */
+}
+
+/* Mensaje de error/feedback para input vacío (mantenemos los estilos generales) */
+.error-message {
+    color: var(--accent-color-red);
+    font-size: 0.85em;
+    text-align: center;
+    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+    max-height: 50px;
 }
 
 /* ---------------------------------------------------- */
@@ -433,9 +451,9 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     line-height: 1.6;
 }
 
-/* ---------------------------------------------------- */
-/* Modal para Alarmas */
-/* ---------------------------------------------------- */
+/* -------------------------------------- */
+/* 13. Estilos del Modal de Alarma        */
+/* -------------------------------------- */
 .modal {
     display: none;
     position: fixed;
@@ -939,5 +957,50 @@ body {
     .add-note-area.expanded .note-options {
         flex-direction: row;
         align-items: center;
+    }
+}
+
+/* -------------------------------------- */
+/* 14. Estilos del Floating Action Button (FAB) */
+/* -------------------------------------- */
+.fab {
+    position: fixed; /* Fijo en la pantalla */
+    bottom: 25px; /* Margen desde abajo */
+    right: 25px; /* Margen desde la derecha */
+    width: 56px; /* Tamaño estándar de un FAB (56px x 56px) */
+    height: 56px;
+    border-radius: 50%; /* Forma circular */
+    background-color: var(--accent-color); /* Color de acento para el FAB */
+    color: white; /* Color del icono */
+    font-size: 1.8em; /* Tamaño del icono */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* Sombra para elevarlo */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    z-index: 50; /* Asegurarse de que esté por encima de la mayoría de los elementos */
+}
+
+.fab:hover {
+    background-color: #e6a200; /* Un tono más oscuro al pasar el mouse */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px); /* Ligeramente levantado al pasar el mouse */
+}
+
+.fab:active {
+    transform: translateY(0); /* Vuelve a su posición original al hacer clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Ajuste de responsividad para el FAB en pantallas pequeñas */
+@media (max-width: 600px) {
+    .fab {
+        width: 50px; /* Un poco más pequeño en móviles */
+        height: 50px;
+        font-size: 1.6em;
+        bottom: 20px;
+        right: 20px;
     }
 }

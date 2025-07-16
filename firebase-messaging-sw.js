@@ -5,15 +5,14 @@
 importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js');
 
-// TU CONFIGURACIÓN DE FIREBASE REAL Y ÚNICA (¡ESTA ES LA QUE COPIASTE DE TU CONSOLA!)
-// Asegúrate de que estos valores son los que obtuviste de tu proyecto "tareasnotas-96957"
+// PEGA AQUÍ DE NUEVO EL MISMO OBJETO firebaseConfig QUE COPIASTE
 const firebaseConfig = {
-    apiKey: "AIzaSyCBcKsnbwOiioFGRviPnWr78fbuBm2S7z0",
-    authDomain: "tareasnotas-96957.firebaseapp.com",
-    projectId: "tareasnotas-96957",
-    storageBucket: "tareasnotas-96957.firebasestorage.app",
-    messagingSenderId: "793614445244",
-    appId: "1:793614445244:web:32d8c6d83d4cc632b83eb9"
+    apiKey: "AIzaSyCBcKsnbwOiioFGRv1PnWr78fbuBm2S7z0", // <--- TU VALOR REAL
+    authDomain: "tareasnotas-96957.firebaseapp.com", // <--- TU VALOR REAL
+    projectId: "tareasnotas-96957", // <--- TU VALOR REAL
+    storageBucket: "tareasnotas-96957.firebasestorage.app", // <--- TU VALOR REAL
+    messagingSenderId: "793614445244", // <--- TU VALOR REAL
+    appId: "1:793614445244:web:ae840ac5205cc326b83eb9" // <--- TU VALOR REAL
 };
 
 // Inicializa Firebase en el Service Worker
@@ -40,3 +39,8 @@ messaging.onBackgroundMessage((payload) => {
 // Importa tu Service Worker de caché personalizado
 // Asegúrate de que la ruta sea correcta. Si lo renombraste a custom-service-worker.js y está en la misma carpeta:
 importScripts('./custom-service-worker.js');
+
+// IMPORTANTE:
+// También asegúrate de que las rutas de los iconos en custom-service-worker.js sean correctas:
+// Cambia './icons/icon-192x192.png' a './ICONOS/icon-192x192.png' dentro de custom-service-worker.js
+// Si aún no lo has hecho.

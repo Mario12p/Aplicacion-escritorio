@@ -99,7 +99,7 @@ h1 {
 
 .note-options {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Mantiene la paleta a la izquierda y los botones a la derecha */
     align-items: center;
     padding-top: 10px; /* Espacio entre el texto y las opciones */
     border-top: 1px solid var(--border-color); /* Separador sutil */
@@ -140,6 +140,13 @@ h1 {
 .color-box[data-color="default"] {
     background-color: var(--card-bg-color); /* Asegura que el blanco por defecto sea blanco */
 }
+
+/* Estilo para el nuevo botón "Añadir Nota" */
+#save-note-btn {
+    /* Ya hereda de .action-btn y .primary, solo ajustamos su posición */
+    margin-left: auto; /* Empuja este botón y los siguientes a la derecha */
+}
+
 
 #add-task-btn { /* Este es ahora el botón "Cerrar" */
     background-color: transparent;

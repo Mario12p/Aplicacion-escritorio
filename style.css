@@ -9,12 +9,11 @@
     --text-color-light: #5f6368;
     --card-bg-color: #ffffff;
     --input-border-color: #dadce0;
-    --border-color: #e0e0e0; /* <-- Añadido de nuevo, lo tenías antes y es útil */
-    --accent-color-red: #ea4335; /* <-- Añadido un color para mensajes de error */
-
+    --border-color: #e0e0e0;
+    --accent-color-red: #ea4335;
 
     /* Colores de las notas de Keep (usaremos esto en JS para data-color) */
-    --note-default: #ffffff; /* Para la nota blanca por defecto */
+    --note-default: #ffffff;
     --note-red: #f28b82;
     --note-orange: #fbbc04;
     --note-yellow: #fff475;
@@ -27,8 +26,8 @@
     --note-brown: #e6c9a8;
     --note-gray: #e8eaed;
 
-    --shadow-light: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149); /* Sombra estándar de Keep */
-    --shadow-hover: 0 4px 8px 0 rgba(60,64,67,0.302), 0 6px 12px 2px rgba(60,64,67,0.149); /* Sombra al pasar el mouse */
+    --shadow-light: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+    --shadow-hover: 0 4px 8px 0 rgba(60,64,67,0.302), 0 6px 12px 2px rgba(60,64,67,0.149);
 }
 
 /* -------------------------------------- */
@@ -37,25 +36,26 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: var(--secondary-color); /* Fondo global de Keep */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 0 0 70px 0; /* <<-- MODIFICADO AQUÍ: Añade un padding en la parte inferior para que el contenido no quede cubierto por el footer fijo. Ajusta 70px si tu footer es más alto/bajo. */
+    background-color: var(--secondary-color);
+    display: flex; /* <<-- REVERTIDO AQUÍ (o mantén si lo necesitas para otro diseño) */
+    justify-content: center; /* <<-- REVERTIDO AQUÍ */
+    align-items: flex-start; /* <<-- REVERTIDO AQUÍ */
     min-height: 100vh;
     color: var(--text-color-dark);
     line-height: 1.6;
 }
 
 .container {
-    background-color: transparent; /* El contenedor principal ya no es una "caja" blanca como Keep */
-    padding: 20px; /* Menos padding general */
+    background-color: transparent;
+    padding: 20px;
     border-radius: 0;
     box-shadow: none;
     width: 100%;
-    max-width: 800px; /* Más ancho para que quepan más columnas de notas */
-    margin: 20px auto; /* Margen superior e inferior, centrado horizontalmente */
+    max-width: 800px;
+    margin: 20px auto;
     box-sizing: border-box;
+    /* flex-grow: 1; */ /* <<-- REVERTIDO AQUÍ: No es necesario para un footer fijo */
 }
 
 h1 {
@@ -63,7 +63,7 @@ h1 {
     color: var(--primary-color);
     margin-bottom: 30px;
     font-weight: 700;
-    font-size: 2.5em; /* Un poco más grande para el título */
+    font-size: 2.5em;
 }
 
 /* -------------------------------------- */
@@ -82,27 +82,27 @@ h1 {
 /* Estado de foco para la caja de añadir nota */
 .add-note-area:focus-within {
     box-shadow: var(--shadow-hover);
-    border-color: rgba(0, 0, 0, 0.1); /* Borde un poco más oscuro al enfocar */
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-#new-task-input { /* Ahora es un textarea */
+#new-task-input {
     width: 100%;
     border: none;
     outline: none;
-    padding: 8px 0; /* Padding vertical, no horizontal aquí */
+    padding: 8px 0;
     font-size: 1.1em;
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 30px; /* Altura mínima */
+    resize: vertical;
+    min-height: 30px;
     color: var(--text-color-dark);
-    background-color: transparent; /* Importante para que el color de fondo de la nota se vea */
+    background-color: transparent;
 }
 
 .note-options {
     display: flex;
-    justify-content: space-between; /* Mantiene la paleta a la izquierda y los botones a la derecha */
+    justify-content: space-between;
     align-items: center;
-    padding-top: 10px; /* Espacio entre el texto y las opciones */
-    border-top: 1px solid var(--border-color); /* Separador sutil */
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
     margin-top: 10px;
 }
 
@@ -113,44 +113,42 @@ h1 {
 
 .color-palette {
     display: flex;
-    flex-wrap: wrap; /* Permitir que los colores se envuelvan si hay muchos o poco espacio */
-    gap: 5px; /* Espacio entre los círculos de color */
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .color-box {
     width: 28px;
     height: 28px;
-    border-radius: 50%; /* Círculo */
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil */
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease;
-    box-shadow: 0 0 0 2px transparent; /* Sombra para el estado activo */
+    box-shadow: 0 0 0 2px transparent;
 }
 
 .color-box:hover {
-    transform: scale(1.1); /* Aumenta un poco al pasar el mouse */
+    transform: scale(1.1);
 }
 
 .color-box.active {
-    border-color: var(--primary-color); /* Borde más visible para el color activo */
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 2px var(--primary-color);
 }
 
 /* Estilos específicos para el colorbox default, por si lo necesitamos */
 .color-box[data-color="default"] {
-    background-color: var(--card-bg-color); /* Asegura que el blanco por defecto sea blanco */
+    background-color: var(--card-bg-color);
 }
 
 /* Estilo para el nuevo botón "Añadir Nota" */
 #save-note-btn {
-    /* Ya hereda de .action-btn y .primary, solo ajustamos su posición */
-    margin-left: auto; /* Empuja este botón y los siguientes a la derecha */
+    margin-left: auto;
 }
 
-
-#add-task-btn { /* Este es ahora el botón "Cerrar" */
+#add-task-btn {
     background-color: transparent;
-    color: var(--primary-color); /* Color de texto Keep */
+    color: var(--primary-color);
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
@@ -161,7 +159,7 @@ h1 {
 }
 
 #add-task-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Ligero fondo al pasar el mouse */
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Mensaje de error/feedback para input vacío (mantenemos los estilos generales) */
@@ -169,7 +167,7 @@ h1 {
     color: var(--accent-color-red);
     font-size: 0.85em;
     text-align: center;
-    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
+    margin-top: 10px;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -188,28 +186,28 @@ h1 {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: grid; /* Usaremos CSS Grid para la cuadrícula */
-    gap: 15px; /* Espacio entre las notas */
+    display: grid;
+    gap: 15px;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    align-items: start; /* Asegura que los elementos se alineen a la parte superior de sus celdas */
+    align-items: start;
 }
 
 #task-list li {
-    background-color: var(--card-bg-color); /* Color de fondo por defecto */
-    border: 1px solid var(--input-border-color); /* Borde más sutil como Keep */
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--input-border-color);
     padding: 15px;
-    border-radius: 8px; /* Bordes redondeados de las notas */
-    box-shadow: var(--shadow-light); /* Sombra de Keep */
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
     display: flex;
-    flex-direction: column; /* Contenido vertical */
+    flex-direction: column;
     justify-content: space-between;
-    font-size: 1em; /* Un poco más pequeño que el original de la lista */
+    font-size: 1em;
     color: var(--text-color-dark);
     transition: all 0.2s ease-in-out;
-    cursor: pointer; /* Indica que se puede hacer clic para marcar */
-    word-wrap: break-word; /* Para que el texto largo se ajuste */
-    overflow: hidden; /* Evita desbordamiento si hay algo extra */
-    box-sizing: border-box; /* Importante para padding/border */
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 #task-list li:last-child {
@@ -217,42 +215,42 @@ h1 {
 }
 
 #task-list li:hover {
-    box-shadow: var(--shadow-hover); /* Sombra más marcada al pasar el mouse */
-    transform: none; /* Eliminar el levantamiento, Keep no lo hace en las notas */
+    box-shadow: var(--shadow-hover);
+    transform: none;
 }
 
 #task-list li.completed {
     text-decoration: line-through;
     color: var(--text-color-light);
-    opacity: 0.7; /* Más sutil el completado */
-    background-color: var(--card-bg-color); /* Mantener el color de la nota original, solo tachar */
-    border-color: var(--input-border-color); /* No cambiar el color del borde al completar */
-    box-shadow: var(--shadow-light); /* Mantener la sombra */
+    opacity: 0.7;
+    background-color: var(--card-bg-color);
+    border-color: var(--input-border-color);
+    box-shadow: var(--shadow-light);
 }
 
 #task-list li button {
-    background-color: transparent; /* Botón transparente */
-    color: var(--primary-color); /* Color de texto como Keep */
+    background-color: transparent;
+    color: var(--primary-color);
     border: none;
-    padding: 5px 8px; /* Más pequeño */
+    padding: 5px 8px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.8em;
     font-weight: 500;
     transition: background-color 0.2s ease, opacity 0.2s ease;
-    align-self: flex-end; /* Alinea el botón a la derecha en la nota */
-    opacity: 0; /* Ocultar el botón por defecto */
-    margin-left: 0; /* Eliminar el margen izquierdo que tenías */
-    margin-top: 10px; /* Añadir margen superior para separar del texto de la tarea */
+    align-self: flex-end;
+    opacity: 0;
+    margin-left: 0;
+    margin-top: 10px;
 }
 
 #task-list li:hover button {
-    opacity: 1; /* Mostrar el botón al pasar el mouse por la nota */
+    opacity: 1;
 }
 
 #task-list li button:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Fondo suave al pasar el mouse */
-    transform: none; /* Eliminar transformaciones */
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: none;
 }
 
 #task-list li button:active {
@@ -264,7 +262,7 @@ h1 {
 /* -------------------------------------- */
 @media (max-width: 768px) {
     .notes-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 2 columnas en tablets */
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     }
 }
 
@@ -280,31 +278,31 @@ h1 {
         margin-bottom: 25px;
     }
 
-    .add-note-area { /* Usamos la nueva clase */
+    .add-note-area {
         margin-bottom: 20px;
-        padding: 8px 12px; /* Reducir padding en móvil */
+        padding: 8px 12px;
     }
 
-    #new-task-input { /* El textarea en móvil */
+    #new-task-input {
         font-size: 1em;
         padding: 5px 0;
     }
 
     .notes-grid {
-        grid-template-columns: 1fr; /* Una sola columna en móviles */
+        grid-template-columns: 1fr;
     }
 
-    #task-list li { /* Estilos de lista de tarea en móvil */
-        flex-direction: column; /* Apila texto y botón en tareas */
+    #task-list li {
+        flex-direction: column;
         align-items: flex-start;
         padding: 15px;
     }
 
-    #task-list li button { /* Botón eliminar en móvil */
-        margin-top: 10px; /* Espacio entre texto y botón */
+    #task-list li button {
+        margin-top: 10px;
         margin-left: 0;
-        align-self: flex-end; /* Alinea el botón a la derecha */
-        opacity: 1; /* Siempre visible en móvil para mayor usabilidad */
+        align-self: flex-end;
+        opacity: 1;
     }
 
     .filter-tasks, .task-summary {
@@ -324,14 +322,14 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 20px; /* Menos margen inferior para el diseño compacto */
+    margin-bottom: 20px;
 }
 
 .filter-btn {
     background-color: var(--secondary-color);
     color: var(--text-color-light);
     border: 1px solid var(--border-color);
-    padding: 8px 15px; /* Más compacto */
+    padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 0.9em;
@@ -345,9 +343,9 @@ h1 {
 
 .filter-btn.active {
     background-color: var(--primary-color);
-    color: white; /* Mantener blanco para contraste */
+    color: white;
     border-color: var(--primary-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Ajuste para móviles */
@@ -357,7 +355,7 @@ h1 {
         justify-content: center;
     }
     .filter-btn {
-        padding: 6px 12px; /* Aún más compacto en móvil */
+        padding: 6px 12px;
         font-size: 0.8em;
     }
 }
@@ -372,7 +370,7 @@ h1 {
     margin-bottom: 20px;
     padding: 10px 0;
     color: var(--text-color-light);
-    font-size: 0.9em; /* Un poco más pequeño */
+    font-size: 0.9em;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -384,7 +382,7 @@ h1 {
 
 .clear-btn {
     background-color: transparent;
-    color: var(--primary-color); /* Usar primary-color de Keep */
+    color: var(--primary-color);
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
@@ -409,18 +407,18 @@ h1 {
 
 /* Animación para cuando se elimina una tarea */
 @keyframes fadeOut {
-    from { opacity: 1; transform: translateX(0) scale(1); } /* Restaurar a escala 1 */
-    to { opacity: 0; transform: translateX(50px) scale(0.8); } /* Sale y se encoge un poco */
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to { opacity: 0; transform: translateX(50px) scale(0.8); }
 }
 
 /* Aplica la animación al añadir */
 #task-list li {
-    animation: fadeIn 0.3s ease-out; /* Velocidad y tipo de easing */
+    animation: fadeIn 0.3s ease-out;
 }
 
 /* Clase para eliminar con animación (se añade con JS) */
 #task-list li.removing {
-    animation: fadeOut 0.3s ease-in forwards; /* forwards mantiene el estado final */
+    animation: fadeOut 0.3s ease-in forwards;
 }
 
 /* Mensaje de error/feedback para input vacío */
@@ -428,7 +426,7 @@ h1 {
     color: var(--accent-color-red);
     font-size: 0.85em;
     text-align: center;
-    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
+    margin-top: 10px;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -445,13 +443,13 @@ h1 {
 /* -------------------------------------- */
 /* Estilos para el modo de edición de notas */
 #task-list li .task-content.editing {
-    outline: none; /* Quitar el contorno por defecto del navegador */
-    border: 1px solid var(--primary-color); /* Borde para indicar que se está editando */
+    outline: none;
+    border: 1px solid var(--primary-color);
     border-radius: 4px;
-    padding: 5px; /* Un poco de padding para que el texto no se pegue al borde */
-    margin: -5px; /* Para compensar el padding y el borde, manteniendo el tamaño visual */
-    box-shadow: 0 0 0 2px rgba(95, 99, 104, 0.2); /* Sombra para resaltar */
-    background-color: var(--card-bg-color); /* Asegura que el fondo siga siendo el de la nota */
+    padding: 5px;
+    margin: -5px;
+    box-shadow: 0 0 0 2px rgba(95, 99, 104, 0.2);
+    background-color: var(--card-bg-color);
 }
 
 /* Evitar que el botón de eliminar sea visible al editar */
@@ -462,38 +460,38 @@ h1 {
 /* 10. Estilos del Campo de Búsqueda      */
 /* -------------------------------------- */
 .search-notes {
-    margin-bottom: 25px; /* Espacio debajo del campo de búsqueda */
-    padding: 0 15px; /* Pequeño padding horizontal para centrado visual */
+    margin-bottom: 25px;
+    padding: 0 15px;
     display: flex;
-    justify-content: center; /* Centrar el campo de búsqueda */
+    justify-content: center;
 }
 
 #search-input {
     width: 100%;
-    max-width: 500px; /* Limitar el ancho para que no sea demasiado grande */
+    max-width: 500px;
     padding: 10px 15px;
     border: 1px solid var(--input-border-color);
-    border-radius: 8px; /* Bordes suaves */
+    border-radius: 8px;
     font-size: 1em;
     color: var(--text-color-dark);
     outline: none;
-    box-shadow: var(--shadow-light); /* Sombra sutil como otros elementos de Keep */
+    box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
 }
 
 #search-input::placeholder {
-    color: var(--text-color-light); /* Color del placeholder */
+    color: var(--text-color-light);
 }
 
 #search-input:focus {
     border-color: var(--primary-color);
-    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al enfocar */
+    box-shadow: var(--shadow-hover);
 }
 
 /* Ajuste de responsividad para el campo de búsqueda */
 @media (max-width: 600px) {
     .search-notes {
-        padding: 0; /* Quitar padding horizontal en móviles pequeños */
+        padding: 0;
         margin-bottom: 20px;
     }
     #search-input {
@@ -506,46 +504,46 @@ h1 {
 /* 11. Estilos del Botón de Pin           */
 /* -------------------------------------- */
 #task-list li .pin-btn {
-    position: absolute; /* Posición absoluta dentro del li */
-    top: 10px; /* Alineado a la parte superior */
-    right: 10px; /* Alineado a la derecha */
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
-    color: var(--text-color-light); /* Color del icono de pin */
+    color: var(--text-color-light);
     font-size: 1.1em;
     cursor: pointer;
-    opacity: 0; /* Oculto por defecto */
+    opacity: 0;
     transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    padding: 5px; /* Aumentar el área de clic */
-    border-radius: 50%; /* Hacerlo circular */
-    z-index: 10; /* Asegurarse de que esté por encima del contenido */
+    padding: 5px;
+    border-radius: 50%;
+    z-index: 10;
 }
 
 #task-list li:hover .pin-btn {
-    opacity: 0.8; /* Visible al pasar el mouse por la nota */
+    opacity: 0.8;
 }
 
 #task-list li .pin-btn:hover {
-    color: var(--primary-color); /* Cambia de color al pasar el mouse */
-    background-color: rgba(0, 0, 0, 0.05); /* Pequeño fondo para feedback */
-    transform: scale(1.1); /* Ligeramente más grande al pasar el mouse */
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
 }
 
 /* Estilo para el pin cuando la nota está fijada */
 #task-list li.pinned .pin-btn {
-    opacity: 1; /* Siempre visible si está fijado */
-    color: var(--primary-color); /* Color más oscuro para indicar fijado */
+    opacity: 1;
+    color: var(--primary-color);
 }
 
 /* Ajustar posición de los botones en móvil */
 @media (max-width: 600px) {
     #task-list li .pin-btn {
-        opacity: 1; /* Siempre visible en móvil */
-        position: relative; /* Volver a posición relativa para fluir */
+        opacity: 1;
+        position: relative;
         top: auto;
         right: auto;
-        margin-left: auto; /* Alinear a la derecha */
-        margin-bottom: 5px; /* Espacio antes de otros botones */
+        margin-left: auto;
+        margin-bottom: 5px;
     }
 }
 
@@ -555,14 +553,14 @@ h1 {
 /* -------------------------------------- */
 #task-list li .alarm-btn {
     position: absolute;
-    top: 10px; /* Misma altura que el pin */
-    right: 40px; /* A la izquierda del pin (40px aprox para dejar espacio) */
+    top: 10px;
+    right: 40px;
     background: none;
     border: none;
     color: var(--text-color-light);
     font-size: 1.1em;
     cursor: pointer;
-    opacity: 0; /* Oculto por defecto */
+    opacity: 0;
     transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
     padding: 5px;
     border-radius: 50%;
@@ -570,7 +568,7 @@ h1 {
 }
 
 #task-list li:hover .alarm-btn {
-    opacity: 0.8; /* Visible al pasar el mouse por la nota */
+    opacity: 0.8;
 }
 
 #task-list li .alarm-btn:hover {
@@ -581,19 +579,19 @@ h1 {
 
 /* Estilo para el icono de alarma cuando está activa (alarma programada) */
 #task-list li.has-alarm .alarm-btn {
-    opacity: 1; /* Siempre visible */
-    color: var(--accent-color); /* Color de acento para indicar alarma activa */
+    opacity: 1;
+    color: var(--accent-color);
 }
 
 /* Para ajustar en móviles, donde los botones están siempre visibles */
 @media (max-width: 600px) {
     #task-list li .alarm-btn {
-        opacity: 1; /* Siempre visible en móvil */
-        position: relative; /* Cambiar a relative para fluir mejor */
+        opacity: 1;
+        position: relative;
         top: auto;
         right: auto;
-        margin-left: auto; /* Alinear a la derecha junto al eliminar */
-        margin-top: 5px; /* Espacio entre el pin y la alarma */
+        margin-left: auto;
+        margin-top: 5px;
     }
 }
 
@@ -601,17 +599,17 @@ h1 {
 /* 13. Estilos del Modal de Alarma        */
 /* -------------------------------------- */
 .modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Posición fija para cubrir toda la pantalla */
-    z-index: 100; /* Por encima de todo lo demás */
+    display: none;
+    position: fixed;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Habilitar scroll si el contenido es demasiado grande */
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
-    justify-content: center; /* Centrar contenido horizontalmente */
-    align-items: center; /* Centrar contenido verticalmente */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -622,10 +620,10 @@ h1 {
     box-shadow: var(--shadow-hover);
     width: 90%;
     max-width: 400px;
-    animation: fadeInModal 0.3s ease-out; /* Animación de entrada */
+    animation: fadeInModal 0.3s ease-out;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio entre elementos */
+    gap: 15px;
     box-sizing: border-box;
 }
 
@@ -662,13 +660,13 @@ h1 {
     border-radius: 5px;
     font-size: 1em;
     color: var(--text-color-dark);
-    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+    box-sizing: border-box;
 }
 
 .modal-actions {
     display: flex;
-    justify-content: flex-end; /* Alinear botones a la derecha */
-    gap: 10px; /* Espacio entre botones */
+    justify-content: flex-end;
+    gap: 10px;
     margin-top: 10px;
 }
 
@@ -688,7 +686,7 @@ h1 {
 }
 
 .action-btn.primary:hover {
-    background-color: #4a4d51; /* Un poco más oscuro */
+    background-color: #4a4d51;
     transform: translateY(-1px);
 }
 
@@ -704,7 +702,7 @@ h1 {
 }
 
 .action-btn.danger {
-    background-color: #f44336; /* Rojo para eliminar */
+    background-color: #f44336;
     color: white;
 }
 
@@ -729,22 +727,31 @@ h1 {
 /* -------------------------------------- */
 .app-footer {
     text-align: center;
-    margin-top: 40px; /* Espacio superior */
     padding: 20px;
-    color: var(--text-color-light); /* Color de texto gris suave */
+    color: var(--text-color-light);
     font-size: 0.9em;
-    background-color: transparent; /* O un color si quieres un fondo */
+    background-color: var(--card-bg-color); /* <<-- MODIFICADO AQUÍ: Fondo para que no sea transparente y cubra el contenido */
+    border-top: 1px solid var(--border-color); /* <<-- MODIFICADO AQUÍ: Borde superior sutil */
+
+    /* Posicionamiento fijo */
+    position: fixed; /* <<-- CLAVE: Fija el footer al viewport */
+    bottom: 0;       /* <<-- Fija a la parte inferior del viewport */
+    left: 0;         /* <<-- Fija a la izquierda del viewport */
+    width: 100%;     /* <<-- Ocupa todo el ancho de la ventana */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05); /* <<-- MODIFICADO AQUÍ: Sombra sutil hacia arriba */
+    z-index: 99;     /* <<-- Asegura que el footer esté por encima de la mayoría del contenido */
+    box-sizing: border-box; /* Asegura que el padding no añada ancho extra */
+    margin-top: 0; /* <<-- REVERTIDO AQUÍ (si había un margen previo) */
 }
 
-/* Opcional: Ajuste para móvil si el footer se ve mal */
+/* Ajuste para móviles si el footer se ve mal (mantener) */
 @media (max-width: 600px) {
     .app-footer {
-        margin-top: 20px;
+        /* margin-top: 20px; */ /* Si tenías un margen aquí, lo quitamos para que 'fixed' no se vea afectado */
         padding: 15px;
     }
+    /* Ajusta también el padding-bottom del body en móviles si es necesario */
+    body {
+        padding-bottom: 60px; /* Un poco menos de padding en móvil si el footer es más pequeño */
+    }
 }
-```De acuerdo, el CSS que me proporcionaste ya incluye la sección del pie de página (`.app-footer`) con los estilos que te había recomendado.
-
-No necesitas hacer ningún cambio adicional en este archivo CSS, ya está listo.
-
-Recuerda que, para que el pie de página aparezca correctamente en tu aplicación, debes asegurarte de haber guardado el `index.html` que te envié con la etiqueta `<footer class="app-footer">...</footer>` y también este `style.css` actualizado. Luego, despliega los cambios en GitHub Pages y limpia la caché de tu navegador.

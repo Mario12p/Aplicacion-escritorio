@@ -1,16 +1,15 @@
 // script.js
 
 // firebaseConfig y la inicialización de Firebase y messaging al principio
-// Asegúrate de que tu firebaseConfig está aquí o se carga antes de este script.
-// Ejemplo:
+// ¡IMPORTANTE! Descomenta este bloque y reemplaza los valores con los de tu proyecto Firebase.
 /*
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "TU_API_KEY", // Reemplaza con tu clave API
+  authDomain: "TU_AUTH_DOMAIN", // Reemplaza con tu dominio de autenticación
+  projectId: "TU_PROJECT_ID", // Reemplaza con el ID de tu proyecto
+  storageBucket: "TU_STORAGE_BUCKET", // Reemplaza con tu bucket de almacenamiento
+  messagingSenderId: "TU_MESSAGING_SENDER_ID", // Reemplaza con tu ID de remitente de mensajería
+  appId: "TU_APP_ID" // Reemplaza con tu ID de aplicación
 };
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
@@ -168,8 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Cargar fecha y hora si ya existe una alarma para esta nota
             if (listItem.dataset.alarmTime) {
                 const existingAlarm = new Date(listItem.dataset.alarmTime);
-                alarmDateInput.value = existingAlarm.toISOString().split('T')[0];
-                alarmTimeInput.value = existingAlarm.toTimeString().split(' ')[0].substring(0, 5);
+                // Ajustar a la zona horaria local para mostrar correctamente
+                const localDate = new Date(existingAlarm.getTime() - (existingAlarm.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+                const localTime = new Date(existingAlarm.getTime() - (existingAlarm.getTimezoneOffset() * 60000)).toTimeString().split(' ')[0].substring(0, 5);
+
+                alarmDateInput.value = localDate;
+                alarmTimeInput.value = localTime;
                 removeAlarmBtn.style.display = 'inline-block'; // Mostrar botón de eliminar si hay alarma
             } else {
                 alarmDateInput.value = '';
@@ -389,7 +392,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const alarmDateTime = new Date(`${alarmDate}T${alarmTime}`);
+        // Se crea un objeto Date con la fecha y hora seleccionadas
+        // Es importante considerar la zona horaria para evitar desfases.
+        // Aquí se asume que los inputs de fecha/hora son en la hora local del usuario.
+        const alarmDateTime = new Date(`${alarmDate}T${alarmTime}:00`); // Añadir segundos para formato válido si no está
+        
+        // Ajustar a la zona horaria local al crear el objeto Date si es necesario
+        // const [year, month, day] = alarmDate.split('-');
+        // const [hours, minutes] = alarmTime.split(':');
+        // const alarmDateTime = new Date(year, month - 1, day, hours, minutes, 0);
+
 
         if (isNaN(alarmDateTime.getTime())) { // Validar fecha y hora
             errorMessageDiv.textContent = 'Fecha u hora no válida.';
@@ -397,19 +409,56 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const now = new Date();
         // Asegurarse de que no sea una fecha pasada si no es una tarea completada
-        if (alarmDateTime < new Date() && !currentNoteForAlarm.classList.contains('completed')) {
+        // Permitimos alarmas en el pasado si la tarea ya está completada (quizás para registro)
+        if (alarmDateTime < now && !currentNoteForAlarm.classList.contains('completed')) {
             errorMessageDiv.textContent = 'No puedes establecer una alarma en el pasado.';
             errorMessageDiv.classList.add('show');
             return;
         }
 
         if (currentNoteForAlarm) {
-            currentNoteForAlarm.dataset.alarmTime = alarmDateTime.toISOString(); // Guardar como ISO string
+            currentNoteForAlarm.dataset.alarmTime = alarmDateTime.toISOString(); // Guardar como ISO string para consistencia
             currentNoteForAlarm.classList.add('has-alarm'); // Añadir clase visual
             saveTasksToLocalStorage(); // Guardar cambios en LocalStorage
             applyFilter(currentFilter); // Reaplicar filtros para actualizar la vista
             closeAlarmModal(); // Cerrar el modal
+
+            // *** Lógica para programar la notificación local (usando setTimeout) ***
+            const timeUntilAlarm = alarmDateTime.getTime() - now.getTime();
+
+            if (timeUntilAlarm > 0) { // Solo si la alarma es en el futuro
+                console.log(`Programando alarma en ${timeUntilAlarm / 1000} segundos.`);
+                setTimeout(() => {
+                    // Verificar si el permiso sigue concedido antes de mostrar la notificación
+                    if (Notification.permission === 'granted') {
+                        new Notification(`Alarma: ${currentNoteForAlarm.querySelector('.task-content').textContent}`, {
+                            body: '¡Es hora de tu nota!',
+                            icon: './ICONOS/icon-192x192.png', // Asegúrate de que esta ruta sea correcta
+                            vibrate: [200, 100, 200] // Pequeña vibración (opcional)
+                        });
+                        // Opcional: Podrías hacer que la nota se marque como "completada" o cambie de estilo al dispararse la alarma
+                        // if (currentNoteForAlarm && !currentNoteForAlarm.classList.contains('completed')) {
+                        //     currentNoteForAlarm.classList.add('completed');
+                        //     saveTasksToLocalStorage();
+                        //     applyFilter(currentFilter);
+                        // }
+                    } else {
+                        console.warn('Permiso de notificación no concedido, no se pudo mostrar la alarma.');
+                    }
+                }, timeUntilAlarm);
+            } else {
+                console.log('Alarma establecida para el pasado o ahora mismo. Notificación inmediata si es pertinente.');
+                // Si la alarma es para el pasado o justo ahora, se podría mostrar una notificación inmediata
+                if (Notification.permission === 'granted') {
+                     new Notification(`Alarma: ${currentNoteForAlarm.querySelector('.task-content').textContent}`, {
+                        body: '¡Tu alarma ya está aquí!',
+                        icon: './ICONOS/icon-192x192.png',
+                        vibrate: [200, 100, 200]
+                    });
+                }
+            }
         }
     });
 
@@ -420,6 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
             saveTasksToLocalStorage(); // Guardar cambios
             applyFilter(currentFilter); // Reaplicar filtros
             closeAlarmModal(); // Cerrar el modal
+
+            // Opcional: Lógica para cancelar una notificación pendiente si se usara una API que lo permita
+            // (setTimeout no tiene una API para cancelar notificaciones ya "disparadas" al sistema)
         }
     });
 
@@ -448,8 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Permiso de notificación concedido.');
                 // Obtener el token de registro para este navegador
                 // ¡IMPORTANTE! Reemplaza 'TU_VAPID_KEY_AQUI' con la clave VAPID pública de tu proyecto Firebase
-                // Asegúrate de que 'messaging' está inicializado y accesible aquí.
-                if (typeof messaging !== 'undefined') {
+                // Asegúrate de que 'messaging' está inicializado y accesible aquí (descomentando el bloque Firebase de arriba).
+                if (typeof messaging !== 'undefined') { // Solo intenta esto si Firebase Messaging está inicializado
+                    // ¡Ojo! Este 'TU_VAPID_KEY_AQUI' debe ser la clave pública de tu proyecto Firebase para Web Push.
+                    // La encuentras en tu consola de Firebase > Configuración del Proyecto > Cloud Messaging > Claves web push
                     messaging.getToken({ vapidKey: 'TU_VAPID_KEY_AQUI' }).then((currentToken) => {
                         if (currentToken) {
                             console.log('Token de registro FCM:', currentToken);
@@ -465,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Error al recuperar el token de registro:', err);
                     });
                 } else {
-                    console.warn('Firebase Messaging no está inicializado. No se puede obtener el token.');
+                    console.warn('Firebase Messaging no está inicializado. No se puede obtener el token FCM.');
                 }
             } else {
                 console.warn('Permiso de notificación denegado.');
@@ -474,8 +528,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Nueva función para manejar mensajes en primer plano (cuando la app está abierta y activa)
-    // Asegúrate de que 'messaging' está inicializado y accesible aquí.
-    if (typeof messaging !== 'undefined') {
+    // Asegúrate de que 'messaging' está inicializado y accesible aquí (descomentando el bloque Firebase de arriba).
+    if (typeof messaging !== 'undefined') { // Solo intenta esto si Firebase Messaging está inicializado
         messaging.onMessage((payload) => {
             console.log('[script.js] Mensaje en primer plano recibido:', payload);
             // Aquí puedes mostrar una notificación diferente o actualizar la UI directamente
@@ -495,4 +549,3 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePendingTasksCount(); // Usar la función correcta que ya tienes
     applyFilter(currentFilter);
 });
-

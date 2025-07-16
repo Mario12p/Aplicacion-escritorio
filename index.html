@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tareas</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalDLrAzZjxsoTR/eE7uH+Xm7V4w5x3u7o8v+o+A1FjM0iP5zQ5x300x0Q+A2Y3x9e5x9f4+Q2z9uR7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div class="container">
         <h1>Lista de Tareas</h1>
 
         <div class="search-notes">
-            <input type="text" id="search-input" placeholder="Buscar notas...">
+            <input type="text" id="search-input" placeholder="Buscar notas..." />
         </div>
 
         <div class="add-note-area">
@@ -39,7 +41,6 @@
                     <div class="color-box" data-color="gray" style="background-color: var(--note-gray);"></div>
                 </div>
                 <button id="save-note-btn" class="action-btn primary">Añadir Nota</button>
-                <button id="add-task-btn">Cerrar</button>
             </div>
         </div>
 
@@ -54,27 +55,37 @@
             <button id="clear-completed-btn" class="clear-btn">Limpiar completadas</button>
         </div>
 
-        <ul id="task-list" class="notes-grid">
-            </ul>
+        <ul id="task-list" class="notes-grid"></ul>
     </div>
 
+    <!-- Modal para alarmas -->
     <div id="alarm-modal" class="modal">
         <div class="modal-content">
             <h2>Configurar Alarma</h2>
-            <p id="alarm-note-text"></p> <label for="alarm-date">Fecha:</label>
-            <input type="date" id="alarm-date">
+            <p id="alarm-note-text"></p>
+            <label for="alarm-date">Fecha:</label>
+            <input type="date" id="alarm-date" />
             <label for="alarm-time">Hora:</label>
-            <input type="time" id="alarm-time">
+            <input type="time" id="alarm-time" />
             <div class="modal-actions">
                 <button id="set-alarm-btn" class="action-btn primary">Establecer</button>
                 <button id="cancel-alarm-btn" class="action-btn secondary">Cancelar</button>
-                <button id="remove-alarm-btn" class="action-btn danger">Eliminar Alarma</button> </div>
+                <button id="remove-alarm-btn" class="action-btn danger">Eliminar Alarma</button>
+            </div>
         </div>
     </div>
 
+    <!-- Botón flotante para añadir nota (opcional) -->
+    <button id="fab-add-note" class="fab" aria-label="Añadir nueva nota">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Footer -->
     <footer class="app-footer">
         <p>Diseñado con ❤️ por Mario-Cataño</p>
-        </footer>
+    </footer>
+
+    <!-- Firebase y JS -->
     <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js"></script>
     <script type="module" src="script.js"></script>

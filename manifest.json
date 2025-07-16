@@ -1,6 +1,6 @@
 {
     "name": "Mis Tareas",
-    "short_name": "KeepNotas",
+    "short_name": "Tareas",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#f1f1f1",   

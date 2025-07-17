@@ -6,14 +6,14 @@ importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js');
 
 // TU CONFIGURACIÓN DE FIREBASE REAL Y ÚNICA (¡ESTA ES LA QUE COPIASTE DE TU CONSOLA!)
-// Asegúrate de que estos valores son los que obtuviste de tu proyecto "tareas-app-f995c"
+// Asegúrate de que estos valores son los que obtuviste de tu proyecto "tareasnotas-96957"
 const firebaseConfig = {
-    apiKey: "AIzaSyDLj621p-l_P4_g4n4P6_m4C5P2S7z0", // <--- ¡TU VALOR REAL!
-    authDomain: "tareas-app-f995c.firebaseapp.com", // <--- ¡TU VALOR REAL!
-    projectId: "tareas-app-f995c", // <--- ¡TU VALOR REAL!
-    storageBucket: "tareas-app-f995c.appspot.com", // <--- ¡TU VALOR REAL!
-    messagingSenderId: "793614445244", // <--- ¡TU VALOR REAL!
-    appId: "1:793614445244:web:da181d8d-ed73-4526-b829-b5c706ddde97" // <--- ¡TU VALOR REAL!
+    apiKey: "AIzaSyCBcKsnbwOiioFGRviPnWr78fbuBm2S7z0",
+    authDomain: "tareasnotas-96957.firebaseapp.com",
+    projectId: "tareasnotas-96957",
+    storageBucket: "tareasnotas-96957.firebasestorage.app",
+    messagingSenderId: "793614445244",
+    appId: "1:793614445244:web:32d8c6d83d4cc632b83eb9"
 };
 
 // Inicializa Firebase en el Service Worker

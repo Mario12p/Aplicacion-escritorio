@@ -22,6 +22,7 @@ const messaging = firebase.messaging();
 const fabAddNoteBtn = document.getElementById('fab-add-note'); // Botón FAB
 const addNoteArea = document.querySelector('.add-note-area'); // Área de añadir nota
 const newTaskInput = document.getElementById('new-task-input'); // Campo de texto de la nota
+const tagInput = document.getElementById('tag-input'); // NUEVO: Campo de etiquetas
 const saveNoteBtn = document.getElementById('save-note-btn'); // Botón de guardar nota
 const colorPalette = document.getElementById('color-palette'); // Paleta de colores
 const taskList = document.getElementById('task-list'); // Lista donde se muestran las notas
@@ -83,6 +84,9 @@ function createTaskElement(note) {
             </div>
         </div>
         <p class="note-content">${note.content}</p>
+        <div class="note-tags">
+            ${note.tags && note.tags.length > 0 ? note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('') : ''}
+        </div>
         <div class="note-footer">
             <input type="checkbox" class="complete-checkbox" ${note.completed ? 'checked' : ''} aria-label="Marcar como completada">
             <span>${new Date(note.id).toLocaleDateString()}</span>
@@ -94,8 +98,7 @@ function createTaskElement(note) {
     li.querySelector('.delete-btn').addEventListener('click', () => deleteNote(note.id));
     li.querySelector('.pin-btn').addEventListener('click', () => togglePin(note.id));
     li.querySelector('.alarm-btn').addEventListener('click', () => showAlarmModal(note.id, note.content));
-    // Aquí puedes añadir el evento para el botón de edición si lo implementas:
-    // li.querySelector('.edit-btn').addEventListener('click', () => editNote(note.id));
+    li.querySelector('.edit-btn').addEventListener('click', () => editNote(note.id));
 
     // Lógica de inserción para mantener el orden (ancladas, no completadas, completadas)
     let added = false;
@@ -169,6 +172,56 @@ function togglePin(id) {
         renderTasks(); // Volver a renderizar para reordenar
     }
 }
+
+// --- Función para Editar una Nota ---
+function editNote(id) {
+    const noteIndex = notes.findIndex(note => note.id === id);
+    if (noteIndex === -1) return; // Si la nota no se encuentra, salimos
+
+    const noteElement = document.querySelector(`li[data-id="${id}"]`);
+    if (!noteElement) return; // Si el elemento HTML no se encuentra, salimos
+
+    const noteContentP = noteElement.querySelector('.note-content');
+
+    // Crea un textarea para la edición
+    const textarea = document.createElement('textarea');
+    textarea.classList.add('edit-note-textarea');
+    textarea.value = noteContentP.textContent; // Carga el contenido actual de la nota
+    textarea.rows = 3; // Establece un número de filas por defecto, puedes ajustarlo con CSS
+
+    // Reemplaza el párrafo con el textarea
+    noteContentP.replaceWith(textarea);
+    textarea.focus(); // Enfoca el textarea para que el usuario pueda empezar a escribir de inmediato
+
+    // Función para guardar los cambios
+    const saveChanges = () => {
+        const newContent = textarea.value.trim();
+        if (newContent) {
+            notes[noteIndex].content = newContent; // Actualiza el contenido en el array
+            saveNotesToLocalStorage(); // Guarda los cambios en localStorage
+            renderTasks(); // Vuelve a renderizar todas las notas para mostrar el cambio y el estado original (P)
+        } else {
+            // Si el usuario borra todo el contenido, le pedimos que escriba algo o eliminamos la nota
+            if (confirm('La nota está vacía. ¿Quieres eliminarla?')) {
+                deleteNote(id); // Usa tu función existente para eliminar la nota
+            } else {
+                // Si no quiere eliminarla, restauramos el contenido original
+                textarea.value = notes[noteIndex].content;
+                renderTasks();
+            }
+        }
+    };
+
+    // Escucha cuando el textarea pierde el foco (blur) o cuando se presiona Enter
+    textarea.addEventListener('blur', saveChanges); // Guarda cuando el textarea pierde el foco
+    textarea.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) { // Guarda si se presiona Enter, pero no Shift+Enter
+            e.preventDefault(); // Evita un salto de línea adicional en el textarea
+            saveChanges();
+        }
+    });
+}
+
 
 // Renderiza todas las notas en el DOM, aplicando el filtro y orden
 function renderTasks() {
@@ -325,6 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Manejar clic en el botón 'Guardar Nota'
     saveNoteBtn.addEventListener('click', () => {
         const noteContent = newTaskInput.value.trim();
+        // NUEVO: Obtener y procesar etiquetas
+        const tags = tagInput.value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+
         if (noteContent) {
             const newNote = {
                 id: Date.now(), // Un ID simple basado en el tiempo
@@ -332,7 +388,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: selectedNoteColor,
                 completed: false,
                 pinned: false,
-                alarm: null // Para la futura funcionalidad de alarma
+                alarm: null, // Para la futura funcionalidad de alarma
+                tags: tags // NUEVO: Guardar las etiquetas
             };
             console.log("Nueva nota creada:", newNote);
 
@@ -340,6 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
             saveNotesToLocalStorage(); // Guardar en localStorage
 
             newTaskInput.value = '';
+            tagInput.value = ''; // NUEVO: Limpiar el campo de etiquetas
             updateColorPaletteSelection('default');
             addNoteArea.classList.remove('expanded'); // Ocultar el área después de añadir
             renderTasks(); // Renderizar de nuevo para mostrar la nueva nota y actualizar el conteo/filtro
@@ -357,10 +415,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 4. Manejar el click en el textarea para expandir el área de añadir nota
+    // 4. Manejar el click en el textarea o tag input para expandir el área de añadir nota
     newTaskInput.addEventListener('focus', () => {
         addNoteArea.classList.add('expanded');
     });
+    tagInput.addEventListener('focus', () => { // NUEVO: Expandir también al enfocar el campo de etiquetas
+        addNoteArea.classList.add('expanded');
+    });
+
 
     // 5. Inicializar la app (llamadas a tus funciones que necesitan implementación)
     loadTasksFromLocalStorage(); // Cargar y renderizar notas al inicio
@@ -387,7 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = event.target.value.toLowerCase();
         taskList.querySelectorAll('.note-item').forEach(noteElement => {
             const noteContent = noteElement.querySelector('.note-content').textContent.toLowerCase();
-            if (noteContent.includes(searchTerm)) {
+            // NUEVO: Buscar también en las etiquetas
+            const noteTags = Array.from(noteElement.querySelectorAll('.note-tag')).map(tagSpan => tagSpan.textContent.toLowerCase()).join(' ');
+
+            if (noteContent.includes(searchTerm) || noteTags.includes(searchTerm)) {
                 noteElement.style.display = 'block';
             } else {
                 noteElement.style.display = 'none';

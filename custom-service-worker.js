@@ -1,4 +1,4 @@
-const CACHE_NAME = 'keep-notes-app-cache-v7'; // *** ¡CAMBIA ESTO! Debe ser un nuevo nombre cada vez que modifiques el SW ***
+const CACHE_NAME = 'Tareas'; // *** ¡CAMBIA ESTO! Debe ser un nuevo nombre cada vez que modifiques el SW ***
 const urlsToCache = [ // Lista de archivos que quieres cachear
     './', // Esto cachea el index.html principal
     './index.html',

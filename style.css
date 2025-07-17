@@ -159,6 +159,33 @@ h1 {
     box-shadow: 0 0 0 3px var(--primary-color); /* Borde y sombra más pronunciados al estar activo */
 }
 
+/* ==== ESTILOS PARA EL CAMPO DE ETIQUETAS ==== */
+.tag-input-container {
+    flex-grow: 1; /* Permite que ocupe el espacio disponible */
+    margin-right: 15px; /* Espacio antes del botón de Añadir Nota */
+}
+
+#tag-input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1em;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    color: var(--text-color-dark);
+    box-shadow: var(--shadow-light);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
+
+#tag-input::placeholder {
+    color: var(--text-color-light);
+}
+
+#tag-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover);
+}
+
 #save-note-btn {
     background-color: var(--primary-color);
     color: white;
@@ -579,6 +606,17 @@ h1 {
     .fab .fas {
         font-size: 1.3em; /* Tamaño del icono menor */
     }
+    /* Ajuste para la sección de opciones en el modo expandido */
+    .add-note-area.expanded .note-options {
+        flex-direction: column; /* Apilar elementos en pantallas pequeñas */
+        align-items: flex-start; /* Alinearlos a la izquierda */
+        gap: 15px; /* Espacio entre los elementos apilados */
+    }
+
+    .add-note-area.expanded .note-options .color-palette {
+        width: 100%; /* Asegurar que la paleta ocupe todo el ancho */
+        justify-content: flex-start; /* Alinear los colores a la izquierda */
+    }
 }
 
 /* Para móviles y pantallas pequeñas */
@@ -604,6 +642,47 @@ h1 {
         padding: 15px 10px;
     }
     body {
-        padding-bottom: 70px; /* Asegurar espacio suficiente para el FAB y footer en móviles */
+        padding-bottom: 90px; /* **CORREGIDO:** Asegurar espacio suficiente para el FAB y footer en móviles */
     }
+    .add-note-area.expanded .note-options { /* Duplicado intencionalmente para sobreescribir si es necesario, aunque ya está en 768px */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .add-note-area.expanded .note-options .color-palette {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+/* Ajuste para la sección de opciones en el modo expandido para pantallas grandes */
+@media (min-width: 600px) { /* Volver a la disposición horizontal en pantallas más grandes */
+    .add-note-area.expanded .note-options {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+
+/* ==== ESTILOS PARA LA EDICIÓN DE NOTAS ==== */
+.edit-note-textarea {
+    width: 100%;
+    border: 1px solid var(--input-border-color); /* Borde suave */
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.1em;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color-dark);
+    background-color: var(--card-bg-color);
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px; /* Altura mínima para la edición */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Sombra interna para dar profundidad */
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    margin-bottom: 15px; /* Espacio antes del footer de la nota */
+}
+
+.edit-note-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), inset 0 1px 3px rgba(0,0,0,0.15);
 }

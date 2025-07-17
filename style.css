@@ -29,6 +29,37 @@
     --shadow-hover: 0 4px 8px rgba(60,64,67,0.3), 0 6px 12px 2px rgba(60,64,67,0.15);
 }
 
+/* --- NUEVO: Variables para el Modo Oscuro --- */
+body.dark-mode {
+    --primary-color: #8ab4f8;       /* Azul claro para encabezados/botones en dark mode */
+    --accent-color: #fdd663;        /* Amarillo cálido para acentos en dark mode */
+    --secondary-color: #202124;     /* Fondo principal oscuro */
+    --text-color-dark: #e8eaed;     /* Texto claro para el modo oscuro */
+    --text-color-light: #9aa0a6;    /* Texto secundario/gris en dark mode */
+    --card-bg-color: #303134;       /* Fondo de tarjetas/elementos más oscuro */
+    --input-border-color: #5f6368;  /* Borde de inputs más oscuro */
+    --border-color: #5f6368;        /* Color de bordes generales más oscuro */
+    --accent-color-red: #ea4335;    /* Rojo se mantiene similar para peligro */
+
+    /* Colores de notas para modo oscuro (un poco más saturados o diferentes para contraste) */
+    --note-default: #444548; /* Un gris oscuro para la nota default */
+    --note-red: #e06c75;
+    --note-orange: #f1c40f;
+    --note-yellow: #f8e79c;
+    --note-green: #73c08b;
+    --note-teal: #5ad0c0;
+    --note-blue: #8fd5f3;
+    --note-darkblue: #80a0f0;
+    --note-purple: #bb86fc;
+    --note-pink: #f7a9cf;
+    --note-brown: #a08467;
+    --note-gray: #4d4f52; /* Gris más oscuro para notas completadas en dark mode */
+
+    /* Sombras en modo oscuro (más sutiles o con menos opacidad) */
+    --shadow-light: 0 1px 2px rgba(0,0,0,0.6), 0 1px 3px 1px rgba(0,0,0,0.3);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.6), 0 6px 12px 2px rgba(0,0,0,0.3);
+}
+
 /* ==== RESET Y ESTILOS GENERALES ==== */
 * {
     margin: 0;
@@ -44,6 +75,7 @@ body {
     min-height: 100vh; /* Asegura que el body ocupe al menos la altura de la ventana */
     display: flex; /* Para un layout de "sticky footer" si el contenido es corto */
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave al cambiar de modo */
 }
 
 .container {
@@ -53,14 +85,56 @@ body {
     padding: 20px;
 }
 
-/* ==== TÍTULO DE LA APLICACIÓN ==== */
-h1 {
-    text-align: center;
+/* --- NUEVO: Estilos para el encabezado con el botón de modo oscuro --- */
+.header-content {
+    display: flex;
+    justify-content: center; /* Centrar el h1 */
+    align-items: center;
+    position: relative; /* Para posicionar el botón de alternar */
+    margin-bottom: 30px;
+}
+
+.header-content h1 {
+    /* Mantener los estilos de h1, pero el text-align ya no es necesario aquí */
+    text-align: center; /* Aún puede ser útil si el h1 es más ancho */
     font-size: 2.5em;
     color: var(--primary-color);
-    margin-bottom: 30px;
     font-weight: 700;
+    flex-grow: 1; /* Permitir que ocupe espacio para centrarse */
 }
+
+#dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--primary-color); /* Usar el color principal para el icono */
+    position: absolute; /* Posicionar el botón de modo oscuro */
+    right: 0;
+    padding: 10px; /* Área de clic */
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.3s ease;
+}
+
+#dark-mode-toggle:hover {
+    background-color: rgba(0,0,0,0.1);
+    transform: scale(1.1);
+}
+
+body.dark-mode #dark-mode-toggle .fa-moon {
+    display: none; /* Oculta la luna en modo oscuro */
+}
+
+body.dark-mode #dark-mode-toggle .fa-sun {
+    display: inline-block; /* Muestra el sol en modo oscuro */
+    color: var(--accent-color); /* Color del sol en modo oscuro */
+}
+
+/* Asegurarse de que el sol esté inicialmente oculto en modo claro */
+#dark-mode-toggle .fa-sun {
+    display: none;
+}
+
 
 /* ==== SECCIÓN DEL BUSCADOR ==== */
 .search-notes {
@@ -78,6 +152,7 @@ h1 {
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
     color: var(--text-color-dark);
+    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none; /* Elimina el borde de enfoque por defecto del navegador */
@@ -172,6 +247,7 @@ h1 {
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
     color: var(--text-color-dark);
+    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none;
@@ -382,6 +458,8 @@ h1 {
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none;
+    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
+    color: var(--text-color-dark); /* Asegura que el texto cambie */
 }
 
 .modal-content input:focus {
@@ -586,6 +664,18 @@ h1 {
 @media (max-width: 768px) {
     .container {
         padding: 15px;
+    }
+    .header-content { /* Ajuste para el header en pantallas pequeñas */
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header-content h1 {
+        margin-bottom: 15px; /* Espacio entre el título y el botón en columna */
+    }
+    #dark-mode-toggle {
+        position: static; /* Restablecer posición para que fluya en el layout */
+        margin-top: 10px; /* Espacio si el botón queda debajo del título */
     }
     h1 {
         font-size: 2em;

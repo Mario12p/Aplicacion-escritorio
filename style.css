@@ -31,15 +31,15 @@
 
 /* --- NUEVO: Variables para el Modo Oscuro --- */
 body.dark-mode {
-    --primary-color: #8ab4f8;       /* Azul claro para encabezados/botones en dark mode */
-    --accent-color: #fdd663;        /* Amarillo cálido para acentos en dark mode */
-    --secondary-color: #202124;     /* Fondo principal oscuro */
-    --text-color-dark: #e8eaed;     /* Texto claro para el modo oscuro */
-    --text-color-light: #9aa0a6;    /* Texto secundario/gris en dark mode */
-    --card-bg-color: #303134;       /* Fondo de tarjetas/elementos más oscuro */
-    --input-border-color: #5f6368;  /* Borde de inputs más oscuro */
-    --border-color: #5f6368;        /* Color de bordes generales más oscuro */
-    --accent-color-red: #ea4335;    /* Rojo se mantiene similar para peligro */
+    --primary-color: #8ab4f8;        /* Azul claro para encabezados/botones en dark mode */
+    --accent-color: #fdd663;         /* Amarillo cálido para acentos en dark mode */
+    --secondary-color: #202124;      /* Fondo principal oscuro */
+    --text-color-dark: #e8eaed;      /* Texto claro para el modo oscuro */
+    --text-color-light: #9aa0a6;     /* Texto secundario/gris en dark mode */
+    --card-bg-color: #303134;        /* Fondo de tarjetas/elementos más oscuro */
+    --input-border-color: #5f6368;   /* Borde de inputs más oscuro */
+    --border-color: #5f6368;         /* Color de bordes generales más oscuro */
+    --accent-color-red: #ea4335;     /* Rojo se mantiene similar para peligro */
 
     /* Colores de notas para modo oscuro (un poco más saturados o diferentes para contraste) */
     --note-default: #444548; /* Un gris oscuro para la nota default */
@@ -71,15 +71,16 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--secondary-color);
     color: var(--text-color-dark);
-    padding-bottom: 80px; /* Espacio para el pie de página fijo */
-    min-height: 100vh; /* Asegura que el body ocupe al menos la altura de la ventana */
-    display: flex; /* Para un layout de "sticky footer" si el contenido es corto */
+    /* ORIGINAL: padding-bottom: 80px; */
+    padding-bottom: 100px; /* <-- CORREGIDO: Más espacio para el pie de página y FAB flotante */
+    min-height: 100vh;
+    display: flex;
     flex-direction: column;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave al cambiar de modo */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
-    flex-grow: 1; /* Permite que el contenido principal ocupe el espacio disponible */
+    flex-grow: 1;
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
@@ -88,19 +89,18 @@ body {
 /* --- NUEVO: Estilos para el encabezado con el botón de modo oscuro --- */
 .header-content {
     display: flex;
-    justify-content: center; /* Centrar el h1 */
+    justify-content: center;
     align-items: center;
-    position: relative; /* Para posicionar el botón de alternar */
+    position: relative;
     margin-bottom: 30px;
 }
 
 .header-content h1 {
-    /* Mantener los estilos de h1, pero el text-align ya no es necesario aquí */
-    text-align: center; /* Aún puede ser útil si el h1 es más ancho */
+    text-align: center;
     font-size: 2.5em;
     color: var(--primary-color);
     font-weight: 700;
-    flex-grow: 1; /* Permitir que ocupe espacio para centrarse */
+    flex-grow: 1;
 }
 
 #dark-mode-toggle {
@@ -108,10 +108,10 @@ body {
     border: none;
     font-size: 1.5em;
     cursor: pointer;
-    color: var(--primary-color); /* Usar el color principal para el icono */
-    position: absolute; /* Posicionar el botón de modo oscuro */
+    color: var(--primary-color);
+    position: absolute;
     right: 0;
-    padding: 10px; /* Área de clic */
+    padding: 10px;
     border-radius: 50%;
     transition: background-color 0.2s ease, transform 0.2s ease, color 0.3s ease;
 }
@@ -122,15 +122,14 @@ body {
 }
 
 body.dark-mode #dark-mode-toggle .fa-moon {
-    display: none; /* Oculta la luna en modo oscuro */
+    display: none;
 }
 
 body.dark-mode #dark-mode-toggle .fa-sun {
-    display: inline-block; /* Muestra el sol en modo oscuro */
-    color: var(--accent-color); /* Color del sol en modo oscuro */
+    display: inline-block;
+    color: var(--accent-color);
 }
 
-/* Asegurarse de que el sol esté inicialmente oculto en modo claro */
 #dark-mode-toggle .fa-sun {
     display: none;
 }
@@ -147,15 +146,15 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 #search-input {
     width: 100%;
     max-width: 500px;
-    padding: 12px 18px; /* Más padding para un mejor tacto */
+    padding: 12px 18px;
     font-size: 1.1em;
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
     color: var(--text-color-dark);
-    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
+    background-color: var(--card-bg-color);
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
-    outline: none; /* Elimina el borde de enfoque por defecto del navegador */
+    outline: none;
 }
 
 #search-input::placeholder {
@@ -164,23 +163,23 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 
 #search-input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover); /* Sombra de enfoque y sombra de hover */
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover);
 }
 
 /* ==== ÁREA PARA AÑADIR NUEVA NOTA ==== */
 .add-note-area {
     background-color: var(--card-bg-color);
     border: 1px solid var(--input-border-color);
-    border-radius: 12px; /* Bordes más redondeados */
-    padding: 15px 20px; /* Más padding */
+    border-radius: 12px;
+    padding: 15px 20px;
     box-shadow: var(--shadow-light);
     margin-bottom: 30px;
-    transition: all 0.3s ease; /* Transición para la expansión y focus */
+    transition: all 0.3s ease;
 }
 
 .add-note-area:focus-within {
     box-shadow: var(--shadow-hover);
-    border-color: var(--primary-color); /* Resalta el borde al enfocar */
+    border-color: var(--primary-color);
 }
 
 #new-task-input {
@@ -193,16 +192,16 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     min-height: 30px;
     color: var(--text-color-dark);
     background: transparent;
-    line-height: 1.5; /* Mejora la legibilidad del texto */
+    line-height: 1.5;
 }
 
 .note-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 15px; /* Más padding */
+    padding-top: 15px;
     border-top: 1px solid var(--border-color);
-    margin-top: 15px; /* Más margen */
+    margin-top: 15px;
 }
 
 .add-note-area:not(.expanded) .note-options {
@@ -212,32 +211,32 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 .color-palette {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px; /* Espaciado entre las cajas de color */
+    gap: 8px;
 }
 
 .color-box {
-    width: 32px; /* Tamaño ligeramente más grande */
+    width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2px solid transparent; /* Borde transparente por defecto */
+    border: 2px solid transparent;
     cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .color-box:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); /* Sombra sutil al pasar el ratón */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .color-box.active {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-color); /* Borde y sombra más pronunciados al estar activo */
+    box-shadow: 0 0 0 3px var(--primary-color);
 }
 
 /* ==== ESTILOS PARA EL CAMPO DE ETIQUETAS ==== */
 .tag-input-container {
-    flex-grow: 1; /* Permite que ocupe el espacio disponible */
-    margin-right: 15px; /* Espacio antes del botón de Añadir Nota */
+    flex-grow: 1;
+    margin-right: 15px;
 }
 
 #tag-input {
@@ -247,7 +246,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
     color: var(--text-color-dark);
-    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
+    background-color: var(--card-bg-color);
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none;
@@ -267,151 +266,172 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 8px; /* Bordes más redondeados */
+    border-radius: 8px;
     cursor: pointer;
     font-size: 1em;
-    font-weight: 600; /* Texto más fuerte */
+    font-weight: 600;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: var(--shadow-light); /* Sombra inicial */
+    box-shadow: var(--shadow-light);
 }
 
 #save-note-btn:hover {
-    background-color: #4a4d51; /* Color un poco más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Pequeño levantamiento */
-    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al pasar el ratón */
+    background-color: #4a4d51;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 /* ==== LISTADO DE NOTAS / GRID ==== */
 #task-list {
     display: grid;
-    gap: 20px; /* Aumentar el espaciado entre notas */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Notas un poco más grandes y flexibles */
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     list-style: none;
-    padding: 0; /* Elimina padding por defecto de la lista */
-    margin: 0; /* Elimina margen por defecto de la lista */
+    padding: 0;
+    margin: 0;
 }
 
 #task-list li {
     background-color: var(--card-bg-color);
     border: 1px solid var(--input-border-color);
-    padding: 20px; /* Más padding interno */
-    border-radius: 12px; /* Bordes más redondeados */
+    padding: 20px;
+    border-radius: 12px;
     box-shadow: var(--shadow-light);
     position: relative;
     animation: fadeIn 0.3s ease-out;
     word-wrap: break-word;
     overflow: hidden;
-    display: flex; /* Usar flexbox para organizar el contenido interno */
+    display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease; /* Transiciones para un hover suave */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 #task-list li:hover {
-    transform: translateY(-5px); /* Efecto de levantamiento más pronunciado */
-    box-shadow: var(--shadow-hover); /* Sombra más pronunciada al pasar el ratón */
-    border-color: var(--primary-color); /* Resalta el borde al pasar el ratón */
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-color);
 }
 
 #task-list li.completed {
     text-decoration: line-through;
     color: var(--text-color-light);
-    opacity: 0.8; /* Ligeramente menos opaco para que se vea claro */
-    background-color: var(--note-gray); /* Fondo gris claro para tareas completadas */
+    opacity: 0.8;
+    background-color: var(--note-gray);
 }
+
+/* ==== ESTILOS PARA LA CABECERA DE LA NOTA (DONDE ESTÁN PIN Y ACCIONES) ==== */
+/* NUEVO BLOQUE: Para asegurar que el "pin-btn" y "note-actions" se muestren correctamente */
+.note-item .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    min-width: 0; /* Permite que el encabezado se comprima si es necesario */
+}
+
+/* Estilo para el botón de anclaje */
+.note-item .note-header .pin-btn {
+    flex-shrink: 0; /* Evita que este botón se encoja */
+}
+
+/* Contenedor para acciones de la nota (alarma, editar, eliminar) que están en el header */
+.note-item .note-header .note-actions { /* Ajustado para estar dentro de .note-header */
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; /* Evita que este grupo de botones se encoja */
+    min-width: 0; /* Permite que el contenido interno se comprima */
+    /* REMOVIDO: margin-top, border-top, padding-top si estos botones están en el header */
+}
+
 
 /* Contenido de la nota (checkbox y texto) */
 #task-list li .note-content {
     display: flex;
-    align-items: flex-start; /* Alinea el checkbox con la parte superior del texto */
-    gap: 12px; /* Espacio entre checkbox y texto */
-    flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
-    margin-bottom: 15px; /* Espacio antes de las acciones */
+    align-items: flex-start;
+    gap: 12px;
+    flex-grow: 1;
+    margin-bottom: 15px;
 }
 
 #task-list li input[type="checkbox"] {
-    margin-top: 2px; /* Ajuste fino para la alineación */
-    transform: scale(1.3); /* Hace el checkbox un poco más grande */
+    margin-top: 2px;
+    transform: scale(1.3);
     cursor: pointer;
-    accent-color: var(--primary-color); /* Color del checkbox al marcarlo */
+    accent-color: var(--primary-color);
 }
 
 #task-list li p {
-    margin: 0; /* Reinicia el margen del párrafo */
+    margin: 0;
     line-height: 1.6;
 }
 
-/* Contenedor para acciones de la nota (pin, alarma, eliminar) */
-#task-list li .note-actions {
-    display: flex;
-    justify-content: flex-end; /* Alinea los botones a la derecha */
-    align-items: center;
-    gap: 10px; /* Espacio entre los iconos */
-    margin-top: 10px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
-}
+/* Contenedor para acciones de la nota (pin, alarma, eliminar) - ESTE BLOQUE HA SIDO REFORMULADO ARRIBA */
+/* ELIMINADO: Antiguo #task-list li .note-actions con border-top y margin-top */
 
+/* Estilo para los iconos de acción (alarma, editar, eliminar) */
 #task-list li .action-icon {
     background: none;
     border: none;
-    color: var(--text-color-light); /* Color por defecto */
-    font-size: 1.3em; /* Tamaño de icono ligeramente más grande */
+    color: var(--text-color-light);
+    font-size: 1.3em;
     cursor: pointer;
-    opacity: 0;
-    transition: all 0.3s ease; /* Transición suave */
-    padding: 8px; /* Área de clic más grande */
+    opacity: 1; /* <-- CORREGIDO: Visible por defecto */
+    transition: all 0.3s ease;
+    padding: 8px;
     border-radius: 50%;
 }
 
 #task-list li:hover .action-icon {
-    opacity: 1; /* Se muestran completamente al pasar el ratón */
-    transform: scale(1.1); /* Efecto de crecimiento */
-    background-color: rgba(0, 0, 0, 0.05); /* Fondo sutil al pasar el ratón */
+    /* opacity: 1; */ /* Ya es 1, no es necesario mantenerlo aquí */
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 #task-list li.pinned .pin-btn {
-    color: var(--primary-color); /* Chincheta marcada */
+    color: var(--primary-color);
     opacity: 1;
-    background-color: rgba(var(--primary-color), 0.1); /* Fondo para chincheta marcada */
+    background-color: rgba(var(--primary-color), 0.1);
 }
 
 #task-list li.has-alarm .alarm-btn {
-    color: var(--accent-color); /* Alarma establecida */
+    color: var(--accent-color);
     opacity: 1;
-    background-color: rgba(var(--accent-color), 0.1); /* Fondo para alarma establecida */
+    background-color: rgba(var(--accent-color), 0.1);
 }
 
 /* Estilo para el botón de eliminar (que es el "button" genérico en el HTML) */
-#task-list li button { /* Si este es el botón de eliminar */
+/* NOTA: En tu HTML de script.js, los botones de acción (incluido eliminar) tienen la clase "action-icon".
+   Esta regla genérica para `button` podría no ser necesaria si todos son `.action-icon`.
+   Si tienes un botón de eliminar sin `action-icon`, mantén esta regla. */
+#task-list li button {
     background: transparent;
     border: none;
-    color: var(--accent-color-red); /* Color de peligro */
-    font-size: 1.3em; /* Tamaño consistente con iconos */
+    color: var(--accent-color-red);
+    font-size: 1.3em;
     cursor: pointer;
-    opacity: 0;
+    opacity: 1; /* <-- CORREGIDO: Visible por defecto */
     transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
     padding: 8px;
     border-radius: 50%;
 }
 
 #task-list li:hover button {
-    opacity: 1;
+    /* opacity: 1; */ /* Ya es 1, no es necesario mantenerlo aquí */
     transform: scale(1.1);
-    background-color: rgba(var(--accent-color-red), 0.1); /* Fondo sutil al pasar el ratón */
+    background-color: rgba(var(--accent-color-red), 0.1);
 }
 
 
 /* ==== MODAL PARA ALARMAS ==== */
 .modal {
-    display: none; /* Controlado por JS, se oculta/muestra con JS */
+    display: none;
     position: fixed;
-    z-index: 100; /* Asegura que esté por encima de todo */
+    z-index: 100;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Fondo más oscuro y semitransparente */
+    background-color: rgba(0,0,0,0.6);
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px); /* Efecto de desenfoque de fondo */
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
@@ -419,13 +439,13 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     padding: 30px;
     border-radius: 12px;
     width: 90%;
-    max-width: 450px; /* Un poco más ancho */
+    max-width: 450px;
     box-shadow: var(--shadow-hover);
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Más espacio entre elementos */
+    gap: 20px;
     position: relative;
-    animation: fadeIn 0.3s ease-out; /* Animación de entrada para el modal */
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content h2 {
@@ -446,7 +466,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     font-weight: 600;
     color: var(--text-color-dark);
     margin-bottom: 5px;
-    display: block; /* Para que cada label ocupe su propia línea */
+    display: block;
 }
 
 .modal-content input {
@@ -458,13 +478,13 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none;
-    background-color: var(--card-bg-color); /* Asegura que el fondo cambie */
-    color: var(--text-color-dark); /* Asegura que el texto cambie */
+    background-color: var(--card-bg-color);
+    color: var(--text-color-dark);
 }
 
 .modal-content input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2); /* Usa el color primario para la sombra de enfoque */
+    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2);
 }
 
 .modal-actions {
@@ -487,8 +507,8 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 .action-btn:hover {
-    transform: translateY(-2px); /* Efecto de levantamiento */
-    box-shadow: var(--shadow-hover); /* Sombra más pronunciada */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
 .action-btn.primary {
@@ -496,7 +516,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     color: white;
 }
 .action-btn.primary:hover {
-    background-color: #4a4d51; /* Un poco más oscuro */
+    background-color: #4a4d51;
 }
 
 .action-btn.secondary {
@@ -504,7 +524,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     color: var(--text-color-dark);
 }
 .action-btn.secondary:hover {
-    background-color: #c9c9c9; /* Un poco más oscuro */
+    background-color: #c9c9c9;
 }
 
 .action-btn.danger {
@@ -512,7 +532,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     color: white;
 }
 .action-btn.danger:hover {
-    background-color: #c43229; /* Un poco más oscuro */
+    background-color: #c43229;
 }
 
 /* ==== SECCIÓN DE FILTROS ==== */
@@ -521,7 +541,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     justify-content: center;
     gap: 12px;
     margin: 25px 0;
-    flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+    flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -529,7 +549,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     color: var(--text-color-light);
     border: 1px solid var(--border-color);
     padding: 10px 20px;
-    border-radius: 25px; /* Estilo de "pastilla" */
+    border-radius: 25px;
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
@@ -538,7 +558,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 .filter-btn:hover:not(.active) {
-    background-color: var(--input-border-color); /* Fondo ligeramente más oscuro al pasar el ratón */
+    background-color: var(--input-border-color);
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
@@ -563,7 +583,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     font-size: 1.1em;
     color: var(--text-color-dark);
     display: flex;
-    flex-wrap: wrap; /* Para pantallas pequeñas */
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -591,7 +611,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 
 /* ==== PIE DE PÁGINA ==== */
 .app-footer {
-    position: fixed; /* Mantiene el pie de página fijo en la parte inferior */
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -602,8 +622,8 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     border-top: 1px solid var(--border-color);
     text-align: center;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-    z-index: 40; /* Por debajo del botón flotante */
-    margin-top: auto; /* Empuja el footer hacia abajo si el body es flex column */
+    z-index: 40;
+    margin-top: auto;
 }
 
 /* ==== BOTÓN FLOTANTE (EXTENDIDO) ==== */
@@ -611,35 +631,35 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     position: fixed;
     bottom: 25px;
     right: 25px;
-    width: auto; /* Ancho automático para el contenido */
-    min-width: 56px; /* Ancho mínimo para mantener el tamaño original si el texto es corto */
+    width: auto;
+    min-width: 56px;
     height: 56px;
-    padding: 0 20px; /* Padding horizontal para el texto */
-    border-radius: 28px; /* Hace que el botón sea ovalado */
+    padding: 0 20px;
+    border-radius: 28px;
     background-color: var(--accent-color);
     color: white;
-    font-size: 1.1em; /* Ajustar tamaño de fuente para el texto */
+    font-size: 1.1em;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px; /* Espacio entre el texto y el icono */
+    gap: 10px;
     border: none;
     cursor: pointer;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease; /* Transición más general para todos los cambios */
-    z-index: 50; /* Asegura que esté por encima de la mayoría de los elementos */
-    font-weight: 600; /* Hace el texto un poco más fuerte */
-    text-decoration: none; /* Asegura que no haya subrayado si fuera un enlace */
+    transition: all 0.3s ease;
+    z-index: 50;
+    font-weight: 600;
+    text-decoration: none;
 }
 
-.fab .fas { /* Estilo específico para el icono dentro del FAB */
-    font-size: 1.5em; /* Tamaño del icono */
+.fab .fas {
+    font-size: 1.5em;
 }
 
 .fab:hover {
-    background-color: #e6a200; /* Color al pasar el ratón */
-    transform: translateY(-2px); /* Pequeño levantamiento */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al pasar el ratón */
+    background-color: #e6a200;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -665,17 +685,17 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     .container {
         padding: 15px;
     }
-    .header-content { /* Ajuste para el header en pantallas pequeñas */
+    .header-content {
         flex-direction: column;
         text-align: center;
         margin-bottom: 20px;
     }
     .header-content h1 {
-        margin-bottom: 15px; /* Espacio entre el título y el botón en columna */
+        margin-bottom: 15px;
     }
     #dark-mode-toggle {
-        position: static; /* Restablecer posición para que fluya en el layout */
-        margin-top: 10px; /* Espacio si el botón queda debajo del título */
+        position: static;
+        margin-top: 10px;
     }
     h1 {
         font-size: 2em;
@@ -688,40 +708,39 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     .fab {
         bottom: 20px;
         right: 20px;
-        height: 50px; /* Ajustar altura para móvil */
+        height: 50px;
         font-size: 1em;
-        padding: 0 18px; /* Menos padding en móvil */
+        padding: 0 18px;
         min-width: 50px;
     }
     .fab .fas {
-        font-size: 1.3em; /* Tamaño del icono menor */
+        font-size: 1.3em;
     }
-    /* Ajuste para la sección de opciones en el modo expandido */
     .add-note-area.expanded .note-options {
-        flex-direction: column; /* Apilar elementos en pantallas pequeñas */
-        align-items: flex-start; /* Alinearlos a la izquierda */
-        gap: 15px; /* Espacio entre los elementos apilados */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
 
     .add-note-area.expanded .note-options .color-palette {
-        width: 100%; /* Asegurar que la paleta ocupe todo el ancho */
-        justify-content: flex-start; /* Alinear los colores a la izquierda */
+        width: 100%;
+        justify-content: flex-start;
     }
 }
 
 /* Para móviles y pantallas pequeñas */
 @media (max-width: 480px) {
     #task-list {
-        grid-template-columns: 1fr; /* Una sola columna en móviles */
+        grid-template-columns: 1fr;
     }
     .filter-tasks {
-        flex-direction: column; /* Apilar botones de filtro */
+        flex-direction: column;
         align-items: center;
         gap: 8px;
     }
     .filter-btn {
         width: 100%;
-        max-width: 200px; /* Asegura un ancho máximo para los botones apilados */
+        max-width: 200px;
     }
     .task-summary {
         font-size: 1em;
@@ -731,10 +750,11 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     .app-footer {
         padding: 15px 10px;
     }
+    /* ORIGINAL: padding-bottom: 90px; */
     body {
-        padding-bottom: 90px; /* **CORREGIDO:** Asegurar espacio suficiente para el FAB y footer en móviles */
+        padding-bottom: 120px; /* <-- CORREGIDO: Aún más espacio para el FAB y footer en móviles */
     }
-    .add-note-area.expanded .note-options { /* Duplicado intencionalmente para sobreescribir si es necesario, aunque ya está en 768px */
+    .add-note-area.expanded .note-options {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
@@ -746,7 +766,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 /* Ajuste para la sección de opciones en el modo expandido para pantallas grandes */
-@media (min-width: 600px) { /* Volver a la disposición horizontal en pantallas más grandes */
+@media (min-width: 600px) {
     .add-note-area.expanded .note-options {
         flex-direction: row;
         align-items: center;
@@ -757,19 +777,19 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 /* ==== ESTILOS PARA LA EDICIÓN DE NOTAS ==== */
 .edit-note-textarea {
     width: 100%;
-    border: 1px solid var(--input-border-color); /* Borde suave */
+    border: 1px solid var(--input-border-color);
     border-radius: 8px;
     padding: 10px;
     font-size: 1.1em;
     font-family: 'Poppins', sans-serif;
     color: var(--text-color-dark);
     background-color: var(--card-bg-color);
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 80px; /* Altura mínima para la edición */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Sombra interna para dar profundidad */
+    resize: vertical;
+    min-height: 80px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     transition: all 0.2s ease-in-out;
     outline: none;
-    margin-bottom: 15px; /* Espacio antes del footer de la nota */
+    margin-bottom: 15px;
 }
 
 .edit-note-textarea:focus {

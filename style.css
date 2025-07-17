@@ -71,8 +71,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--secondary-color);
     color: var(--text-color-dark);
-    /* ORIGINAL: padding-bottom: 80px; */
-    padding-bottom: 100px; /* <-- CORREGIDO: Más espacio para el pie de página y FAB flotante */
+    padding-bottom: 100px; /* CORREGIDO: Más espacio para el pie de página y FAB flotante */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -319,53 +318,34 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 /* ==== ESTILOS PARA LA CABECERA DE LA NOTA (DONDE ESTÁN PIN Y ACCIONES) ==== */
-/* NUEVO BLOQUE: Para asegurar que el "pin-btn" y "note-actions" se muestren correctamente */
-.note-item .note-header {
+/* Asegura que la cabecera de la nota se muestre correctamente como flexbox */
+#task-list li .note-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Alinea los elementos a los extremos */
     align-items: center;
     margin-bottom: 10px;
-    min-width: 0; /* Permite que el encabezado se comprima si es necesario */
+    min-width: 0; /* Permite que el contenedor se comprima si es necesario */
 }
 
-/* Estilo para el botón de anclaje */
-.note-item .note-header .pin-btn {
+/* Estilo para el botón de anclaje (pin) */
+#task-list li .note-header .pin-btn {
     flex-shrink: 0; /* Evita que este botón se encoja */
+    opacity: 1; /* CORREGIDO: Siempre visible */
+    transition: all 0.3s ease; /* Mantener transiciones de hover */
 }
+#task-list li:hover .note-header .pin-btn {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 
 /* Contenedor para acciones de la nota (alarma, editar, eliminar) que están en el header */
-.note-item .note-header .note-actions { /* Ajustado para estar dentro de .note-header */
+#task-list li .note-header .note-actions {
     display: flex;
     gap: 10px;
     flex-shrink: 0; /* Evita que este grupo de botones se encoja */
     min-width: 0; /* Permite que el contenido interno se comprima */
-    /* REMOVIDO: margin-top, border-top, padding-top si estos botones están en el header */
 }
-
-
-/* Contenido de la nota (checkbox y texto) */
-#task-list li .note-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    flex-grow: 1;
-    margin-bottom: 15px;
-}
-
-#task-list li input[type="checkbox"] {
-    margin-top: 2px;
-    transform: scale(1.3);
-    cursor: pointer;
-    accent-color: var(--primary-color);
-}
-
-#task-list li p {
-    margin: 0;
-    line-height: 1.6;
-}
-
-/* Contenedor para acciones de la nota (pin, alarma, eliminar) - ESTE BLOQUE HA SIDO REFORMULADO ARRIBA */
-/* ELIMINADO: Antiguo #task-list li .note-actions con border-top y margin-top */
 
 /* Estilo para los iconos de acción (alarma, editar, eliminar) */
 #task-list li .action-icon {
@@ -398,10 +378,10 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     background-color: rgba(var(--accent-color), 0.1);
 }
 
-/* Estilo para el botón de eliminar (que es el "button" genérico en el HTML) */
-/* NOTA: En tu HTML de script.js, los botones de acción (incluido eliminar) tienen la clase "action-icon".
-   Esta regla genérica para `button` podría no ser necesaria si todos son `.action-icon`.
-   Si tienes un botón de eliminar sin `action-icon`, mantén esta regla. */
+/* Estilo para el botón de eliminar (que es el "button" genérico en el HTML, si no tiene la clase action-icon) */
+/* NOTA: Si todos tus botones de acción (incluido eliminar) tienen la clase 'action-icon',
+   esta regla genérica `button` podría no ser necesaria o podría aplicar doble.
+   Sin embargo, la mantengo para asegurar compatibilidad. */
 #task-list li button {
     background: transparent;
     border: none;
@@ -419,6 +399,31 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     transform: scale(1.1);
     background-color: rgba(var(--accent-color-red), 0.1);
 }
+
+/* Contenido de la nota (checkbox y texto) */
+#task-list li .note-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+#task-list li input[type="checkbox"] {
+    margin-top: 2px;
+    transform: scale(1.3);
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+#task-list li p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* REMOVIDO: El bloque anterior '#task-list li .note-actions' que tenía border-top, margin-top, etc.
+   porque ese estilo no era apropiado para los botones en la cabecera de la nota.
+   Ahora los estilos para los botones de acción están bajo `.note-header .note-actions`. */
 
 
 /* ==== MODAL PARA ALARMAS ==== */
@@ -750,9 +755,8 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     .app-footer {
         padding: 15px 10px;
     }
-    /* ORIGINAL: padding-bottom: 90px; */
     body {
-        padding-bottom: 120px; /* <-- CORREGIDO: Aún más espacio para el FAB y footer en móviles */
+        padding-bottom: 120px; /* CORREGIDO: Aún más espacio para el FAB y footer en móviles */
     }
     .add-note-area.expanded .note-options {
         flex-direction: column;

@@ -568,16 +568,17 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 /* ---------------------------------------------------- */
-/* Sección de Filtros (Organizados verticalmente y centrados) */
+/* Sección de Filtros (Organizados HORIZONTALMENTE y centrados) */
 /* ---------------------------------------------------- */
 .filter-tasks {
   display: flex;
-  flex-direction: column; /* Apila los botones verticalmente */
-  align-items: center; /* Centra los botones horizontalmente */
-  gap: 12px;
+  flex-direction: row; /* CAMBIADO: Ahora los botones se organizan horizontalmente */
+  justify-content: center; /* Centra los botones dentro de su propio contenedor */
+  align-items: center; /* Asegura alineación vertical si los botones tuvieran diferente altura */
+  gap: 10px; /* Espacio entre los botones (puedes ajustar) */
   margin-bottom: 15px; /* Espacio entre los botones de filtro y el resumen de tareas */
-  flex-wrap: wrap;
-  width: 100%; /* Asegura que ocupe todo el ancho para el centrado */
+  flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
+  width: 100%; /* Asegura que ocupe todo el ancho para que justify-content: center funcione */
 }
 
 .filter-btn {
@@ -591,8 +592,11 @@ body.dark-mode #dark-mode-toggle .fa-sun {
   font-weight: 500;
   transition: all 0.3s ease;
   box-shadow: var(--shadow-light);
-  width: 180px; /* Ancho fijo para los botones, ajusta si es necesario */
-  text-align: center; /* Centra el texto dentro del botón */
+  /* width: 180px;  ELIMINADO: Ya no es un ancho fijo */
+  min-width: 100px; /* Ancho mínimo para que no se vean demasiado pequeños */
+  max-width: 150px; /* Limita el ancho máximo para que no se extiendan demasiado */
+  flex-grow: 1; /* Permite que los botones crezcan un poco si hay espacio, pero sin width fijo */
+  text-align: center;
 }
 
 .filter-btn:hover:not(.active) {
@@ -839,14 +843,17 @@ body {
   }
 
   .filter-tasks {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    flex-direction: row; /* Mantener horizontal en móviles, pero permitir el wrap */
+    justify-content: center; /* Centrar en móviles */
+    gap: 8px; /* Reducir un poco el gap */
   }
 
   .filter-btn {
-    width: 100%;
-    max-width: 200px;
+    padding: 8px 15px; /* Reducir padding */
+    font-size: 0.9em; /* Reducir fuente */
+    min-width: unset; /* Quitar min-width para que se ajusten mejor */
+    flex-grow: 1; /* Permite que ocupen el espacio disponible equitativamente */
+    max-width: 120px; /* Limitar el ancho máximo en móviles */
   }
 
   .task-summary {

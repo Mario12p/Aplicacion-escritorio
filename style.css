@@ -906,7 +906,7 @@ body {
     }
 
     /* Ajuste para el FAB en móviles */
-    .fab {
+    .fab {  
         bottom: 70px; /* AJUSTADO para móviles */
         right: 10px;
         height: 42px; /* Altura ajustada */

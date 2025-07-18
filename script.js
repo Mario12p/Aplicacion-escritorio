@@ -23,6 +23,10 @@ const fabAddNoteBtn = document.getElementById('fab-add-note'); // Botón FAB
 const addNoteArea = document.querySelector('.add-note-area'); // Área de añadir nota
 const newTaskInput = document.getElementById('new-task-input'); // Campo de texto de la nota
 const tagInput = document.getElementById('tag-input'); // NUEVO: Campo de etiquetas
+// --- NUEVAS REFERENCIAS PARA EL ICONO ---
+const iconInput = document.getElementById('icon-input'); // Campo de texto para el icono
+const iconPreview = document.getElementById('icon-preview'); // Icono de previsualización
+// --- FIN NUEVAS REFERENCIAS ---
 const saveNoteBtn = document.getElementById('save-note-btn'); // Botón de guardar nota
 const colorPalette = document.getElementById('color-palette'); // Paleta de colores
 const taskList = document.getElementById('task-list'); // Lista donde se muestran las notas
@@ -66,6 +70,17 @@ function createTaskElement(note) {
     }
     li.style.backgroundColor = `var(--note-${note.color})`; // Aplica el color
 
+    // --- LÓGICA PARA AÑADIR EL ICONO PERSONALIZADO Y EL CONTENIDO ---
+    let iconHtml = '';
+    if (note.icon) {
+        // Asegúrate de que la clase "fas" o "far", "fab" (estilo de Font Awesome) esté presente
+        // Esto asume que el usuario introducirá solo el nombre del icono, como "fa-home"
+        // Si no se introduce "fas", por defecto usamos "fas" (solid)
+        const iconClass = note.icon.startsWith('fa-') ? `fas ${note.icon}` : `fas fa-${note.icon}`;
+        iconHtml = `<i class="${iconClass} note-user-icon" style="margin-right: 10px;"></i>`; 
+    }
+    // ***************************************************************
+
     li.innerHTML = `
         <div class="note-header">
             <button class="pin-btn action-icon" aria-label="Anclar nota">
@@ -83,8 +98,7 @@ function createTaskElement(note) {
                 </button>
             </div>
         </div>
-        <p class="note-content">${note.content}</p>
-        <div class="note-tags">
+        <p class="note-content">${iconHtml}${note.content}</p> <div class="note-tags">
             ${note.tags && note.tags.length > 0 ? note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('') : ''}
         </div>
         <div class="note-footer">
@@ -181,12 +195,14 @@ function editNote(id) {
     const noteElement = document.querySelector(`li[data-id="${id}"]`);
     if (!noteElement) return; // Si el elemento HTML no se encuentra, salimos
 
+    // CORRECCIÓN: Seleccionamos el párrafo con el contenido (donde insertamos el icono)
     const noteContentP = noteElement.querySelector('.note-content');
 
     // Crea un textarea para la edición
     const textarea = document.createElement('textarea');
     textarea.classList.add('edit-note-textarea');
-    textarea.value = noteContentP.textContent; // Carga el contenido actual de la nota
+    // Para la edición, solo queremos el texto, no el HTML del icono
+    textarea.value = notes[noteIndex].content; // Carga el contenido de la nota (texto plano)
     textarea.rows = 3; // Establece un número de filas por defecto, puedes ajustarlo con CSS
 
     // Reemplaza el párrafo con el textarea
@@ -380,6 +396,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const noteContent = newTaskInput.value.trim();
         // NUEVO: Obtener y procesar etiquetas
         const tags = tagInput.value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+        // --- NUEVO: Obtener el valor del campo de icono ---
+        const iconClass = iconInput.value.trim();
+        // --- FIN NUEVO ---
 
         if (noteContent) {
             const newNote = {
@@ -389,7 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 completed: false,
                 pinned: false,
                 alarm: null, // Para la futura funcionalidad de alarma
-                tags: tags // NUEVO: Guardar las etiquetas
+                tags: tags, // NUEVO: Guardar las etiquetas
+                icon: iconClass // --- NUEVO: Guardar el icono ---
             };
             console.log("Nueva nota creada:", newNote);
 
@@ -398,6 +418,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             newTaskInput.value = '';
             tagInput.value = ''; // NUEVO: Limpiar el campo de etiquetas
+            iconInput.value = ''; // --- NUEVO: Limpiar el campo del icono ---
+            iconPreview.className = 'fas fa-question-circle'; // --- NUEVO: Restablecer el icono de previsualización ---
             updateColorPaletteSelection('default');
             addNoteArea.classList.remove('expanded'); // Ocultar el área después de añadir
             renderTasks(); // Renderizar de nuevo para mostrar la nueva nota y actualizar el conteo/filtro
@@ -422,6 +444,11 @@ document.addEventListener('DOMContentLoaded', () => {
     tagInput.addEventListener('focus', () => { // NUEVO: Expandir también al enfocar el campo de etiquetas
         addNoteArea.classList.add('expanded');
     });
+    // --- NUEVO: Expandir también al enfocar el campo de icono ---
+    iconInput.addEventListener('focus', () => {
+        addNoteArea.classList.add('expanded');
+    });
+    // --- FIN NUEVO ---
 
 
     // 5. Inicializar la app (llamadas a tus funciones que necesitan implementación)
@@ -522,5 +549,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         hideAlarmModal();
     });
+
+    // --- NUEVO: Previsualización de icono en tiempo real ---
+    const iconInput = document.getElementById('icon-input');
+    const iconPreview = document.getElementById('icon-preview');
+
+    if (iconInput && iconPreview) {
+        iconInput.addEventListener('input', () => {
+            const inputValue = iconInput.value.trim();
+            if (inputValue) {
+                iconPreview.className = ''; // Elimina todas las clases actuales
+                // Añade la clase 'fas' por defecto y la clase ingresada por el usuario
+                // Asume 'fas' si el usuario no especifica 'far', 'fab', etc.
+                const iconClass = inputValue.startsWith('fa-') ? `fas ${inputValue}` : `fas fa-${inputValue}`;
+                iconPreview.classList.add(...iconClass.split(' '));
+            } else {
+                // Si el campo está vacío, vuelve al icono de pregunta por defecto
+                iconPreview.className = 'fas fa-question-circle';
+            }
+        });
+    }
+    // --- FIN NUEVO: Previsualización de icono ---
 
 }); // Fin de DOMContentLoaded

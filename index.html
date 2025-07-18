@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="style.css" /> 
     <link rel="manifest" href="manifest.json" />
 
-    <link rel="stylesheet" href="./fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    </head>
+</head>
 <body>
     <div class="container">
         <div class="header-content">
@@ -28,36 +28,39 @@
 
         <div class="add-note-area">
             <textarea id="new-task-input" placeholder="Añadir una nota..."></textarea>
+            <input type="text" id="tag-input" placeholder="Etiquetas (ej: trabajo, personal, importante)" />
+            
+            <div class="icon-input-group">
+                <label for="icon-input">Icono (ej: home, bell, check):</label>
+                <input type="text" id="icon-input" placeholder="Nombre de icono Font Awesome" />
+                <i id="icon-preview" class="fas fa-question-circle"></i>
+            </div>
+
             <div class="note-options">
-                <div class="color-palette" id="color-palette">
-                    <div class="color-box active" data-color="default" style="background-color: var(--card-bg-color);"></div>
-                    <div class="color-box" data-color="red" style="background-color: var(--note-red);"></div>
-                    <div class="color-box" data-color="orange" style="background-color: var(--note-orange);"></div>
-                    <div class="color-box" data-color="yellow" style="background-color: var(--note-yellow);"></div>
-                    <div class="color-box" data-color="green" style="background-color: var(--note-green);"></div>
-                    <div class="color-box" data-color="teal" style="background-color: var(--note-teal);"></div>
-                    <div class="color-box" data-color="blue" style="background-color: var(--note-blue);"></div>
-                    <div class="color-box" data-color="darkblue" style="background-color: var(--note-darkblue);"></div>
-                    <div class="color-box" data-color="purple" style="background-color: var(--note-purple);"></div>
-                    <div class="color-box" data-color="pink" style="background-color: var(--note-pink);"></div>
-                    <div class="color-box" data-color="brown" style="background-color: var(--note-brown);"></div>
-                    <div class="color-box" data-color="gray" style="background-color: var(--note-gray);"></div>
+                <div id="color-palette" class="color-palette">
+                    <div class="color-box active" data-color="default" style="background-color: var(--note-default);" aria-label="Color predeterminado"></div>
+                    <div class="color-box" data-color="red" style="background-color: var(--note-red);" aria-label="Color rojo"></div>
+                    <div class="color-box" data-color="orange" style="background-color: var(--note-orange);" aria-label="Color naranja"></div>
+                    <div class="color-box" data-color="yellow" style="background-color: var(--note-yellow);" aria-label="Color amarillo"></div>
+                    <div class="color-box" data-color="green" style="background-color: var(--note-green);" aria-label="Color verde"></div>
+                    <div class="color-box" data-color="teal" style="background-color: var(--note-teal);" aria-label="Color turquesa"></div>
+                    <div class="color-box" data-color="blue" style="background-color: var(--note-blue);" aria-label="Color azul"></div>
+                    <div class="color-box" data-color="darkblue" style="background-color: var(--note-darkblue);" aria-label="Color azul oscuro"></div>
+                    <div class="color-box" data-color="purple" style="background-color: var(--note-purple);" aria-label="Color morado"></div>
+                    <div class="color-box" data-color="pink" style="background-color: var(--note-pink);" aria-label="Color rosa"></div>
                 </div>
-                <div class="tag-input-container">
-                    <input type="text" id="tag-input" placeholder="Etiquetas (separadas por comas)" />
-                </div>
-                <button id="save-note-btn" class="action-btn primary">Añadir Nota</button>
+                <button id="save-note-btn" class="action-btn primary">Guardar Nota</button>
             </div>
         </div>
 
-        <div class="filter-tasks">
+        <div class="filters">
             <button id="filter-all" class="filter-btn active">Todas</button>
             <button id="filter-pending" class="filter-btn">Pendientes</button>
             <button id="filter-completed" class="filter-btn">Completadas</button>
         </div>
 
         <div class="task-summary">
-            Tienes <span id="pending-tasks-count">0</span> tareas pendientes.
+            <span><span id="pending-tasks-count">0</span> tareas pendientes.</span>
             <button id="clear-completed-btn" class="clear-btn">Limpiar completadas</button>
         </div>
 
@@ -91,6 +94,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-messaging-compat.js"></script>
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -99,7 +99,7 @@ function requestNotificationPermission() {
             console.log('✅ Permiso de notificación concedido.');
             // Si el permiso es concedido, suscríbete al FCM token
             return messaging.getToken({
-                vapidKey: "BOyKqYp2c3Vf1bFvVl5tW0pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4" // Reemplaza con tu clave VAPID real
+                vapidKey: "BOyKqYp2c3Vf1bFvVl5tW0pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4pX7t4" // Reemplaza con tu clave VAPID real
             }).then((token) => {
                 console.log('FCM Token:', token);
                 // Aquí podrías enviar este token a tu servidor para enviar notificaciones push
@@ -187,7 +187,7 @@ function createTaskElement(note) {
         </div>
         <div class="note-content">
             <input type="checkbox" ${note.completed ? 'checked' : ''} />
-            ${note.icon ? `<i class="${note.icon.startsWith('fa-') ? 'fas ' + note.icon : 'fas fa-' + note.icon} note-icon"></i>` : ''}
+            
             <p>${note.content}</p>
         </div>
         ${note.tags ? `<div class="note-tags">${note.tags.split(',').map(tag => `<span>#${tag.trim()}</span>`).join('')}</div>` : ''}
@@ -286,9 +286,7 @@ function updatePendingTasksCount() {
 
 function clearAddNoteArea() {
     newTaskInput.value = '';
-    tagInput.value = '';
-    iconInput.value = ''; // Limpia el campo de icono
-    iconPreview.className = 'fas fa-question-circle'; // Vuelve al icono por defecto
+    tagInput.value = '';// Limpia el campo de icono// Vuelve al icono por defecto
     // Asegura que el color por defecto esté seleccionado
     const currentActiveColor = colorPalette.querySelector('.color-box.active');
     if (currentActiveColor) {
@@ -304,9 +302,7 @@ function editNote(noteToEdit) {
 
     // Rellena los campos con los datos de la nota
     newTaskInput.value = noteToEdit.content;
-    tagInput.value = noteToEdit.tags || '';
-    iconInput.value = noteToEdit.icon ? noteToEdit.icon.replace(/fas fa-|far fa-|fab fa-/g, '') : ''; // Limpia el prefijo para mostrar solo el nombre
-    iconPreview.className = noteToEdit.icon || 'fas fa-question-circle'; // Muestra el icono o el de pregunta
+    tagInput.value = noteToEdit.tags || '';// Limpia el prefijo para mostrar solo el nombre// Muestra el icono o el de pregunta
 
     // Selecciona el color de la nota
     colorPalette.querySelectorAll('.color-box').forEach(box => {
@@ -378,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = newTaskInput.value.trim();
         const tags = tagInput.value.trim();
         const selectedColor = colorPalette.querySelector('.color-box.active').dataset.color;
-        const icon = iconInput.value.trim(); // Obtener el valor del campo de icono
+        // const icon = iconInput.value.trim(); // Comentado/Eliminado: Ya no obtenemos el icono del input
 
         if (content) {
             const editingId = saveNoteBtn.dataset.editingId;
@@ -389,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     notes[noteIndex].content = content;
                     notes[noteIndex].tags = tags;
                     notes[noteIndex].color = selectedColor;
-                    notes[noteIndex].icon = icon; // Actualiza el icono
+                    notes[noteIndex].icon = ''; // Forzado a cadena vacía al actualizar
                 }
             } else {
                 // Crear nueva nota
@@ -397,8 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     id: generateId(),
                     content,
                     tags,
-                    color: selectedColor,
-                    icon, // Guardar el icono
+                    color: selectedColor, // Forzado a cadena vacía al crear
                     completed: false,
                     pinned: false,
                     createdAt: new Date().toISOString(),
@@ -510,25 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
         hideAlarmModal();
     });
 
-    // --- NUEVO: Previsualización de icono en tiempo real ---
-    // NO ES NECESARIO VOLVER A DECLARAR iconInput e iconPreview AQUÍ
-    // YA ESTÁN DECLARADAS AL PRINCIPIO DEL ARCHIVO.
-
-    if (iconInput && iconPreview) { // Usamos las variables ya declaradas
-        iconInput.addEventListener('input', () => {
-            const inputValue = iconInput.value.trim();
-            if (inputValue) {
-                iconPreview.className = ''; // Elimina todas las clases actuales
-                // Añade la clase 'fas' por defecto y la clase ingresada por el usuario
-                // Asume 'fas' si el usuario no especifica 'far', 'fab', etc.
-                const iconClass = inputValue.startsWith('fa-') ? `fas ${inputValue}` : `fas fa-${inputValue}`;
-                iconPreview.classList.add(...iconClass.split(' '));
-            } else {
-                // Si el campo está vacío, vuelve al icono de pregunta por defecto
-                iconPreview.className = 'fas fa-question-circle';
-            }
-        });
-    }
-    // --- FIN NUEVO: Previsualización de icono ---
+    
 
 }); // Fin de DOMContentLoaded

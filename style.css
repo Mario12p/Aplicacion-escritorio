@@ -76,6 +76,9 @@ body {
     display: flex;
     flex-direction: column;
     transition: background-color 0.3s ease, color 0.3s ease;
+    /* PEQUEÑO AJUSTE: Añadir una sombra sutil al body, aunque no sea común,
+       es un cambio visible para confirmar la aplicación del CSS. */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
 }
 
 .container {
@@ -100,6 +103,7 @@ body {
     color: var(--primary-color);
     font-weight: 700;
     flex-grow: 1;
+    margin-top: 0; /* Asegura que no haya margen superior por defecto */
 }
 
 #dark-mode-toggle {
@@ -194,6 +198,81 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     line-height: 1.5;
 }
 
+/* ==== ESTILOS PARA EL CAMPO DE ETIQUETAS Y EL NUEVO CAMPO DE ICONO ==== */
+.tag-input-container {
+    flex-grow: 1;
+    margin-right: 15px;
+}
+
+#tag-input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1em;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    color: var(--text-color-dark);
+    background-color: var(--card-bg-color);
+    box-shadow: var(--shadow-light);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    margin-top: 10px; /* Espacio entre el textarea y este input */
+}
+
+#tag-input::placeholder {
+    color: var(--text-color-light);
+}
+
+#tag-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover);
+}
+
+/* --- NUEVOS ESTILOS PARA EL CAMPO DE ICONO --- */
+.icon-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px; /* Añadido margen inferior para separar de las opciones */
+}
+
+.icon-input-group label {
+    font-weight: 600;
+    color: var(--text-color-dark);
+    white-space: nowrap; /* Evita que el texto de la etiqueta se rompa */
+}
+
+#icon-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    font-size: 1em;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    color: var(--text-color-dark);
+    background-color: var(--card-bg-color);
+    box-shadow: var(--shadow-light);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
+
+#icon-input::placeholder {
+    color: var(--text-color-light);
+}
+
+#icon-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover);
+}
+
+#icon-preview {
+    font-size: 1.5em;
+    color: var(--text-color-light);
+    width: 30px; /* Asegura un ancho fijo para el icono */
+    text-align: center;
+    flex-shrink: 0; /* Evita que el icono se encoja */
+}
+
+
 .note-options {
     display: flex;
     justify-content: space-between;
@@ -230,34 +309,6 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 .color-box.active {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px var(--primary-color);
-}
-
-/* ==== ESTILOS PARA EL CAMPO DE ETIQUETAS ==== */
-.tag-input-container {
-    flex-grow: 1;
-    margin-right: 15px;
-}
-
-#tag-input {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 1em;
-    border: 1px solid var(--input-border-color);
-    border-radius: 8px;
-    color: var(--text-color-dark);
-    background-color: var(--card-bg-color);
-    box-shadow: var(--shadow-light);
-    transition: all 0.2s ease-in-out;
-    outline: none;
-}
-
-#tag-input::placeholder {
-    color: var(--text-color-light);
-}
-
-#tag-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), var(--shadow-hover);
 }
 
 #save-note-btn {
@@ -380,8 +431,8 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 
 /* Estilo para el botón de eliminar (que es el "button" genérico en el HTML, si no tiene la clase action-icon) */
 /* NOTA: Si todos tus botones de acción (incluido eliminar) tienen la clase 'action-icon',
-   esta regla genérica `button` podría no ser necesaria o podría aplicar doble.
-   Sin embargo, la mantengo para asegurar compatibilidad. */
+    esta regla genérica `button` podría no ser necesaria o podría aplicar doble.
+    Sin embargo, la mantengo para asegurar compatibilidad. */
 #task-list li button {
     background: transparent;
     border: none;
@@ -422,8 +473,8 @@ body.dark-mode #dark-mode-toggle .fa-sun {
 }
 
 /* REMOVIDO: El bloque anterior '#task-list li .note-actions' que tenía border-top, margin-top, etc.
-   porque ese estilo no era apropiado para los botones en la cabecera de la nota.
-   Ahora los estilos para los botones de acción están bajo `.note-header .note-actions`. */
+    porque ese estilo no era apropiado para los botones en la cabecera de la nota.
+    Ahora los estilos para los botones de acción están bajo `.note-header .note-actions`. */
 
 
 /* ==== MODAL PARA ALARMAS ==== */

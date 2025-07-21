@@ -1,0 +1,341 @@
+/* --- 9. Estilos para las Tareas (La lista de notas) --- */
+
+/* Contenedor principal de la lista de tareas */
+.task-list { /* CAMBIO: de .notes-grid a .task-list */
+    list-style: none;
+    display: grid;
+    /* Columnas responsivas: mínimo 280px por columna, auto-ajustables */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px; /* Espacio entre cada tarea */
+    margin-top: 25px; /* Margen superior para separarse de la sección de filtros */
+    padding: 0; /* Añadido para consistencia */
+    width: 100%; /* Añadido para consistencia */
+    margin-bottom: 50px; /* Espacio para el FAB y el footer */
+}
+
+/* Estilos de cada elemento individual de la tarea (la tarjeta de nota) */
+.task-item { /* CAMBIO: de .note-item a .task-item */
+    background-color: var(--note-default); /* Color de fondo por defecto, sobrescrito por data-color */
+    border-radius: 10px;
+    box-shadow: var(--shadow-light); /* Usando variable para sombra ligera */
+    padding: 20px; /* Aumentado el padding para más espacio interno */
+    display: flex;
+    flex-direction: column; /* Apila el header y el footer */
+    gap: 15px; /* Aumentado el espacio entre el encabezado y el pie de la nota */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border 0.3s ease;
+    border: 1px solid var(--border-color); /* Borde sutil para definir la tarjeta */
+    border-left: 6px solid var(--primary-color); /* Borde izquierdo distintivo */
+    animation: fadeIn 0.3s ease-out; /* Animación de entrada */
+    position: relative; /* Para posicionar el pin-icon */
+}
+
+.task-item:hover { /* CAMBIO: de .note-item:hover a .task-item:hover */
+    transform: translateY(-5px); /* Efecto de "levantar" al pasar el ratón */
+    box-shadow: var(--shadow-hover); /* Usando variable para sombra hover */
+    border-left-color: var(--accent-color); /* Cambia el color del borde al hacer hover */
+}
+
+/* --- Colores de las notas individuales (se basan en las variables definidas en :root) --- */
+/* Cada .task-item con un data-color específico usará el color de fondo correspondiente */
+.task-item[data-color="default"] { background-color: var(--note-default); } /* CAMBIO: de .note-item a .task-item */
+.task-item[data-color="red"] { background-color: var(--note-red); }
+.task-item[data-color="orange"] { background-color: var(--note-orange); }
+.task-item[data-color="yellow"] { background-color: var(--note-yellow); }
+.task-item[data-color="green"] { background-color: var(--note-green); }
+.task-item[data-color="mint"] { background-color: var(--note-mint); } /* CAMBIO: de teal a mint para coincidir con tus variables */
+.task-item[data-color="blue"] { background-color: var(--note-blue); }
+.task-item[data-color="purple"] { background-color: var(--note-purple); } /* CAMBIO: de darkblue a purple para coincidir con tus variables */
+.task-item[data-color="pink"] { background-color: var(--note-pink); }
+.task-item[data-color="brown"] { background-color: var(--note-brown); }
+.task-item[data-color="gray"] { background-color: var(--note-gray); }
+
+/* Encabezado de cada tarea (contiene checkbox, texto, y botones de acción) */
+.task-header { /* CAMBIO: de .note-header a .task-header */
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos en la parte superior del flex container */
+    justify-content: space-between; /* Distribuye espacio entre los elementos */
+    gap: 10px; /* Espacio entre los elementos del encabezado */
+    padding-bottom: 10px; /* Espacio antes del borde inferior */
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1); /* Borde punteado para separar */
+}
+/* Ajuste del borde en modo oscuro */
+body.dark-mode .task-header { /* CAMBIO: de .note-header a .task-header */
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Checkbox de la tarea */
+.task-checkbox {
+    min-width: 24px; /* Aumentado el tamaño del checkbox */
+    height: 24px; /* Aumentado el tamaño del checkbox */
+    margin-right: 12px; /* Espacio entre el checkbox y el texto de la nota */
+    flex-shrink: 0; /* Evita que el checkbox se encoja en pantallas pequeñas */
+    cursor: pointer;
+    accent-color: var(--primary-color); /* Color del checkbox cuando está marcado */
+}
+
+/* Texto de la nota */
+.task-text { /* CAMBIO: de .note-text a .task-text */
+    flex-grow: 1; /* Permite que el texto ocupe el espacio restante */
+    font-size: 1.15em; /* Ligeramente más grande */
+    font-weight: 500;
+    color: var(--text-color-dark); /* CAMBIO: de --text-color a --text-color-dark */
+    word-break: break-word; /* Rompe palabras largas si no caben */
+    white-space: pre-wrap; /* Mantiene los saltos de línea y espacios que el usuario introduce */
+    cursor: pointer; /* Añadido para que el texto sea clickeable para editar */
+    line-height: 1.4; /* Mejorar legibilidad */
+}
+
+/* Estilo para el texto de la nota cuando está completada */
+.task-text.completed { /* CAMBIO: de .note-text.completed a .task-text.completed */
+    text-decoration: line-through; /* Tachado */
+    color: #888; /* Color más tenue */
+    font-style: italic; /* Añadido para un estilo diferente */
+}
+body.dark-mode .task-text.completed { /* CAMBIO: de .note-text.completed a .task-text.completed */
+    color: #666; /* Color más tenue para modo oscuro */
+}
+
+/* Contenedor para los botones de acción (alarma, pin, eliminar) en el encabezado de la nota */
+.task-actions { /* CAMBIO: de .note-header-actions a .task-actions */
+    display: flex;
+    gap: 8px; /* Aumentado el espacio entre los botones de acción */
+    flex-shrink: 0; /* Evita que los botones se encojan */
+    margin-left: auto; /* Empuja los iconos a la derecha */ /* Añadido para consistencia */
+}
+
+/* Estilo para los íconos de acción dentro del encabezado de la nota */
+.task-actions .action-icon { /* CAMBIO: de .note-header .action-icon a .task-actions .action-icon */
+    background: none; /* Añadido para consistencia */
+    border: none; /* Añadido para consistencia */
+    font-size: 1.1em; /* Ligeramente más grandes */
+    color: var(--text-color-light); /* CAMBIO: de #888 a var(--text-color-light) */
+    padding: 8px; /* Ajusta el padding para un mejor tamaño de clic */
+    border-radius: 50%; /* Para hacer los botones redondos */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; /* Añadido transform */
+    cursor: pointer; /* Añadido para consistencia */
+}
+
+.task-actions .action-icon:hover { /* CAMBIO: de .note-header .action-icon:hover a .task-actions .action-icon:hover */
+    background-color: rgba(0, 0, 0, 0.08); /* Fondo sutil al pasar el ratón */
+    transform: scale(1.15); /* Efecto de zoom más pronunciado */ /* Añadido */
+}
+body.dark-mode .task-actions .action-icon:hover { /* CAMBIO: de .note-header .action-icon:hover a .task-actions .action-icon:hover */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Colores específicos al hacer hover en íconos */
+.task-actions .fa-bell:hover { color: #2ecc71; } /* Verde */ /* CAMBIO: de .set-alarm-btn a .fa-bell */
+.task-actions .fa-edit:hover { color: var(--primary-color); } /* CAMBIO: de .edit-note-btn a .fa-edit */
+.task-actions .fa-trash-alt:hover { color: var(--accent-color-red); } /* CAMBIO: de .delete-note-btn a .fa-trash-alt */
+
+/* Pin Icon */
+.pin-icon {
+    position: absolute;
+    top: 15px; /* Ajustado posición */
+    right: 15px; /* Ajustado posición */
+    font-size: 1.3em; /* Ligeramente más grande */
+    color: var(--primary-color);
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+.pin-icon:hover {
+    transform: scale(1.1);
+}
+.pin-icon.pinned {
+    color: var(--accent-color); /* Color diferente cuando está fijado */
+}
+
+/* Pie de la tarea (contiene etiquetas y timestamp) */
+.task-footer { /* CAMBIO: de .note-footer a .task-footer */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que las etiquetas se envuelvan */
+    gap: 10px; /* Espacio entre las etiquetas y las acciones del footer */
+    padding-top: 10px; /* Espacio antes del borde superior */
+    border-top: 1px dashed rgba(0, 0, 0, 0.1); /* Borde punteado para separar */
+}
+/* Ajuste del borde en modo oscuro */
+body.dark-mode .task-footer { /* CAMBIO: de .note-footer a .task-footer */
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor de las etiquetas */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Espacio entre cada etiqueta individual */
+    flex-grow: 1; /* Permite que las etiquetas ocupen el espacio disponible */
+}
+
+/* Estilo de cada etiqueta individual */
+.tag {
+    background-color: var(--input-border-color); /* CAMBIO: de --secondary-color a --input-border-color para coincidir con style.css */
+    color: var(--text-color-dark); /* CAMBIO: de #fff a var(--text-color-dark) */
+    font-size: 0.8em; /* Ligeramente más grande */
+    padding: 6px 12px; /* Más padding para que se vean mejor */
+    border-radius: 20px; /* Muy redondeadas */
+    font-weight: 500;
+}
+body.dark-mode .tag {
+    background-color: var(--border-color); /* CAMBIO: de --primary-dark a var(--border-color) */
+    color: var(--text-color-dark); /* Añadido para modo oscuro */
+}
+
+/* Timestamp de la nota */
+.task-timestamp { /* CAMBIO: de .note-timestamp a .task-timestamp */
+    font-size: 0.9em; /* Ligeramente más grande */
+    color: #999;
+    flex-shrink: 0; /* Evita que el timestamp se encoja */
+}
+body.dark-mode .task-timestamp { /* CAMBIO: de .note-timestamp a .task-timestamp */
+    color: #777; /* Color más claro para modo oscuro */
+}
+
+/* Estilo para tareas completadas (transparencia y color de fondo) */
+.task-item.completed { /* CAMBIO: de .note-item.completed a .task-item.completed */
+    opacity: 0.6; /* Ligeramente más transparente */
+    background-color: var(--note-gray); /* Color de fondo gris para completadas */
+}
+body.dark-mode .task-item.completed { /* CAMBIO: de .note-item.completed a .task-item.completed */
+    background-color: var(--note-gray); /* Color gris en modo oscuro */
+}
+
+/* ==================================================== */
+/* ==== Floating Action Button (FAB) ==== */
+/* ==================================================== */
+/* Este FAB es específico de la página principal (index.html) */
+/* Si lo quieres en Tareas.html, asegúrate de que el HTML de Tareas.html lo incluya y no tenga la clase 'hidden' */
+/* y que el script-tareas.js lo maneje. Por ahora, asumo que solo está en index.html */
+.fab-add-note {
+    position: fixed;
+    bottom: 90px; /* Arriba del footer */
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+    z-index: 50; /* Por encima de la mayoría de los elementos */
+    overflow: hidden; /* Para ocultar parte de los íconos durante la transición */
+}
+
+.fab-add-note .fa-plus,
+.fab-add-note .fa-times {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fab-add-note .fa-times {
+    opacity: 0;
+    transform: rotate(-90deg); /* Rota el icono de la 'x' inicialmente */
+}
+
+.fab-add-note.active .fa-plus {
+    opacity: 0;
+    transform: rotate(90deg); /* Rota el '+' y lo oculta */
+}
+
+.fab-add-note.active .fa-times {
+    opacity: 1;
+    transform: rotate(0deg); /* Muestra la 'x' sin rotación */
+}
+
+.fab-add-note:hover {
+    background-color: #e6a200; /* Color más oscuro al pasar el ratón */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Pequeño levantamiento */
+}
+
+/* ==================================================== */
+/* ==== Estilos de Edición en Línea ==== */
+/* ==================================================== */
+.edit-task-textarea {
+    width: 100%;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.1em;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color-dark);
+    background-color: var(--card-bg-color);
+    resize: vertical;
+    min-height: 80px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+.edit-task-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================================================== */
+/* ==== Clases de Utilidad ==== */
+/* ==================================================== */
+.hidden {
+    display: none !important;
+}
+
+/* ==================================================== */
+/* ==== Media Queries para responsividad ==== */
+/* ==================================================== */
+@media (max-width: 768px) {
+    .task-list { /* CAMBIO: de .notes-grid a .task-list */
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+        padding: 0 10px; /* Reducir padding horizontal para móviles */
+    }
+
+    .task-item { /* CAMBIO: de .note-item a .task-item */
+        padding: 15px; /* Reducir un poco el padding en móviles */
+    }
+
+    .task-header, .task-footer { /* CAMBIO: de .note-header, .note-footer a .task-header, .task-footer */
+        flex-wrap: wrap; /* Permitir que los elementos se envuelvan si no caben */
+        justify-content: center; /* Centrar elementos si se envuelven */
+        text-align: center;
+    }
+
+    .task-checkbox {
+        margin-right: 0; /* Eliminar margen derecho si el texto se envuelve */
+        margin-bottom: 5px; /* Espacio inferior si se envuelve */
+    }
+
+    .task-text { /* CAMBIO: de .note-text a .task-text */
+        text-align: center;
+        flex-basis: 100%; /* Ocupa todo el ancho si el contenido es largo */
+    }
+
+    .task-actions { /* CAMBIO: de .note-header-actions, .note-actions a .task-actions */
+        width: 100%; /* Ocupar todo el ancho si se envuelve */
+        justify-content: center; /* Centrar botones */
+        margin-top: 10px; /* Espacio si se apilan */
+    }
+
+    .tags {
+        justify-content: center; /* Centrar etiquetas en móviles */
+        width: 100%;
+    }
+    .task-timestamp { /* CAMBIO: de .note-timestamp a .task-timestamp */
+        width: 100%;
+        text-align: center;
+    }
+    .fab-add-note {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8em;
+        bottom: 75px;
+        right: 15px;
+    }
+}

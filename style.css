@@ -1,64 +1,80 @@
+/* ==================================================== */
 /* ==== VARIABLES CSS ==== */
+/* ==================================================== */
 :root {
-    --primary-color: #5f6368; 
-    --accent-color: #ffb300; 
-    --secondary-color: #f1f1f1; 
-    --text-color-dark: #202124; 
-    --text-color-light: #5f6368; 
-    --card-bg-color: #ffffff; 
-    --input-border-color: #dadce0; 
-    --border-color: #e0e0e0; /* <-- Añadido de nuevo, lo tenías antes y es útil */
-    --accent-color-red: #ea4335; /* <-- Añadido un color para mensajes de error */
+    /* Colores principales de la aplicación */
+    --primary-color: #5f6368; /* Gris oscuro para elementos principales */
+    --accent-color: #ffb300; /* Amarillo/Naranja para acciones destacadas */
+    --secondary-color: #f1f1f1; /* Fondo claro de la aplicación */
+    --accent-color-red: #ea4335; /* Rojo para acciones de peligro/error */
 
+    /* Colores de texto */
+    --text-color-dark: #202124; /* Texto principal oscuro */
+    --text-color-light: #5f6368; /* Texto secundario o menos prominente */
+
+    /* Colores de componentes */
+    --card-bg-color: #ffffff; /* Fondo para tarjetas, modales, área de añadir nota */
+    --input-border-color: #dadce0; /* Borde para inputs y algunos botones */
+    --border-color: #e0e0e0; /* Bordes generales, separadores */
+
+    /* Colores para las notas/tareas individuales */
     --note-default: #ffffff;
     --note-red: #f28b82;
     --note-orange: #fbbc04;
     --note-yellow: #fff475;
     --note-green: #ccff90;
-    --note-teal: #a7ffeb;
+    --note-mint: #a7ffeb;
     --note-blue: #cbf0f8;
-    --note-darkblue: #aecbfa;
     --note-purple: #d7aefb;
     --note-pink: #fdcfe8;
     --note-brown: #e6c9a8;
-    --note-gray: #e8eaed;
+    --note-gray: #e8eaed; /* Gris para notas completadas o de fondo */
 
+    /* Sombras */
     --shadow-light: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
     --shadow-hover: 0 4px 8px rgba(60, 64, 67, 0.3), 0 6px 12px 2px rgba(60, 64, 67, 0.15);
 }
 
-/* MODO OSCURO */
+/* ==================================================== */
+/* ==== MODO OSCURO ==== */
+/* ==================================================== */
 body.dark-mode {
-    --primary-color: #8ab4f8;
-    --accent-color: #fdd663;
-    --secondary-color: #202124;
-    --text-color-dark: #e8eaed;
-    --text-color-light: #9aa0a6;
-    --card-bg-color: #303134;
-    --input-border-color: #5f6368;
-    --border-color: #5f6368;
-    --accent-color-red: #ea4335;
+    /* Colores principales en modo oscuro */
+    --primary-color: #8ab4f8; /* Azul claro para elementos principales */
+    --accent-color: #fdd663; /* Amarillo para acciones destacadas */
+    --secondary-color: #202124; /* Fondo oscuro de la aplicación */
 
+    /* Colores de texto en modo oscuro */
+    --text-color-dark: #e8eaed; /* Texto principal claro */
+    --text-color-light: #9aa0a6; /* Texto secundario en modo oscuro */
+
+    /* Colores de componentes en modo oscuro */
+    --card-bg-color: #303134; /* Fondo oscuro para tarjetas, modales */
+    --input-border-color: #5f6368; /* Borde de inputs en modo oscuro */
+    --border-color: #5f6368; /* Bordes generales en modo oscuro */
+
+    /* Colores para las notas/tareas individuales en modo oscuro */
     --note-default: #444548;
     --note-red: #e06c75;
     --note-orange: #f1c40f;
     --note-yellow: #f8e79c;
     --note-green: #73c08b;
-    --note-teal: #5ad0c0;
+    --note-mint: #5ad0c0;
     --note-blue: #8fd5f3;
     --note-darkblue: #aecbfa;
     --note-purple: #bb86fc;
     --note-pink: #f7a9cf;
     --note-brown: #a08467;
-    --note-gray: #4d4f52;
+    --note-gray: #4d4f52; /* Gris para notas completadas o de fondo */
 
+    /* Sombras en modo oscuro */
     --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.6), 0 1px 3px 1px rgba(0, 0, 0, 0.3);
     --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.6), 0 6px 12px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* ---------------------------------------------------- */
-/* Globales y Resets */
-/* ---------------------------------------------------- */
+/* ==================================================== */
+/* ==== Globales y Resets ==== */
+/* ==================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -71,7 +87,7 @@ body {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Asegúrate de importar Poppins si lo usas */
     background-color: var(--secondary-color);
     color: var(--text-color-dark);
     min-height: 100vh;
@@ -80,49 +96,51 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
     position: relative;
-    /* El padding-bottom se añade para evitar que el contenido se solape con el footer fijo */
-    padding-bottom: 70px; /* Ajuste para el espacio del footer, puedes cambiarlo si tu footer es más alto */
+    padding-bottom: 70px; /* Ajuste para el espacio del footer */
 }
 
-.container {
+/* Main container que envuelve todo el contenido principal */
+.app-container {
     flex-grow: 1;
-    max-width: 900px;
-    margin: 0 auto; /* Asegura el centrado del contenedor principal */
-    padding: 20px;
+    max-width: 700px; /* Ancho máximo para el contenido de la app, bueno para móvil */
+    margin: 20px auto; /* Centrar y añadir margen superior/inferior */
+    padding: 0 20px; /* Padding a los lados */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos internos del container, incluyendo filter-and-summary-section */
-}
-
-/* ---------------------------------------------------- */
-/* Encabezado */
-/* ---------------------------------------------------- */
-.header-content {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    margin-bottom: 40px; /* AUMENTADO ESPACIO */
-    width: 100%; /* Asegura que ocupe todo el ancho para el centrado */
+    gap: 20px; /* Espacio entre las secciones principales */
 }
 
-.header-content h1 {
-    text-align: center;
-    font-size: 2.5em;
+/* ==================================================== */
+/* ==== Encabezado (Header) ==== */
+/* ==================================================== */
+.app-header {
+    background-color: var(--card-bg-color);
     color: var(--primary-color);
-    font-weight: 700;
-    flex-grow: 1;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-light);
+    width: 100%;
+    position: sticky; /* Sticky header */
+    top: 0;
+    z-index: 60; /* Asegura que esté por encima de otros elementos */
 }
 
+.app-header h1 {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Botón de alternar modo oscuro */
 #dark-mode-toggle {
     background: none;
     border: none;
     font-size: 1.5em;
     cursor: pointer;
     color: var(--primary-color);
-    position: absolute;
-    right: 0;
-    padding: 10px;
+    padding: 8px;
     border-radius: 50%;
     transition: background-color 0.2s ease, transform 0.2s ease, color 0.3s ease;
 }
@@ -131,34 +149,41 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
 }
-
-body.dark-mode #dark-mode-toggle .fa-moon {
-    display: none;
+body.dark-mode #dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode #dark-mode-toggle .fa-sun {
-    display: inline-block;
-    color: var(--accent-color);
+/* Manejo de íconos para modo oscuro/claro */
+#dark-mode-toggle .fa-moon {
+    display: inline-block; /* Por defecto visible en modo claro */
 }
 
 #dark-mode-toggle .fa-sun {
-    display: none;
+    display: none; /* Por defecto oculto en modo claro */
 }
 
-/* ---------------------------------------------------- */
-/* Buscador */
-/* ---------------------------------------------------- */
-.search-notes {
+body.dark-mode #dark-mode-toggle .fa-moon {
+    display: none; /* Oculta la luna en modo oscuro */
+}
+
+body.dark-mode #dark-mode-toggle .fa-sun {
+    display: inline-block; /* Muestra el sol en modo oscuro */
+    color: var(--accent-color); /* Color del sol en modo oscuro */
+}
+
+
+/* ==================================================== */
+/* ==== Barra de Búsqueda ==== */
+/* ==================================================== */
+.search-bar {
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 35px; /* AUMENTADO ESPACIO */
-    padding: 0 15px;
-    width: 100%; /* Asegura que el buscador también ocupe todo el ancho */
+    position: relative;
 }
 
 #search-input {
     width: 100%;
-    max-width: 500px;
     padding: 12px 18px;
     font-size: 1.1em;
     border: 1px solid var(--input-border-color);
@@ -179,283 +204,524 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2), var(--shadow-hover);
 }
 
-
-/* ---------------------------------------------------- */
-/* Área para Añadir Nueva Nota */
-/* ---------------------------------------------------- */
+/* ==================================================== */
+/* ==== Área para Añadir/Editar Nota ==== */
+/* ==================================================== */
 .add-note-area {
     background-color: var(--card-bg-color);
-    border: 1px solid var(--input-border-color);
     border-radius: 12px;
-    padding: 15px 20px;
     box-shadow: var(--shadow-light);
-    margin-bottom: 40px; /* AUMENTADO ESPACIO */
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     transition: all 0.3s ease;
-    width: 100%; /* Asegura que ocupe todo el ancho */
 }
 
-.add-note-area:focus-within {
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-color);
-}
-
-#new-task-input {
+.add-note-area textarea,
+.add-note-area input[type="text"] {
     width: 100%;
-    border: none;
-    outline: none;
-    font-size: 1.1em;
-    padding: 8px 0;
-    resize: vertical;
-    min-height: 30px;
-    color: var(--text-color-dark);
-    background: transparent;
-    line-height: 1.5;
-}
-
-#tag-input {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 1em;
+    padding: 12px;
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
     color: var(--text-color-dark);
-    background-color: var(--card-bg-color);
-    box-shadow: var(--shadow-light);
-    transition: all 0.2s ease-in-out;
+    background-color: var(--secondary-color); /* Usar el color de fondo de la app para los inputs */
+    resize: vertical;
+    min-height: 50px;
     outline: none;
-    margin-top: 10px;
+    transition: all 0.2s ease-in-out;
+}
+body.dark-mode .add-note-area textarea,
+body.dark-mode .add-note-area input[type="text"] {
+    background-color: #282828; /* Un poco más oscuro para modo oscuro */
 }
 
-#tag-input::placeholder {
-    color: var(--text-color-light);
-}
 
-#tag-input:focus {
+.add-note-area textarea:focus,
+.add-note-area input[type="text"]:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2), var(--shadow-hover);
+    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2);
 }
 
-/* Opciones de la Nota (para estado expandido) */
-.note-options {
+.color-picker-and-save {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color);
-    margin-top: 15px;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end; /* Alinear el botón de guardar a la derecha en móviles */
 }
 
-.add-note-area:not(.expanded) .note-options {
-    display: none;
-}
-
-/* Paleta de Colores */
 .color-palette {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    justify-content: center; /* Centrar los colores */
 }
 
 .color-box {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    border: 2px solid transparent;
     cursor: pointer;
+    border: 2px solid transparent;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.color-box:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-light);
 }
 
 .color-box.active {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Estilos específicos para el colorbox default, por si lo necesitamos */
-.color-box[data-color="default"] {
-    background-color: var(--card-bg-color); /* Asegura que el blanco por defecto sea blanco */
+.color-box:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
 }
 
-#add-task-btn { /* Este es ahora el botón "Cerrar" */
-    background-color: transparent;
-    color: var(--primary-color); /* Color de texto Keep */
+.add-task-btn {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 12px 25px;
     border: none;
-    padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-weight: 600;
+    font-size: 1em;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-light);
+    width: 100%; /* Ocupar todo el ancho en móviles */
 }
 
-#add-task-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Ligero fondo al pasar el mouse */
+.add-task-btn:hover {
+    background-color: #e6a200;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Mensaje de error/feedback para input vacío (mantenemos los estilos generales) */
+@media (min-width: 600px) {
+    .color-picker-and-save {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .add-task-btn {
+        width: auto; /* Ancho automático en pantallas más grandes */
+    }
+}
+
+
+/* ==================================================== */
+/* ==== Mensajes de Error ==== */
+/* ==================================================== */
 .error-message {
     color: var(--accent-color-red);
-    font-size: 0.85em;
+    font-size: 0.9em;
     text-align: center;
-    margin-top: 10px; /* Ajuste para el nuevo diseño, ya que está dentro de .add-note-area */
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s ease, max-height 0.3s ease;
+    margin-top: -10px; /* Ajuste para pegarse más a la sección de añadir nota */
+    margin-bottom: 10px;
+    opacity: 0; /* Por defecto oculto */
+    transition: opacity 0.3s ease-in-out;
 }
 
 .error-message.show {
     opacity: 1;
-    max-height: 50px;
 }
 
-/* ---------------------------------------------------- */
-/* Listado de Notas / Grid */
-/* ---------------------------------------------------- */
-#task-list {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    margin-bottom: 50px; /* AUMENTADO ESPACIO */
-    width: 100%; /* Asegura que ocupe todo el ancho */
-}
-
-#task-list li {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--input-border-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-light);
-    position: relative;
-    animation: fadeIn 0.3s ease-out;
-    word-wrap: break-word;
-    overflow: hidden;
+/* ==================================================== */
+/* ==== Sección de Filtros y Resumen de Tareas ==== */
+/* ==================================================== */
+.filter-and-summary-section {
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    align-items: center;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    gap: 15px; /* Espacio entre los filtros y el resumen */
 }
 
-#task-list li:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-color);
+@media (min-width: 769px) {
+    .filter-and-summary-section {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
 }
 
-#task-list li.completed {
-    text-decoration: line-through;
+.filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan */
+    width: 100%;
+}
+
+.filter-btn {
+    background-color: var(--secondary-color);
     color: var(--text-color-light);
-    opacity: 0.8;
-    background-color: var(--note-gray);
+    border: 1px solid var(--input-border-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+    min-width: 100px;
+    max-width: 150px; /* Para que no se estiren demasiado */
+    flex-grow: 1; /* Permite que se distribuyan en el espacio disponible */
+    text-align: center;
+    text-decoration: none; /* Para los 'a' tags si los usas como botones de filtro */
+    display: inline-flex; /* Para centrar el texto verticalmente */
+    justify-content: center;
+    align-items: center;
 }
 
-/* Cabecera de la Nota (pin y acciones) */
-#task-list li .note-header {
+.filter-btn:hover:not(.active) {
+    background-color: var(--input-border-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+body.dark-mode .filter-btn:hover:not(.active) {
+    background-color: var(--border-color);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-light);
+}
+
+.filter-btn.active:hover {
+    background-color: #4a4d51; /* Color un poco más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.filter-and-summary-section p { /* Estilo para el texto de tareas pendientes */
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--text-color-dark);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+#pending-tasks-count {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+/* Botón de Limpiar Completadas */
+.clear-btn {
+    background-color: var(--accent-color-red);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.clear-btn:hover {
+    background-color: #c9302c;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* ==================================================== */
+/* ==== Botón de Bienvenida ==== */
+/* ==================================================== */
+.welcome-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px; /* Espacio desde la parte superior */
+}
+
+.welcome-btn {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.welcome-btn:hover {
+    background-color: #e6a200;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==================================================== */
+/* ==== Listado de Notas / Tareas ==== */
+/* ==================================================== */
+.task-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 25px; /* Margen superior para separarse de la sección de filtros */
+    padding: 0;
+    width: 100%;
+    margin-bottom: 50px; /* Espacio para el FAB y el footer */
+}
+
+.task-item {
+    background-color: var(--note-default); /* Color de fondo por defecto, sobrescrito por data-color */
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    padding: 15px 20px; /* Más padding horizontal para mejor look */
+    display: flex;
+    flex-direction: column; /* Apila el header y el footer */
+    gap: 10px; /* Espacio entre el encabezado y el pie de la nota */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    border: 1px solid var(--border-color); /* Borde sutil para definir la tarjeta */
+    animation: fadeIn 0.3s ease-out; /* Animación de entrada */
+    position: relative; /* Para posicionar el pin-icon */
+}
+
+.task-item:hover {
+    transform: translateY(-5px); /* Efecto flotante al pasar el ratón */
+    box-shadow: var(--shadow-hover);
+}
+
+/* --- Colores de las notas individuales --- */
+.task-item[data-color="default"] { background-color: var(--note-default); }
+.task-item[data-color="red"] { background-color: var(--note-red); }
+.task-item[data-color="orange"] { background-color: var(--note-orange); }
+.task-item[data-color="yellow"] { background-color: var(--note-yellow); }
+.task-item[data-color="green"] { background-color: var(--note-green); }
+.task-item[data-color="mint"] { background-color: var(--note-mint); }
+.task-item[data-color="blue"] { background-color: var(--note-blue); }
+.task-item[data-color="purple"] { background-color: var(--note-purple); }
+.task-item[data-color="pink"] { background-color: var(--note-pink); }
+.task-item[data-color="brown"] { background-color: var(--note-brown); }
+.task-item[data-color="gray"] { background-color: var(--note-gray); }
+
+.task-header {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos en la parte superior del flex container */
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1); /* Línea punteada sutil */
+}
+body.dark-mode .task-header {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.task-checkbox-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Permite que el checkbox y el texto ocupen el espacio disponible */
+}
+
+.task-checkbox {
+    min-width: 20px; /* Asegura un tamaño mínimo para el checkbox */
+    height: 20px;
+    margin-right: 10px;
+    flex-shrink: 0; /* Evita que el checkbox se encoja */
+    cursor: pointer;
+    accent-color: var(--primary-color); /* Color del checkbox */
+}
+
+.task-text {
+    flex-grow: 1; /* Permite que el texto ocupe el espacio restante */
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--text-color-dark);
+    word-break: break-word; /* Rompe palabras largas para que no se desborden */
+    white-space: pre-wrap; /* Mantiene saltos de línea y espacios */
+    cursor: pointer;
+}
+
+.task-text.completed {
+    text-decoration: line-through; /* Tachado para tareas completadas */
+    color: #888; /* Color más tenue */
+}
+body.dark-mode .task-text.completed {
+    color: #666; /* Color más claro en modo oscuro */
+}
+
+.task-actions {
+    display: flex;
+    gap: 5px; /* Espacio entre los íconos de acción */
+    flex-shrink: 0; /* Evita que los íconos se encojan */
+    margin-left: auto; /* Empuja los iconos a la derecha */
+}
+
+.task-actions .action-icon {
+    background: none;
+    border: none;
+    font-size: 1em;
+    color: var(--text-color-light); /* Color por defecto de los íconos */
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.task-actions .action-icon:hover {
+    background-color: rgba(0, 0, 0, 0.08); /* Ligero fondo al pasar el ratón */
+    transform: scale(1.1); /* Efecto de zoom */
+}
+body.dark-mode .task-actions .action-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Colores específicos para íconos al hacer hover */
+.task-actions .fa-bell:hover { color: #2ecc71; /* Verde */ }
+.task-actions .fa-edit:hover { color: var(--primary-color); }
+.task-actions .fa-trash-alt:hover { color: var(--accent-color-red); }
+
+/* Pin Icon */
+.pin-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2em;
+    color: var(--primary-color);
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+.pin-icon:hover {
+    transform: scale(1.1);
+}
+.pin-icon.pinned {
+    color: var(--accent-color); /* Color diferente cuando está fijado */
+}
+
+.task-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    min-width: 0;
-}
-
-/* Botón de anclaje */
-#task-list li .note-header .pin-btn {
-    flex-shrink: 0;
-    opacity: 1;
-    transition: all 0.3s ease;
-}
-
-#task-list li:hover .note-header .pin-btn {
-    transform: scale(1.1);
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* Acciones: editar, eliminar, alarma */
-#task-list li .note-header .note-actions {
-    display: flex;
+    flex-wrap: wrap; /* Permite que los tags y timestamp se envuelvan */
     gap: 10px;
-    flex-shrink: 0;
-    min-width: 0;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1); /* Línea punteada sutil */
+}
+body.dark-mode .task-footer {
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
-#task-list li .action-icon {
-    background: none;
-    border: none;
-    color: var(--text-color-light);
-    font-size: 1.3em;
-    cursor: pointer;
-    opacity: 1;
-    transition: all 0.3s ease;
-    padding: 8px;
-    border-radius: 50%;
-}
-
-#task-list li:hover .action-icon {
-    transform: scale(1.1);
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* Pin y alarma activos */
-#task-list li.pinned .pin-btn {
-    color: var(--primary-color);
-    background-color: rgba(95, 99, 104, 0.1);
-}
-
-#task-list li.has-alarm .alarm-btn {
-    color: var(--accent-color);
-    background-color: rgba(255, 179, 0, 0.1);
-}
-
-/* Botón eliminar directo (considerar usar .action-icon para consistencia) */
-#task-list li button {
-    background: transparent;
-    border: none;
-    color: var(--accent-color-red);
-    font-size: 1.3em;
-    cursor: pointer;
-    opacity: 1;
-    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-    padding: 8px;
-    border-radius: 50%;
-}
-
-#task-list li:hover button {
-    transform: scale(1.1);
-    background-color: rgba(234, 67, 53, 0.1);
-}
-
-/* Contenido principal de la nota */
-#task-list li .note-content {
+.tags {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 8px; /* Espacio entre los tags */
     flex-grow: 1;
-    margin-bottom: 15px;
 }
 
-#task-list li input[type="checkbox"] {
-    margin-top: 2px;
-    transform: scale(1.3);
+.tag {
+    background-color: var(--input-border-color); /* Fondo gris claro para los tags */
+    color: var(--text-color-dark);
+    font-size: 0.75em;
+    padding: 5px 10px;
+    border-radius: 20px; /* Bordes redondeados para parecer píldoras */
+    font-weight: 500;
+}
+body.dark-mode .tag {
+    background-color: var(--border-color);
+    color: var(--text-color-dark);
+}
+
+.task-timestamp {
+    font-size: 0.85em; /* Ligeramente más grande */
+    color: #999;
+    flex-shrink: 0; /* Evita que el timestamp se encoja */
+}
+body.dark-mode .task-timestamp {
+    color: #777; /* Color más claro para modo oscuro */
+}
+
+/* Estilo para tareas completadas (transparencia y color de fondo) */
+.task-item.completed {
+    opacity: 0.7; /* Ligeramente transparente */
+    background-color: var(--note-gray); /* Color de fondo gris para completadas */
+}
+body.dark-mode .task-item.completed {
+    background-color: var(--note-gray); /* Color gris en modo oscuro */
+}
+
+/* ==================================================== */
+/* ==== Floating Action Button (FAB) ==== */
+/* ==================================================== */
+.fab-add-note {
+    position: fixed;
+    bottom: 90px; /* Arriba del footer */
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    accent-color: var(--primary-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+    z-index: 50; /* Por encima de la mayoría de los elementos */
+    overflow: hidden; /* Para ocultar parte de los íconos durante la transición */
 }
 
-#task-list li p {
-    margin: 0;
-    line-height: 1.6;
+.fab-add-note .fa-plus,
+.fab-add-note .fa-times {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* -------------------------------------- */
-/* 13. Estilos del Modal de Alarma        */
-/* -------------------------------------- */
+.fab-add-note .fa-times {
+    opacity: 0;
+    transform: rotate(-90deg); /* Rota el icono de la 'x' inicialmente */
+}
+
+.fab-add-note.active .fa-plus {
+    opacity: 0;
+    transform: rotate(90deg); /* Rota el '+' y lo oculta */
+}
+
+.fab-add-note.active .fa-times {
+    opacity: 1;
+    transform: rotate(0deg); /* Muestra la 'x' sin rotación */
+}
+
+.fab-add-note:hover {
+    background-color: #e6a200; /* Color más oscuro al pasar el ratón */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Pequeño levantamiento */
+}
+
+
+/* ==================================================== */
+/* ==== Modal de Alarma ==== */
+/* ==================================================== */
 .modal {
-    display: none;
+    display: flex; /* Cambiado a flex para centrar */
     position: fixed;
     z-index: 100;
     top: 0;
@@ -466,6 +732,14 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    opacity: 0; /* Oculto por defecto */
+    visibility: hidden; /* Oculto por defecto */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {
@@ -479,21 +753,24 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     flex-direction: column;
     gap: 20px;
     position: relative;
-    animation: fadeIn 0.3s ease-out;
+    transform: translateY(-20px); /* Para la animación de entrada */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-.modal-content h2 {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 1.8em;
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
 }
 
-.modal-content p#alarm-note-text {
+.modal-content h3#alarm-note-text {
+    font-size: 1.2em;
     font-style: italic;
-    color: var(--text-color-light);
+    color: var(--text-color-dark);
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    max-height: 80px;
+    overflow-y: auto;
 }
 
 .modal-content label {
@@ -503,7 +780,7 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     display: block;
 }
 
-.modal-content input {
+.modal-content input[type="datetime-local"] {
     padding: 12px;
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
@@ -512,234 +789,88 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     box-shadow: var(--shadow-light);
     transition: all 0.2s ease-in-out;
     outline: none;
-    background-color: var(--card-bg-color);
+    background-color: var(--secondary-color);
     color: var(--text-color-dark);
 }
 
-.modal-content input:focus {
+.modal-content input[type="datetime-local"]:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2);
 }
 
-.modal-actions {
+.modal-buttons {
     display: flex;
-    justify-content: flex-end; /* Distribuir los botones a lo largo */
-    gap: 10px; /* Reducir el espacio entre botones */
-    margin-top: 20px;
-    flex-wrap: wrap; /* PERMITE QUE LOS BOTONES SE ENVUELVAN EN MÓVILES */
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
-.modal-actions .action-btn {
-    flex-grow: 1; /* Los botones crecen para ocupar el espacio disponible */
-    min-width: 80px; /* Ancho mínimo para evitar que se encojan demasiado */
-    padding: 10px 15px; /* Reducir un poco el padding horizontal */
-    font-size: 0.9em; /* Reducir el tamaño de la fuente si es necesario */
-}
-
-/* ---------------------------------------------------- */
-/* Estilos para Botones de Acción (Generales) */
-/* ---------------------------------------------------- */
-.action-btn {
-    padding: 12px 25px;
+.modal-btn {
+    padding: 10px 18px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 1em;
+    font-size: 0.95em;
     transition: all 0.2s ease;
     box-shadow: var(--shadow-light);
+    flex-grow: 1;
+    min-width: 100px;
 }
 
-.action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-}
-
-.action-btn.primary {
+.modal-btn.primary {
     background-color: var(--primary-color);
     color: white;
 }
 
-.action-btn.primary:hover {
+.modal-btn.primary:hover {
     background-color: #4a4d51;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-.action-btn.secondary {
+.modal-btn.secondary {
     background-color: var(--input-border-color);
     color: var(--text-color-dark);
 }
 
-.action-btn.secondary:hover {
+.modal-btn.secondary:hover {
     background-color: #c9c9c9;
-}
-
-.action-btn.danger {
-    background-color: var(--accent-color-red);
-    color: white;
-}
-
-.action-btn.danger:hover {
-    background-color: #c43229;
-}
-
-/* ---------------------------------------------------- */
-/* Contenedor principal de Filtros y Resumen - Centrado */
-/* ---------------------------------------------------- */
-.filter-and-summary-section {
-    display: flex;
-    flex-direction: column; /* Apila los elementos (filtros y resumen) verticalmente */
-    align-items: center; /* Centra los elementos horizontalmente */
-    margin-bottom: 35px; /* AUMENTADO ESPACIO */
-    width: 100%; /* Asegura que el contenedor ocupe el ancho disponible para centrar correctamente */
-    padding-top: 15px; /* Opcional: añade un poco de padding superior para separación visual */
-    border-top: 1px solid var(--border-color); /* Opcional: una línea para separar visualmente */
-}
-
-/* ---------------------------------------------------- */
-/* Sección de Filtros (Organizados HORIZONTALMENTE y centrados) */
-/* ---------------------------------------------------- */
-.filter-tasks {
-    display: flex;
-    flex-direction: row; /* Ahora los botones se organizan horizontalmente */
-    justify-content: center; /* Centra los botones dentro de su propio contenedor */
-    align-items: center; /* Asegura alineación vertical si los botones tuvieran diferente altura */
-    gap: 10px; /* Espacio entre los botones (puedes ajustar) */
-    margin-bottom: 15px; /* Espacio entre los botones de filtro y el resumen de tareas */
-    flex-wrap: wrap; /* Para que los botones se envuelvan en pantallas pequeñas */
-    width: 100%; /* Asegura que ocupe todo el ancho para que justify-content: center funcione */
-}
-
-.filter-btn {
-    background-color: var(--secondary-color);
-    color: var(--text-color-light);
-    border: 1px solid var(--border-color);
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 0.95em;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-light);
-    min-width: 100px; /* Ancho mínimo para que no se vean demasiado pequeños */
-    max-width: 150px; /* Limita el ancho máximo para que no se extiendan demasiado */
-    flex-grow: 1; /* Permite que los botones crezcan un poco si hay espacio, pero sin width fijo */
-    text-align: center;
-}
-
-.filter-btn:hover:not(.active) {
-    background-color: var(--input-border-color);
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
 
-.filter-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-light);
-}
-
-.filter-btn.active:hover {
-    background-color: #4a4d51;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-}
-
-/* ---------------------------------------------------- */
-/* Resumen de Tareas (Ahora también centrado) */
-/* ---------------------------------------------------- */
-.task-summary {
-    text-align: center;
-    font-size: 1.1em;
+body.dark-mode .modal-btn.secondary {
+    background-color: var(--border-color);
     color: var(--text-color-dark);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%; /* Asegura que ocupe todo el ancho para el centrado */
+}
+body.dark-mode .modal-btn.secondary:hover {
+    background-color: #5f6368;
 }
 
-.task-summary #pending-tasks-count {
-    font-weight: 700;
-    color: var(--accent-color);
-}
 
-.task-summary .clear-btn {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    font-size: 0.95em;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.task-summary .clear-btn:hover {
-    color: var(--accent-color-red);
-    transform: translateY(-1px);
-}
-
-/* ---------------------------------------------------- */
-/* Pie de Página (Fijo en la parte inferior y texto centrado) */
-/* ---------------------------------------------------- */
-.app-footer {
+/* ==================================================== */
+/* ==== Footer de la Aplicación ==== */
+/* ==================================================== */
+footer {
     width: 100%;
     padding: 20px;
     background-color: var(--card-bg-color);
     color: var(--text-color-light);
     font-size: 0.9em;
     border-top: 1px solid var(--border-color);
-    text-align: center; /* Centra el texto del footer */
+    text-align: center;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     z-index: 40;
-    position: fixed; /* Fija el footer en la pantalla */
-    bottom: 0; /* Lo posiciona en la parte inferior */
-    left: 0; /* Lo alinea a la izquierda de la pantalla */
+    position: fixed; /* Footer fijo en la parte inferior */
+    bottom: 0;
+    left: 0;
 }
 
-/* ---------------------------------------------------- */
-/* Botón Flotante (FAB) - Ajustes para una mejor apariencia */
-/* ---------------------------------------------------- */
-.fab {
-    position: fixed;
-    bottom: 90px; /* AJUSTADO: Mayor separación del footer */
-    right: 25px;
-    width: auto;
-    height: 50px;
-    padding: 0 22px;
-    border-radius: 28px;
-    background-color: var(--accent-color);
-    color: white;
-    font-size: 1em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    transition: all 0.3s ease;
-    z-index: 50;
-    font-weight: 600;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.fab .fas {
-    font-size: 1.3em;
-}
-
-.fab:hover {
-    background-color: #e6a200;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* ---------------------------------------------------- */
-/* Animaciones */
-/* ---------------------------------------------------- */
+/* ==================================================== */
+/* ==== Animaciones Generales ==== */
+/* ==================================================== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -762,14 +893,14 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     }
 }
 
-#task-list li.removing {
+.task-item.removing {
     animation: fadeOut 0.3s ease-in forwards;
 }
 
-/* ---------------------------------------------------- */
-/* Estilos para la Edición de Notas */
-/* ---------------------------------------------------- */
-.edit-note-textarea {
+/* ==================================================== */
+/* ==== Estilos de Edición en Línea ==== */
+/* ==================================================== */
+.edit-task-textarea {
     width: 100%;
     border: 1px solid var(--input-border-color);
     border-radius: 8px;
@@ -786,221 +917,81 @@ body.dark-mode #dark-mode-toggle .fa-sun {
     margin-bottom: 15px;
 }
 
-.edit-note-textarea:focus {
+.edit-task-textarea:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 0 3px rgba(95, 99, 104, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-/* ---------------------------------------------------- */
-/* Responsive (Media Queries) */
-/* ---------------------------------------------------- */
-
-/* Ajuste general para el padding-bottom del body para evitar que el contenido se solape con el footer fijo */
-body {
-    padding-bottom: 70px; /* Ajuste para el espacio del footer */
+/* ==================================================== */
+/* ==== Clases de Utilidad ==== */
+/* ==================================================== */
+.hidden {
+    display: none !important;
 }
 
-/* Para tablets y pantallas medianas */
+/* ==================================================== */
+/* ==== Media Queries para responsividad ==== */
+/* ==================================================== */
 @media (max-width: 768px) {
-    .container {
-        padding: 15px;
+    .task-list {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+        padding: 0 10px; /* Reducir padding horizontal para móviles */
     }
 
-    .header-content {
-        flex-direction: column;
+    .task-item {
+        padding: 15px; /* Reducir un poco el padding en móviles */
+    }
+
+    .task-header, .task-footer {
+        flex-wrap: wrap; /* Permitir que los elementos se envuelvan si no caben */
+        justify-content: center; /* Centrar elementos si se envuelven */
         text-align: center;
-        margin-bottom: 30px; /* AJUSTADO para pantallas medianas */
     }
 
-    .header-content h1 {
-        margin-bottom: 15px;
+    .task-checkbox {
+        margin-right: 0; /* Eliminar margen derecho si el texto se envuelve */
+        margin-bottom: 5px; /* Espacio inferior si se envuelve */
     }
 
-    #dark-mode-toggle {
-        position: static;
+    .task-text {
+        text-align: center; /* Centrar el texto de la tarea en móviles */
+    }
+
+    .task-actions {
+        margin-left: unset; /* Eliminar margen automático */
+        width: 100%; /* Ocupar todo el ancho */
+        justify-content: center; /* Centrar los iconos de acción */
         margin-top: 10px;
     }
-
-    h1 {
-        font-size: 2em;
-        margin-bottom: 20px;
-    }
-
-    .modal-content {
-        max-width: 95%;
-        padding: 25px;
-    }
-
-    /* Ajuste para el FAB en pantallas medianas */
-    .fab {
-        bottom: 80px; /* AJUSTADO para pantallas medianas */
-        right: 20px;
-        height: 48px; /* Altura ajustada */
-        font-size: 0.95em; /* Fuente ajustada */
-        padding: 0 18px; /* Padding ajustado */
-        gap: 6px; /* Espacio ajustado */
-    }
-
-    .fab .fas {
-        font-size: 1.2em; /* Ícono ajustado */
-    }
-
-    .add-note-area.expanded .note-options {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .add-note-area.expanded .note-options .color-palette {
+    .tags {
+        justify-content: center; /* Centrar los tags en móviles */
         width: 100%;
-        justify-content: flex-start;
     }
-
-    /* Márgenes ajustados para pantallas medianas */
-    .search-notes {
-        margin-bottom: 25px;
-    }
-    .add-note-area {
-        margin-bottom: 30px;
-    }
-    .filter-and-summary-section {
-        margin-bottom: 25px;
-    }
-    #task-list {
-        margin-bottom: 40px;
-    }
-
-    body {
-        padding-bottom: 70px; /* Asegura el padding-bottom para el footer fijo */
-    }
-}
-
-/* Para móviles y pantallas pequeñas */
-@media (max-width: 480px) {
-    #task-list {
-        grid-template-columns: 1fr;
-    }
-
-    .filter-tasks {
-        flex-direction: row; /* Mantener horizontal en móviles, pero permitir el wrap */
-        justify-content: center; /* Centrar en móviles */
-        gap: 8px; /* Reducir un poco el gap */
-    }
-
-    .filter-btn {
-        padding: 8px 15px; /* Reducir padding */
-        font-size: 0.9em; /* Reducir fuente */
-        min-width: unset; /* Quitar min-width para que se ajusten mejor */
-        flex-grow: 1; /* Permite que ocupen el espacio disponible equitativamente */
-        max-width: 120px; /* Limitar el ancho máximo en móviles */
-    }
-
-    .task-summary {
-        font-size: 1em;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .app-footer {
-        padding: 15px 10px;
-    }
-
-    /* Ajuste para el FAB en móviles */
-    .fab {  
-        bottom: 70px; /* AJUSTADO para móviles */
-        right: 10px;
-        height: 42px; /* Altura ajustada */
-        font-size: 0.85em; /* Fuente ajustada */
-        padding: 0 15px; /* Padding ajustado */
-        gap: 5px; /* Espacio ajustado */
-    }
-
-    .fab .fas {
-        font-size: 1.1em; /* Ícono ajustado */
-    }
-
-    .add-note-area.expanded .note-options {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .add-note-area.expanded .note-options .color-palette {
+    .task-timestamp {
         width: 100%;
-        justify-content: flex-start;
+        text-align: center;
     }
-
-    /* Márgenes ajustados para móviles */
-    .header-content {
-        margin-bottom: 20px;
-    }
-    .search-notes {
-        margin-bottom: 15px;
-    }
-    .add-note-area {
-        margin-bottom: 20px;
-    }
-    .filter-and-summary-section {
-        margin-bottom: 15px;
-    }
-    #task-list {
-        margin-bottom: 30px;
-    }
-
-    body {
-        padding-bottom: 60px; /* Asegura el padding-bottom para el footer fijo */
-    }
-}
-
-/* Ajuste para la sección de opciones en el modo expandido para pantallas grandes */
-@media (min-width: 600px) {
-    .add-note-area.expanded .note-options {
-        flex-direction: row;
-        align-items: center;
-    }
-}
-
-/* -------------------------------------- */
-/* 14. Estilos del Floating Action Button (FAB) */
-/* -------------------------------------- */
-.fab {
-    position: fixed; /* Fijo en la pantalla */
-    bottom: 25px; /* Margen desde abajo */
-    right: 25px; /* Margen desde la derecha */
-    width: 56px; /* Tamaño estándar de un FAB (56px x 56px) */
-    height: 56px;
-    border-radius: 50%; /* Forma circular */
-    background-color: var(--accent-color); /* Color de acento para el FAB */
-    color: white; /* Color del icono */
-    font-size: 1.8em; /* Tamaño del icono */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* Sombra para elevarlo */
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    z-index: 50; /* Asegurarse de que esté por encima de la mayoría de los elementos */
-}
-
-.fab:hover {
-    background-color: #e6a200; /* Un tono más oscuro al pasar el mouse */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px); /* Ligeramente levantado al pasar el mouse */
-}
-
-.fab:active {
-    transform: translateY(0); /* Vuelve a su posición original al hacer clic */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-/* Ajuste de responsividad para el FAB en pantallas pequeñas */
-@media (max-width: 600px) {
-    .fab {
-        width: 50px; /* Un poco más pequeño en móviles */
+    .fab-add-note {
+        width: 50px;
         height: 50px;
-        font-size: 1.6em;
-        bottom: 20px;
-        right: 20px;
+        font-size: 1.8em;
+        bottom: 75px;
+        right: 15px;
+    }
+    .add-task-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .modal-content {
+        padding: 20px;
+        gap: 15px;
+    }
+    .modal-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
+    footer {
+        padding: 15px 10px;
+        font-size: 0.8em;
     }
 }

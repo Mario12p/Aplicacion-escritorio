@@ -1,32 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Referencias a elementos del DOM
-    const newTaskInput = document.getElementById('new-task-input');
-    const tagInput = document.getElementById('tag-input');
-    const saveNoteInsideFormBtn = document.getElementById('save-note-btn');
+    // Referencias a elementos del DOM (solo los necesarios para esta página)
     const taskList = document.getElementById('task-list');
-    const filterButtons = document.querySelectorAll('.filter-btn');
     const pendingTasksCountSpan = document.getElementById('pending-tasks-count');
-    const welcomeButtonContainer = document.getElementById('welcome-button-container');
-    const welcomeBtn = document.getElementById('welcome-btn');
-    const addNoteArea = document.querySelector('.add-note-area');
-    const fabAddNoteBtn = document.getElementById('fab-add-note');
-    const colorBoxes = document.querySelectorAll('.color-box');
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
     const searchInput = document.getElementById('search-input');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
     const alarmModal = document.getElementById('alarm-modal');
     const alarmNoteText = document.getElementById('alarm-note-text');
     const alarmDatetimePicker = document.getElementById('alarm-datetime-picker');
     const closeAlarmModalBtn = document.getElementById('close-alarm-modal-btn');
     const setAlarmBtn = document.getElementById('set-alarm-btn');
     const clearCompletedBtn = document.querySelector('.clear-btn.danger');
-    const filterAndSummarySection = document.querySelector('.filter-and-summary-section');
+
+    // Los botones de filtro en Tareas.html son enlaces o el botón "Pendientes" que siempre está activo
+    const filterPendingBtn = document.querySelector('.filter-btn[data-filter="pending"]');
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    let currentFilter = 'all';
-    let selectedNoteColor = 'default';
+    let currentFilter = 'pending'; // ¡Filtro por defecto para esta página!
     let currentAlarmTaskId = null;
 
-    // Lógica para alternar el modo oscuro
+    // Lógica para alternar el modo oscuro (copia de script.js)
     const applyDarkMode = (isDarkMode) => {
         document.body.classList.toggle('dark-mode', isDarkMode);
         localStorage.setItem('darkMode', isDarkMode);
@@ -52,82 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         applyDarkMode(!document.body.classList.contains('dark-mode'));
     });
 
-    // Manejador del FAB para mostrar/ocultar el área de añadir/editar nota
-    fabAddNoteBtn.addEventListener('click', () => {
-        if (addNoteArea.classList.contains('hidden')) {
-            addNoteArea.classList.remove('hidden');
-            fabAddNoteBtn.classList.add('active'); // Añadir clase 'active' para cambiar ícono
-            newTaskInput.focus();
-            // Ocultar el botón de bienvenida y la sección de filtros cuando se abre el área de añadir
-            welcomeButtonContainer.classList.add('hidden');
-            filterAndSummarySection.classList.add('hidden');
-            taskList.classList.add('hidden'); // Ocultar la lista de tareas también
-        } else {
-            addNoteArea.classList.add('hidden');
-            fabAddNoteBtn.classList.remove('active'); // Quitar clase 'active'
-            newTaskInput.value = '';
-            tagInput.value = '';
-            selectedNoteColor = 'default';
-            updateColorPaletteSelection('default');
-            // Si no hay tareas, mostrar el botón de bienvenida, si las hay, mostrar filtros y lista
-            if (tasks.length === 0) {
-                welcomeButtonContainer.classList.remove('hidden');
-                filterAndSummarySection.classList.add('hidden');
-                taskList.classList.add('hidden');
-            } else {
-                welcomeButtonContainer.classList.add('hidden');
-                filterAndSummarySection.classList.remove('hidden');
-                taskList.classList.remove('hidden');
-            }
-        }
-    });
-
-    // Manejador del botón GUARDAR dentro del formulario
-    saveNoteInsideFormBtn.addEventListener('click', () => {
-        const text = newTaskInput.value.trim();
-        const tags = tagInput.value.trim();
-
-        const errorMessageElement = addNoteArea.querySelector('.error-message');
-        if (text === '') {
-            showErrorMessage('La nota no puede estar vacía.', errorMessageElement);
-            return;
-        }
-
-        const editingId = saveNoteInsideFormBtn.getAttribute('data-editing-id');
-        if (editingId) {
-            const taskIndex = tasks.findIndex(t => t.id == editingId);
-            if (taskIndex !== -1) {
-                tasks[taskIndex].text = text;
-                tasks[taskIndex].tags = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
-                tasks[taskIndex].color = selectedNoteColor;
-                tasks[taskIndex].timestamp = new Date().toLocaleString();
-                saveTasksToLocalStorage();
-                renderTasks();
-            }
-            saveNoteInsideFormBtn.textContent = 'Guardar Nota';
-            saveNoteInsideFormBtn.removeAttribute('data-editing-id');
-        } else {
-            const newNote = new Note(text, tags, selectedNoteColor);
-            tasks.push(newNote);
-            saveTasksToLocalStorage();
-            renderTasks();
-        }
-
-        newTaskInput.value = '';
-        tagInput.value = '';
-        selectedNoteColor = 'default';
-        updateColorPaletteSelection('default');
-        addNoteArea.classList.add('hidden');
-        fabAddNoteBtn.classList.remove('active');
-        newTaskInput.style.minHeight = 'auto';
-
-        // Después de guardar una tarea, siempre mostrar la sección de filtros y la lista
-        welcomeButtonContainer.classList.add('hidden');
-        filterAndSummarySection.classList.remove('hidden');
-        taskList.classList.remove('hidden');
-    });
-
-    // Clase para las notas
+    // Clase para las notas (copia de script.js)
     class Note {
         constructor(text, tags = '', color = 'default', completed = false, pinned = false, alarm = null, id = Date.now()) {
             this.id = id;
@@ -152,16 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (task.alarm === undefined) task.alarm = null;
             return task;
         });
-        renderTasks(); // Llama a renderTasks para manejar la visibilidad inicial
+        renderTasks();
     }
 
     function renderTasks() {
         taskList.innerHTML = '';
         const filteredAndSortedTasks = tasks
             .filter(task => {
-                if (currentFilter === 'completed') return task.completed;
-                if (currentFilter === 'pending') return !task.completed; // Ahora index.html también puede filtrar pendientes si se activa
-                return true;
+                // En Tareas.html, siempre filtra por 'pending'
+                return !task.completed;
             })
             .filter(task => {
                 const searchTerm = searchInput.value.toLowerCase();
@@ -173,29 +89,20 @@ document.addEventListener('DOMContentLoaded', () => {
             .sort((a, b) => {
                 if (a.pinned && !b.pinned) return -1;
                 if (!a.pinned && b.pinned) return 1;
-                if (a.completed !== b.completed) {
-                    return a.completed ? 1 : -1;
-                }
-                return new Date(b.id) - new Date(a.id);
+                return new Date(b.id) - new Date(a.id); // Más reciente primero
             });
 
-        // Lógica de visibilidad principal
-        if (tasks.length === 0) { // Si NO hay tareas en absoluto
-            welcomeButtonContainer.classList.remove('hidden');
-            filterAndSummarySection.classList.add('hidden');
-            taskList.classList.add('hidden'); // Ocultar la lista si no hay tareas
-        } else { // Si hay tareas
-            welcomeButtonContainer.classList.add('hidden');
-            filterAndSummarySection.classList.remove('hidden');
-            taskList.classList.remove('hidden'); // Mostrar la lista
+        if (filteredAndSortedTasks.length === 0) {
+            taskList.innerHTML = '<p style="text-align: center; color: var(--text-color-light); margin-top: 30px;">No hay tareas pendientes.</p>';
+            clearCompletedBtn.classList.add('hidden'); // Ocultar si no hay tareas
+        } else {
             filteredAndSortedTasks.forEach(task => {
                 const taskItem = createTaskElement(task);
                 taskList.appendChild(taskItem);
             });
+            updateClearCompletedButtonVisibility(); // Mostrar/ocultar según haya completadas
         }
-
         updatePendingTasksCount();
-        updateClearCompletedButtonVisibility();
     }
 
     function createTaskElement(task) {
@@ -225,7 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (task.completed) {
             taskTextSpan.classList.add('completed');
         }
-        taskTextSpan.addEventListener('click', () => editTask(task.id, taskTextSpan));
+        // En esta página, el clic en el texto no debería editar,
+        // ya que no tenemos el formulario de edición.
+        // Podrías redirigir a index.html para editar, o simplemente no hacer nada.
+        // taskTextSpan.addEventListener('click', () => window.location.href = `index.html?edit=${task.id}`); // Ejemplo de redirección para editar
+
+        checkboxContainer.appendChild(checkbox);
+        checkboxContainer.appendChild(taskTextSpan);
 
         const taskActions = document.createElement('div');
         taskActions.classList.add('task-actions');
@@ -291,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (task) {
             task.completed = !task.completed;
             saveTasksToLocalStorage();
-            renderTasks();
+            renderTasks(); // Re-renderizar para actualizar la vista de pendientes
         }
     }
 
@@ -316,38 +229,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function editTask(id, taskTextSpan) {
-        const task = tasks.find(t => t.id === id);
-        if (!task || task.completed) return;
+    // Nota: La función editTask no se implementa aquí ya que no hay área de edición en Tareas.html
+    // Si necesitas editar, tendrías que redirigir a index.html con el ID de la tarea.
 
-        const originalText = task.text;
-        const originalTags = task.tags.join(', ');
-        const originalColor = task.color;
-
-        taskTextSpan.style.display = 'none';
-
-        addNoteArea.classList.remove('hidden');
-        fabAddNoteBtn.classList.add('active');
-        newTaskInput.value = originalText;
-        tagInput.value = originalTags;
-        selectedNoteColor = originalColor;
-        updateColorPaletteSelection(originalColor);
-
-        saveNoteInsideFormBtn.textContent = 'Actualizar Nota';
-        saveNoteInsideFormBtn.setAttribute('data-editing-id', id);
-
-        newTaskInput.style.minHeight = 'auto';
-        newTaskInput.style.height = newTaskInput.scrollHeight + 'px';
-        newTaskInput.focus();
-    }
-
-    const errorMessageElement = addNoteArea.querySelector('.error-message');
+    const errorMessageElement = document.querySelector('.error-message'); // Asumiendo que hay un error-message global para el modal
     function showErrorMessage(message, element = errorMessageElement) {
-        element.textContent = message;
-        element.classList.add('show');
-        setTimeout(() => {
-            element.classList.remove('show');
-        }, 3000);
+        if (element) {
+            element.textContent = message;
+            element.classList.add('show');
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, 3000);
+        } else {
+            console.error("Error message element not found.");
+        }
     }
 
     function updatePendingTasksCount() {
@@ -364,52 +259,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Listener para los botones de filtro (solo "Todas" y "Completadas" en index.html)
-    filterButtons.forEach(btn => {
-        // El botón "Pendientes" ahora es un enlace, no necesita listener de filtro aquí
-        if (btn.dataset.filter !== 'pending') {
-            btn.addEventListener('click', () => {
-                filterButtons.forEach(b => {
-                    // Solo removemos 'active' de los botones, no de los enlaces
-                    if (b.tagName === 'BUTTON') {
-                        b.classList.remove('active');
-                    }
-                });
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                renderTasks();
-            });
-        } else {
-            // Asegúrate de que el enlace "Pendientes" no tenga la clase 'active' por defecto en index.html
-            btn.classList.remove('active');
-        }
-    });
-
-    // Listener para el botón de bienvenida
-    welcomeBtn.addEventListener('click', () => {
-        welcomeButtonContainer.classList.add('hidden');
-        addNoteArea.classList.remove('hidden'); // Mostrar el área de añadir nota
-        fabAddNoteBtn.classList.add('active'); // Activar el FAB
-        newTaskInput.focus();
-    });
-
-    colorBoxes.forEach(colorBox => {
-        colorBox.addEventListener('click', () => {
-            updateColorPaletteSelection(colorBox.dataset.color);
-        });
-    });
-
-    function updateColorPaletteSelection(color) {
-        colorBoxes.forEach(box => box.classList.remove('active'));
-        const activeBox = document.querySelector(`.color-box[data-color="${color}"]`);
-        if (activeBox) {
-            activeBox.classList.add('active');
-            selectedNoteColor = color;
-        }
-    }
+    // En Tareas.html, los botones de filtro "Todas" y "Completadas" son enlaces a index.html
+    // El botón "Pendientes" ya está activo por defecto y no necesita listener de click para cambiar filtro
+    // No se necesitan listeners para filterButtons aquí, ya que la página siempre muestra pendientes
 
     searchInput.addEventListener('input', renderTasks);
 
+    // Funciones del modal de alarma (copia de script.js)
     function openAlarmModal(taskId, taskText, currentAlarmDateTime = '') {
         currentAlarmTaskId = taskId;
         alarmNoteText.textContent = `Alarma para: "${taskText.length > 50 ? taskText.substring(0, 47) + '...' : taskText}"`;
@@ -419,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const formattedDate = date.getFullYear() + '-' +
                                  ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
                                  ('0' + date.getDate()).slice(-2) + 'T' +
-                                 ('0' + date.getHours()).slice(-2) + ':' +
                                  ('0' + date.getMinutes()).slice(-2);
             alarmDatetimePicker.value = formattedDate;
         } else {
@@ -503,9 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
         showErrorMessage('Tareas completadas eliminadas.');
     });
 
-    // Cargar tareas al iniciar la página
+    // Cargar tareas al iniciar la página de pendientes
     loadTasksFromLocalStorage();
-
-    // La lógica de visibilidad inicial se maneja en renderTasks()
-    // y en el listener del welcomeBtn y fabAddNoteBtn
 });

@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pendingTasksCountSpan = document.getElementById('pending-tasks-count');
     const clearCompletedBtn = document.getElementById('clear-completed-btn');
     const emptyTasksMessage = document.getElementById('empty-tasks-message');
-    // Seleccionamos todos los botones de filtro, incluyendo el enlace "Todas"
     const filterButtons = document.querySelectorAll('.filter-btn');
 
-    // Elementos del modal de alarma
     const alarmModal = document.getElementById('alarm-modal');
     const alarmNoteText = document.getElementById('alarm-note-text');
     const alarmDatetimeInput = document.getElementById('alarm-datetime');
@@ -16,25 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const setAlarmBtn = document.getElementById('set-alarm-btn');
 
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    let currentAlarmTaskId = null; // Para saber qué tarea está configurando la alarma
-
-    // Variable para mantener el filtro actual de esta página (Tareas.html)
-    // Inicialmente, esta página siempre debe mostrar 'pending'
+    let currentAlarmTaskId = null;
     let currentFilter = 'pending';
-
-    // --- Funciones de Utilidad ---
 
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        // Al guardar, siempre re-renderizamos con el filtro y búsqueda actuales
         renderTasks(currentFilter, searchInput.value.trim());
         updatePendingTasksCount();
         updateEmptyState();
     }
 
     function updateEmptyState() {
-        // Obtenemos las tareas visibles según el filtro actual y la búsqueda
-        // Para determinar si el mensaje de vacío debe mostrarse
         let visibleTasks = tasks;
         const searchTerm = searchInput.value.trim().toLowerCase();
 
@@ -52,25 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (currentFilter === 'pinned') {
             visibleTasks = visibleTasks.filter(task => task.pinned);
         }
-        // Para 'all', no se filtra por estado aquí, se muestran todas las que pasaron la búsqueda
 
         const hasVisibleTasks = visibleTasks.length > 0;
-        
         emptyTasksMessage.classList.toggle('hidden', hasVisibleTasks);
         taskList.classList.toggle('hidden', !hasVisibleTasks);
 
-        // Ajustar el mensaje de vacío si no hay resultados para la búsqueda/filtro
         if (!hasVisibleTasks) {
             let messageHTML = '';
             if (searchTerm) {
                 messageHTML = `
-                    <p>No se encontraron tareas para la búsqueda "${searchTerm}" con el filtro "${currentFilter}".</p>
+                    <p>No se encontraron tareas para "${searchTerm}" con el filtro "${currentFilter}".</p>
                 `;
             } else if (currentFilter !== 'pending') {
-                   messageHTML = `
-                    <p>No hay tareas ${currentFilter} para mostrar.</p>
+                const filtroTraducido = currentFilter === 'completed' ? 'completadas' : 'fijadas';
+                messageHTML = `
+                    <p>No hay tareas ${filtroTraducido} para mostrar.</p>
                 `;
-            } else { // Si es 'pending' y no hay búsqueda
+            } else {
                 messageHTML = `
                     <p>¡No hay tareas pendientes!</p>
                     <p>Añade nuevas notas en la <a href="index.html" style="color: var(--accent-color); text-decoration: underline;">página principal</a>.</p>
@@ -85,14 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pendingTasksCountSpan.textContent = pendingTasks;
     }
 
-    // --- Renderizado de Tareas ---
-
     function renderTasks(filter, searchTerm = '') {
-        taskList.innerHTML = ''; // Limpiar la lista antes de renderizar
-
+        taskList.innerHTML = '';
         let filteredTasks = tasks;
 
-        // Aplicar búsqueda
         if (searchTerm) {
             const lowerCaseSearchTerm = searchTerm.toLowerCase();
             filteredTasks = filteredTasks.filter(task =>
@@ -101,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        // Aplicar filtro de estado (solo para los botones Pendientes, Completadas, Fijadas)
         if (filter === 'pending') {
             filteredTasks = filteredTasks.filter(task => !task.completed);
         } else if (filter === 'completed') {
@@ -109,9 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (filter === 'pinned') {
             filteredTasks = filteredTasks.filter(task => task.pinned);
         }
-        // 'all' no se maneja aquí porque el botón 'Todas' redirige
 
-        // Ordenar: Fijadas primero, luego por fecha (más reciente primero)
         filteredTasks.sort((a, b) => {
             if (a.pinned && !b.pinned) return -1;
             if (!a.pinned && b.pinned) return 1;
@@ -119,11 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (filteredTasks.length === 0) {
-            updateEmptyState(); // Asegura que el mensaje de vacío se muestre si no hay tareas filtradas
-            return; // No hay tareas que renderizar
+            updateEmptyState();
+            return;
         }
 
-        // Asegúrate de que el mensaje de vacío se oculte si hay tareas
         emptyTasksMessage.classList.add('hidden');
         taskList.classList.remove('hidden');
 
@@ -131,12 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const li = document.createElement('li');
             li.className = `task-item ${task.completed ? 'completed' : ''} ${task.pinned ? 'pinned' : ''}`;
             li.dataset.id = task.id;
-            li.dataset.color = task.color || 'default'; // Asegura un color por defecto
+            li.dataset.color = task.color || 'default';
             li.style.backgroundColor = `var(--note-${task.color || 'default'})`;
 
-            // Formatear la fecha para evitar "Invalid Date" si el timestamp es inválido
             const timestampDate = new Date(task.timestamp);
-            const formattedTimestamp = isNaN(timestampDate) ? 'Fecha Inválida' : timestampDate.toLocaleString();
+            const formattedTimestamp = isNaN(timestampDate) ? 'Fecha inválida' : timestampDate.toLocaleString();
 
             const alarmTimeDate = task.alarm && task.alarm.set ? new Date(task.alarm.time) : null;
             const formattedAlarmTime = alarmTimeDate && !isNaN(alarmTimeDate) ? alarmTimeDate.toLocaleString() : '';
@@ -169,32 +148,26 @@ document.addEventListener('DOMContentLoaded', () => {
             taskList.appendChild(li);
         });
 
-        // Reaplicar el modo oscuro a los elementos de la lista si es necesario
         if (document.body.classList.contains('dark-mode')) {
             taskList.querySelectorAll('.task-item').forEach(item => {
                 if (item.dataset.color === 'default') {
-                    item.style.backgroundColor = 'var(--card-bg-color)'; // Usa el color de la tarjeta para las notas por defecto
+                    item.style.backgroundColor = 'var(--card-bg-color)';
                 }
             });
         }
     }
 
-
-    // --- Manejo de Eventos ---
-
-    // Delegación de eventos para los botones de las tareas (borrar, completar, fijar, editar, alarma)
     taskList.addEventListener('click', (event) => {
         const target = event.target;
         const listItem = target.closest('.task-item');
-        if (!listItem) return; // Si el clic no fue dentro de un elemento de tarea, salir
+        if (!listItem) return;
 
         const taskId = listItem.dataset.id;
         const taskIndex = tasks.findIndex(task => task.id === taskId);
 
-        // AÑADIDO: Comprobación para asegurarse de que la tarea existe en el arreglo
         if (taskIndex === -1) {
-            console.error('Error: Tarea no encontrada en el arreglo "tasks" para el ID:', taskId);
-            return; // Salir si la tarea no se encuentra, evitando errores.
+            console.error('Error: Tarea no encontrada para el ID:', taskId);
+            return;
         }
 
         if (target.classList.contains('task-checkbox') || target.closest('.task-checkbox')) {
@@ -209,13 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
             tasks[taskIndex].pinned = !tasks[taskIndex].pinned;
             saveTasks();
         } else if (target.closest('.edit-btn')) {
-            // En esta página, redirigimos a index.html para editar
             window.location.href = `index.html?edit=${taskId}`;
         } else if (target.closest('.alarm-btn')) {
             const task = tasks[taskIndex];
             currentAlarmTaskId = task.id;
             alarmNoteText.textContent = task.text;
-            
+
             if (task.alarm && task.alarm.time) {
                 const alarmTime = new Date(task.alarm.time);
                 const year = alarmTime.getFullYear();
@@ -225,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const minutes = alarmTime.getMinutes().toString().padStart(2, '0');
                 alarmDatetimeInput.value = `${year}-${month}-${day}T${hours}:${minutes}`;
             } else {
-                // Establecer la hora por defecto a la hora actual + 1 hora si no hay alarma previa
                 const now = new Date();
                 now.setHours(now.getHours() + 1);
                 const year = now.getFullYear();
@@ -241,14 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Búsqueda
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.trim();
-        // Mantenemos el filtro actual al buscar
-        renderTasks(currentFilter, searchTerm); 
+        renderTasks(currentFilter, searchTerm);
     });
 
-    // Limpiar tareas completadas
     clearCompletedBtn.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres eliminar todas las notas completadas?')) {
             tasks = tasks.filter(task => !task.completed);
@@ -256,63 +224,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- MANEJO DE FILTROS EN TAREAS.HTML ---
     filterButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             const filter = event.target.dataset.filter;
-
-            // Siempre quitar la clase 'active' de todos y añadirla al clicado
             filterButtons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            searchInput.value = ''; // Limpiar búsqueda al cambiar de filtro
+            searchInput.value = '';
 
             if (filter === 'all') {
-                // Para "Todas", redirige a index.html
-                // Puedes pasar el filtro como parámetro si index.html lo puede manejar
-                // Por simplicidad, aquí solo redirige a index.html
-                // Si quieres que la página principal sepa qué filtro aplicar, usa:
-                // window.location.href = `index.html?filter=${filter}`;
-                window.location.href = `index.html`; // Redirige a la página principal sin parámetros de filtro específicos para index.html
+                window.location.href = `index.html`;
             } else {
-                // Para "Pendientes", "Completadas", "Fijadas", filtrar en esta misma página
-                currentFilter = filter; // Actualizar el filtro actual
-                renderTasks(currentFilter); // Re-renderizar con el nuevo filtro
+                currentFilter = filter;
+                renderTasks(currentFilter);
             }
         });
     });
 
-    // --- Funcionalidad del Dark Mode ---
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        // Guardar la preferencia del usuario en localStorage
         if (document.body.classList.contains('dark-mode')) {
             localStorage.setItem('darkMode', 'enabled');
         } else {
             localStorage.setItem('darkMode', 'disabled');
         }
-        // Volver a renderizar para aplicar colores de notas si es necesario
-        // Al cambiar el modo, se re-renderizan las tareas con el filtro y búsqueda actuales
-        renderTasks(currentFilter, searchInput.value.trim()); 
+        renderTasks(currentFilter, searchInput.value.trim());
     });
 
-    // Cargar preferencia de modo oscuro al cargar la página
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
     }
 
-
-    // --- Lógica del Modal de Alarma ---
-
     cancelAlarmBtn.addEventListener('click', () => {
         alarmModal.classList.remove('show');
-        alarmModal.classList.add('hide'); // Inicia la animación de salida
+        alarmModal.classList.add('hide');
         alarmModal.addEventListener('animationend', function handler() {
-            alarmModal.style.display = 'none'; // Finalmente oculta
-            alarmModal.classList.remove('hide'); // Limpia la clase de animación
+            alarmModal.style.display = 'none';
+            alarmModal.classList.remove('hide');
             alarmModal.removeEventListener('animationend', handler);
         });
-        currentAlarmTaskId = null; // Resetear ID de tarea
+        currentAlarmTaskId = null;
     });
 
     setAlarmBtn.addEventListener('click', () => {
@@ -336,10 +287,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 time: alarmTime.toISOString(),
                 set: true
             };
-            saveTasks(); // Guardar el estado de las tareas
+            saveTasks();
             scheduleAlarm(tasks[taskIndex]);
         }
-        
+
         alarmModal.classList.remove('show');
         alarmModal.classList.add('hide');
         alarmModal.addEventListener('animationend', function handler() {
@@ -358,27 +309,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeToAlarm = alarmDate.getTime() - now.getTime();
 
         if (timeToAlarm <= 0) {
-            // Si la alarma ya pasó, eliminarla o marcarla como expirada
-            task.alarm = null; // Eliminar la alarma de la tarea
-            saveTasks(); // Esto actualizará la UI para que el icono de campana no esté activo
+            task.alarm = null;
+            saveTasks();
             return;
         }
 
-        // Limpiar cualquier alarma previa para esta tarea si existe
         if (task.alarmTimeoutId) {
             clearTimeout(task.alarmTimeoutId);
         }
 
         task.alarmTimeoutId = setTimeout(() => {
             alert(`¡Alarma! Es hora de tu nota: "${task.title || task.text.substring(0, 50) + '...'}"`);
-            // Opcional: Marcar alarma como disparada o eliminarla
-            task.alarm = null; // Eliminar la alarma una vez que se dispara
-            saveTasks(); // Para actualizar la UI
+            task.alarm = null;
+            saveTasks();
         }, timeToAlarm);
         console.log(`Alarma programada para la tarea ${task.id} en ${timeToAlarm / 1000} segundos.`);
     }
 
-    // Al cargar la página, programar las alarmas existentes
     function loadAndScheduleAlarms() {
         tasks.forEach(task => {
             if (task.alarm && task.alarm.set) {
@@ -387,25 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // --- Inicialización ---
-    // Al cargar esta página de "Tareas Pendientes", siempre queremos mostrar las pendientes
-    // Y asegurarnos de que el botón "Pendientes" esté visualmente activo.
-    
-    // Primero, cargar las tareas
-    // No es necesario llamar a saveTasks aquí, ya que renderTasks se llamará
-    // Y saveTasks a su vez llama a renderTasks.
-
-    // Establecer el filtro inicial de esta página a 'pending'
-    currentFilter = 'pending'; 
-    
-    // Actualizar la UI
-    renderTasks(currentFilter); // Renderiza solo las tareas pendientes al cargar Tareas.html
+    currentFilter = 'pending';
+    renderTasks(currentFilter);
     updatePendingTasksCount();
     updateEmptyState();
     loadAndScheduleAlarms();
 
-    // Asegurarse de que el botón "Pendientes" esté activo al cargar la página
     filterButtons.forEach(btn => {
         if (btn.dataset.filter === 'pending') {
             btn.classList.add('active');

@@ -1203,3 +1203,7 @@ body.dark-mode .edit-task-textarea:focus {
         font-size: 2.5em;
     }
 }
+/* --- Estilo para el ícono del corazón en el footer --- */
+footer i.fa-heart {
+  color: red;
+}

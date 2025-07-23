@@ -1,7 +1,7 @@
 /* --- Variables CSS Globales (Modo Claro y Oscuro) --- */
 :root {
     /* Colores primarios y de acento */
-    --primary-color: #3f4e4a; /* Gris verdoso oscuro para el header/footer/botones activos */
+    --primary-color: #5dade2; /* Gris verdoso oscuro para el header/footer/botones activos */
     --primary-dark: #2a3331; /* Un tono más oscuro del primary-color */
     --accent-color: #FFD700; /* Dorado - Color de acento, para FAB, bienvenida, pin, contador de tareas */
     --accent-color-hover: #E4C300; /* Dorado más oscuro para hover */
